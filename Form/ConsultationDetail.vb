@@ -2073,7 +2073,7 @@ Public Class ConsultationDetail
 
     Private Sub cmbAgency_SelectedValueChanged(sender As Object, e As EventArgs) Handles cmbAgency.SelectedValueChanged
         Try
-            LoadMedicineStock(cmbAgency.SelectedValue)
+            LoadMedicineStock(0)
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -2535,6 +2535,8 @@ Public Class ConsultationDetail
             txtEmgContactNumber.Text = ""
             txtEmgContactAddress.Text = ""
 
+            LoadMedicineStock(0)
+
             If count1 > 0 Then 'direct
                 Dim prmReader(0) As SqlParameter
                 prmReader(0) = New SqlParameter("@EmployeeCode", SqlDbType.VarChar)
@@ -2616,8 +2618,6 @@ Public Class ConsultationDetail
                 txtEmployeeNameAgency.Text = String.Empty
                 txtEmployeeName.Visible = True
 
-                LoadMedicineStock(0)
-
                 DisableForm(False)
                 Me.ActiveControl = txtLmp
 
@@ -2654,8 +2654,6 @@ Public Class ConsultationDetail
 
                         txtEmployeeNameAgency.Visible = True
                         txtEmployeeNameAgency.Text = String.Empty
-
-                        'LoadMedicineStock(agencyId)
 
                         Me.ActiveControl = cmbAgency
                         cmbAgency.Select(cmbAgency.Text.ToString.Trim.Length, 0)
@@ -2703,7 +2701,6 @@ Public Class ConsultationDetail
                         txtEmployeeName.Visible = False
                         txtEmployeeName.Text = String.Empty
 
-                        'LoadMedicineStock(agencyId)
                         Me.ActiveControl = txtEmployeeNameAgency
                         txtEmployeeNameAgency.Select(txtEmployeeNameAgency.Text.ToString.Trim.Length, 0)
                     End If

@@ -27,8 +27,7 @@ Partial Class Main
         Me.mnuMain = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConsultationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.HealthScreeningToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.IndiRecordToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EmpRecordToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GoodsReceiveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileToolStripSeparator = New System.Windows.Forms.ToolStripSeparator()
         Me.LogOutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -69,7 +68,7 @@ Partial Class Main
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConsultationToolStripMenuItem, Me.HealthScreeningToolStripMenuItem, Me.IndiRecordToolStripMenuItem, Me.GoodsReceiveToolStripMenuItem, Me.FileToolStripSeparator, Me.LogOutToolStripMenuItem, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConsultationToolStripMenuItem, Me.EmpRecordToolStripMenuItem, Me.GoodsReceiveToolStripMenuItem, Me.FileToolStripSeparator, Me.LogOutToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -80,18 +79,11 @@ Partial Class Main
         Me.ConsultationToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ConsultationToolStripMenuItem.Text = "Consultation"
         '
-        'HealthScreeningToolStripMenuItem
+        'EmpRecordToolStripMenuItem
         '
-        Me.HealthScreeningToolStripMenuItem.Name = "HealthScreeningToolStripMenuItem"
-        Me.HealthScreeningToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.HealthScreeningToolStripMenuItem.Text = "Health Screening"
-        Me.HealthScreeningToolStripMenuItem.Visible = False
-        '
-        'IndiRecordToolStripMenuItem
-        '
-        Me.IndiRecordToolStripMenuItem.Name = "IndiRecordToolStripMenuItem"
-        Me.IndiRecordToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.IndiRecordToolStripMenuItem.Text = "Individual Record"
+        Me.EmpRecordToolStripMenuItem.Name = "EmpRecordToolStripMenuItem"
+        Me.EmpRecordToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.EmpRecordToolStripMenuItem.Text = "Employee Record"
         '
         'GoodsReceiveToolStripMenuItem
         '
@@ -308,8 +300,7 @@ Partial Class Main
     Public WithEvents StatusToolStripStatusLabel As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents bgWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents VersionToolStripStatusLabel As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents IndiRecordToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HealthScreeningToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EmpRecordToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ReportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ConsultationLogsheetToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MaintenanceToolStripMenuItem As ToolStripMenuItem

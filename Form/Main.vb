@@ -69,7 +69,6 @@ Public Class Main
 
         If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
             dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
-            'dbMain.FormLoader(Me, New ReceiveMedicine(employeeId), False)
         Else
             dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
         End If
@@ -286,11 +285,7 @@ Public Class Main
         dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
     End Sub
 
-    Private Sub HealthScreeningToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HealthScreeningToolStripMenuItem.Click
-        dbMain.FormLoader(Me, New frmHealthScreeningHeader(employeeId), True)
-    End Sub
-
-    Private Sub IndiRecordToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IndiRecordToolStripMenuItem.Click
+    Private Sub IndiRecordToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EmpRecordToolStripMenuItem.Click
         dbMain.FormLoader(Me, New IndividualRecordHdr(employeeId), False)
     End Sub
 
@@ -513,5 +508,7 @@ Public Class Main
         End Try
     End Sub
 
+    Private Sub MedicineToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MedicineToolStripMenuItem.Click
 
+    End Sub
 End Class
