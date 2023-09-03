@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsReport" targetNamespace="http://tempuri.org/dsReport.xsd" xmlns:mstns="http://tempuri.org/dsReport.xsd" xmlns="http://tempuri.org/dsReport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsReport" msprop:Generator_UserDSName="dsReport">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ConsultationLogsheet" msprop:Generator_TableClassName="ConsultationLogsheetDataTable" msprop:Generator_TableVarName="tableConsultationLogsheet" msprop:Generator_RowChangedName="ConsultationLogsheetRowChanged" msprop:Generator_TablePropName="ConsultationLogsheet" msprop:Generator_RowDeletingName="ConsultationLogsheetRowDeleting" msprop:Generator_RowChangingName="ConsultationLogsheetRowChanging" msprop:Generator_RowEvHandlerName="ConsultationLogsheetRowChangeEventHandler" msprop:Generator_RowDeletedName="ConsultationLogsheetRowDeleted" msprop:Generator_RowClassName="ConsultationLogsheetRow" msprop:Generator_UserTableName="ConsultationLogsheet" msprop:Generator_RowEvArgName="ConsultationLogsheetRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CreatedDate" msprop:Generator_ColumnVarNameInTable="columnCreatedDate" msprop:Generator_ColumnPropNameInRow="CreatedDate" msprop:Generator_ColumnPropNameInTable="CreatedDateColumn" msprop:Generator_UserColumnName="CreatedDate" type="xs:string" minOccurs="0" />
+              <xs:element name="EmployeeId" msprop:Generator_ColumnVarNameInTable="columnEmployeeId" msprop:Generator_ColumnPropNameInRow="EmployeeId" msprop:Generator_ColumnPropNameInTable="EmployeeIdColumn" msprop:Generator_UserColumnName="EmployeeId" type="xs:string" minOccurs="0" />
+              <xs:element name="EmployeeName" msprop:Generator_ColumnVarNameInTable="columnEmployeeName" msprop:Generator_ColumnPropNameInRow="EmployeeName" msprop:Generator_ColumnPropNameInTable="EmployeeNameColumn" msprop:Generator_UserColumnName="EmployeeName" type="xs:string" minOccurs="0" />
+              <xs:element name="EmployeeCode" msprop:Generator_ColumnVarNameInTable="columnEmployeeCode" msprop:Generator_ColumnPropNameInRow="EmployeeCode" msprop:Generator_ColumnPropNameInTable="EmployeeCodeColumn" msprop:Generator_UserColumnName="EmployeeCode" type="xs:string" minOccurs="0" />
+              <xs:element name="DatetimeStarted" msprop:Generator_ColumnVarNameInTable="columnDatetimeStarted" msprop:Generator_ColumnPropNameInRow="DatetimeStarted" msprop:Generator_ColumnPropNameInTable="DatetimeStartedColumn" msprop:Generator_UserColumnName="DatetimeStarted" type="xs:string" minOccurs="0" />
+              <xs:element name="DatetimeEnded" msprop:Generator_ColumnVarNameInTable="columnDatetimeEnded" msprop:Generator_ColumnPropNameInRow="DatetimeEnded" msprop:Generator_ColumnPropNameInTable="DatetimeEndedColumn" msprop:Generator_UserColumnName="DatetimeEnded" type="xs:string" minOccurs="0" />
+              <xs:element name="ChiefComplaint" msprop:Generator_ColumnVarNameInTable="columnChiefComplaint" msprop:Generator_ColumnPropNameInRow="ChiefComplaint" msprop:Generator_ColumnPropNameInTable="ChiefComplaintColumn" msprop:Generator_UserColumnName="ChiefComplaint" type="xs:string" minOccurs="0" />
+              <xs:element name="Diagnosis" msprop:Generator_ColumnVarNameInTable="columnDiagnosis" msprop:Generator_ColumnPropNameInRow="Diagnosis" msprop:Generator_ColumnPropNameInTable="DiagnosisColumn" msprop:Generator_UserColumnName="Diagnosis" type="xs:string" minOccurs="0" />
+              <xs:element name="IsAgency" msprop:Generator_ColumnVarNameInTable="columnIsAgency" msprop:Generator_ColumnPropNameInRow="IsAgency" msprop:Generator_ColumnPropNameInTable="IsAgencyColumn" msprop:Generator_UserColumnName="IsAgency" type="xs:string" minOccurs="0" />
+              <xs:element name="AgencyId" msprop:Generator_ColumnVarNameInTable="columnAgencyId" msprop:Generator_ColumnPropNameInRow="AgencyId" msprop:Generator_ColumnPropNameInTable="AgencyIdColumn" msprop:Generator_UserColumnName="AgencyId" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

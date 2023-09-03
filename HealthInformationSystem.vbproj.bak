@@ -28,7 +28,7 @@
     <ProductName>Health Information System</ProductName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>33</ApplicationRevision>
+    <ApplicationRevision>26</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -68,10 +68,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -101,6 +101,120 @@
     <Reference Include="BlackCoffeeLibrary, Version=2.0.0.10, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\DLL\BlackCoffeeLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Charts.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.CodeParser.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.Desktop.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Data.Desktop.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Data.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.DataAccess.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v20.1.UI">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.DataAccess.v20.1.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Diagram.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Diagram.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Objects.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.ExpressApp.Objects.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.ExpressApp.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Images.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Images.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Office.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Pdf.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v20.1.Drawing">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Pdf.v20.1.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.PivotGrid.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Printing.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.RichEdit.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v20.1.Export">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.RichEdit.v20.1.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Sparkline.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Utils.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v20.1.UI">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Utils.v20.1.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.Xpo.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraBars.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraCharts.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v20.1.Extensions">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraCharts.v20.1.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v20.1.Wizard">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraCharts.v20.1.Wizard.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraDiagram.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraDiagram.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraEditors.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v20.1.Core">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraGauges.v20.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraGrid.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraLayout.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraNavBar.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraNavBar.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraPivotGrid.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraPrinting.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraReports.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v20.1.Extensions">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraReports.v20.1.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraRichEdit.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraTreeList.v20.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraVerticalGrid.v20.1">
+      <HintPath>..\..\..\..\DLL\Health Information System\DevExpress.XtraVerticalGrid.v20.1.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
       <Private>True</Private>
@@ -186,12 +300,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsReport.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Form\ReceiveMedicine.Designer.vb">
-      <DependentUpon>ReceiveMedicine.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Form\ReceiveMedicine.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Form\AgencyDetail.Designer.vb">
       <DependentUpon>AgencyDetail.vb</DependentUpon>
     </Compile>
@@ -204,10 +312,10 @@
     <Compile Include="Form\Ape.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\Consultation.Designer.vb">
-      <DependentUpon>Consultation.vb</DependentUpon>
+    <Compile Include="Form\Dashboard.Designer.vb">
+      <DependentUpon>Dashboard.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form\Consultation.vb">
+    <Compile Include="Form\Dashboard.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\IndividualRecordHdr.Designer.vb">
@@ -252,10 +360,10 @@
     <Compile Include="Form\RestAlarm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\ReportForm\ConsultationLogsheet.Designer.vb">
-      <DependentUpon>ConsultationLogsheet.vb</DependentUpon>
+    <Compile Include="Form\ReportForm\frmEmployeeRecord.Designer.vb">
+      <DependentUpon>frmEmployeeRecord.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form\ReportForm\ConsultationLogsheet.vb">
+    <Compile Include="Form\ReportForm\frmEmployeeRecord.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -301,17 +409,14 @@
     <Content Include="Sounds\sonata.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Form\ReceiveMedicine.resx">
-      <DependentUpon>ReceiveMedicine.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form\AgencyDetail.resx">
       <DependentUpon>AgencyDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\Ape.resx">
       <DependentUpon>Ape.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\Consultation.resx">
-      <DependentUpon>Consultation.vb</DependentUpon>
+    <EmbeddedResource Include="Form\Dashboard.resx">
+      <DependentUpon>Dashboard.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\IndividualRecordHdr.resx">
       <DependentUpon>IndividualRecordHdr.vb</DependentUpon>
@@ -334,8 +439,8 @@
     <EmbeddedResource Include="Form\RestAlarm.resx">
       <DependentUpon>RestAlarm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\ReportForm\ConsultationLogsheet.resx">
-      <DependentUpon>ConsultationLogsheet.vb</DependentUpon>
+    <EmbeddedResource Include="Form\ReportForm\frmEmployeeRecord.resx">
+      <DependentUpon>frmEmployeeRecord.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -343,7 +448,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="ReportFile\ConsultationLogsheet.rdlc">
+    <Content Include="ReportFile\MedicalRecord.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -385,6 +490,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\3d bar chart.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1173,6 +1279,13 @@
     </PublishFile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="..\packages\Brutal.Dev.StrongNameSigner.3.1.1\build\Brutal.Dev.StrongNameSigner.targets" Condition="Exists('..\packages\Brutal.Dev.StrongNameSigner.3.1.1\build\Brutal.Dev.StrongNameSigner.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Brutal.Dev.StrongNameSigner.3.1.1\build\Brutal.Dev.StrongNameSigner.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Brutal.Dev.StrongNameSigner.3.1.1\build\Brutal.Dev.StrongNameSigner.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

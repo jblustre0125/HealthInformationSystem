@@ -10,7 +10,11 @@
 
     Public Function AttDirMedRecord() As String
         If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            Return "B:\Users BACKUP\NBCP-LT-058\Desktop\Health Information System\Imgs\Medical Record"
+            If Environment.MachineName.ToString.ToString = "NBCP-DT-032" Then
+                Return "B:\Users BACKUP\NBCP-DT-032\Desktop\Attachment\Medical Record"
+            Else
+                Return "B:\Users BACKUP\NBCP-LT-043\Desktop\Attachment\Medical Record"
+            End If
         Else
             Return "\\192.168.20.11\GA\00---CLINIC\Imgs\Medical Record"
         End If
@@ -26,10 +30,15 @@
 
     Public Function AttDirApeRecord() As String
         If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            Return "B:\Users BACKUP\NBCP-LT-058\Desktop\Health Information System\Imgs\APE"
+            If Environment.MachineName.ToString.ToString = "NBCP-DT-032" Then
+                Return "B:\Users BACKUP\NBCP-DT-032\Desktop\Attachment\APE"
+            Else
+                Return "B:\Users BACKUP\NBCP-LT-043\Desktop\Attachment\APE"
+            End If
         Else
             Return "\\192.168.20.11\GA\00---CLINIC\Imgs\APE"
         End If
+
     End Function
 
 End Class

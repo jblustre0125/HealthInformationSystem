@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -29,7 +29,7 @@ Namespace My
     Private Shared addedHandlerLockObject As New Object
 
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)> _
-    Private Shared Sub AutoSaveSettings(ByVal sender As Global.System.Object, ByVal e As Global.System.EventArgs)
+    Private Shared Sub AutoSaveSettings(sender As Global.System.Object, e As Global.System.EventArgs)
         If My.Application.SaveMySettingsOnExit Then
             My.Settings.Save()
         End If
@@ -65,7 +65,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
         Public ReadOnly Property SettingsId() As Integer
             Get
                 Return CType(Me("SettingsId"),Integer)
@@ -83,7 +83,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\\192.168.20.11\GA\00---CLINIC\Imgs\Medical Record")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\\192.168.20.11\00---CLINIC\Imgs\Medical Record")>  _
         Public ReadOnly Property AttachDirMedicalRecord() As String
             Get
                 Return CType(Me("AttachDirMedicalRecord"),String)
@@ -101,7 +101,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\\192.168.20.11\GA\00---CLINIC\Imgs\APE")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\\192.168.20.11\00---CLINIC\Imgs\APE")>  _
         Public ReadOnly Property AttachDirApe() As String
             Get
                 Return CType(Me("AttachDirApe"),String)
@@ -111,8 +111,8 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=LENOVO-AX3RONG2;Initial Catalog=LeaveFiling;Persist Security Info=Tru"& _ 
-            "e;User ID=sa;Password=Nbc12#")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=NBCP-DT-032\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Security I"& _ 
+            "nfo=True;User ID=sa;Password=Nbc12#")>  _
         Public ReadOnly Property HealthConnectionString() As String
             Get
                 Return CType(Me("HealthConnectionString"),String)
@@ -122,8 +122,8 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=LENOVO-AX3RONG2;Initial Catalog=NBCTECHDB;Persist Security Info=True;"& _ 
-            "User ID=sa;Password=Nbc12#")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=NBCP-DT-032\SQLEXPRESS;Initial Catalog=NBCTECHDB;Persist Security Inf"& _ 
+            "o=True;User ID=sa;Password=Nbc12#")>  _
         Public ReadOnly Property JeonsoftConnectionString() As String
             Get
                 Return CType(Me("JeonsoftConnectionString"),String)

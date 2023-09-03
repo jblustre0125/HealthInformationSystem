@@ -8,14 +8,14 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Health Information System")> 
-<Assembly: AssemblyDescription("NBC Health Information System")> 
-<Assembly: AssemblyCompany("NBC Philippines Car Technology Corporation")> 
+<Assembly: AssemblyTitle("Health Information System")>
+<Assembly: AssemblyDescription("Information System for Clinic")>
+<Assembly: AssemblyCompany("NBC (Philippines) Car Technology Corporation")>
 <Assembly: AssemblyProduct("Health Information System")> 
 <Assembly: AssemblyCopyright("Copyright ©  2021")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTrademark("")>
 
-<Assembly: ComVisible(False)>
+<Assembly: ComVisible(True)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("f95b8bbe-9061-4587-b065-14bf678efe72")> 
