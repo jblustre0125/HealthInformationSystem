@@ -102,6 +102,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\DLL\BlackCoffeeLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ClosedXML">
+      <HintPath>..\..\..\..\DLL\ClosedXML 0.93.0 .NET4.0\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\..\..\..\DLL\ClosedXML 0.93.0 .NET4.0\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember.Signed">
+      <HintPath>..\..\..\..\DLL\ClosedXML 0.93.0 .NET4.0\FastMember.Signed.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
       <Private>True</Private>
     </Reference>
@@ -186,10 +195,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsReport.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Form\ReceiveMedicine.Designer.vb">
-      <DependentUpon>ReceiveMedicine.vb</DependentUpon>
+    <Compile Include="Form\Medicine.Designer.vb">
+      <DependentUpon>Medicine.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form\ReceiveMedicine.vb">
+    <Compile Include="Form\Medicine.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\AgencyDetail.Designer.vb">
@@ -210,28 +219,16 @@
     <Compile Include="Form\Consultation.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\IndividualRecordHdr.Designer.vb">
-      <DependentUpon>IndividualRecordHdr.vb</DependentUpon>
+    <Compile Include="Form\EmployeeRecord.Designer.vb">
+      <DependentUpon>EmployeeRecord.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form\IndividualRecordHdr.vb">
+    <Compile Include="Form\EmployeeRecord.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\ConsultationDetail.Designer.vb">
       <DependentUpon>ConsultationDetail.vb</DependentUpon>
     </Compile>
     <Compile Include="Form\ConsultationDetail.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form\frmHealthScreeningDetail.Designer.vb">
-      <DependentUpon>frmHealthScreeningDetail.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Form\frmHealthScreeningDetail.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form\frmHealthScreeningHeader.Designer.vb">
-      <DependentUpon>frmHealthScreeningHeader.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Form\frmHealthScreeningHeader.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\Login.Designer.vb">
@@ -301,8 +298,8 @@
     <Content Include="Sounds\sonata.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Form\ReceiveMedicine.resx">
-      <DependentUpon>ReceiveMedicine.vb</DependentUpon>
+    <EmbeddedResource Include="Form\Medicine.resx">
+      <DependentUpon>Medicine.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\AgencyDetail.resx">
       <DependentUpon>AgencyDetail.vb</DependentUpon>
@@ -313,17 +310,11 @@
     <EmbeddedResource Include="Form\Consultation.resx">
       <DependentUpon>Consultation.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\IndividualRecordHdr.resx">
-      <DependentUpon>IndividualRecordHdr.vb</DependentUpon>
+    <EmbeddedResource Include="Form\EmployeeRecord.resx">
+      <DependentUpon>EmployeeRecord.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\ConsultationDetail.resx">
       <DependentUpon>ConsultationDetail.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form\frmHealthScreeningDetail.resx">
-      <DependentUpon>frmHealthScreeningDetail.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form\frmHealthScreeningHeader.resx">
-      <DependentUpon>frmHealthScreeningHeader.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\Login.resx">
       <DependentUpon>Login.vb</DependentUpon>

@@ -4,7 +4,7 @@ Imports HealthInformationSystem.dsHealthTableAdapters
 Imports System.Data.SqlClient
 Imports System.IO
 
-Public Class IndividualRecordHdr
+Public Class EmployeeRecord
     Private connection As New clsConnection
     Private directories As New clsDirectory
     Private dbHealth As New SqlDbMethod(connection.MyConnection)

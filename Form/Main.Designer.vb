@@ -27,21 +27,21 @@ Partial Class Main
         Me.mnuMain = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConsultationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EmpRecordToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GoodsReceiveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EmployeeRecordToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileToolStripSeparator = New System.Windows.Forms.ToolStripSeparator()
         Me.LogOutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConsultationLogsheetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MedicineLogsheetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MaintenanceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterlistToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MedicineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MedicineCategoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MedicineUnitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UomToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MaintToolStripSeparator = New System.Windows.Forms.ToolStripSeparator()
         Me.UserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.WindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CloseAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DatetimeToolStripMenuItem = New System.Windows.Forms.ToolStripLabel()
         Me.UserItemToolStripMenuItem = New System.Windows.Forms.ToolStripLabel()
         Me.UsernameToolStripMenuItem = New System.Windows.Forms.ToolStripLabel()
@@ -51,7 +51,7 @@ Partial Class Main
         Me.VersionToolStripStatusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusToolStripStatusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tmrMain = New System.Windows.Forms.Timer(Me.components)
-        Me.bgWorker = New System.ComponentModel.BackgroundWorker()
+        Me.CloseToolStripSeparator = New System.Windows.Forms.ToolStripSeparator()
         Me.mnuMain.SuspendLayout()
         Me.stsMain.SuspendLayout()
         Me.SuspendLayout()
@@ -59,7 +59,7 @@ Partial Class Main
         'mnuMain
         '
         Me.mnuMain.BackColor = System.Drawing.Color.White
-        Me.mnuMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ReportToolStripMenuItem, Me.MaintenanceToolStripMenuItem, Me.WindowToolStripMenuItem, Me.DatetimeToolStripMenuItem, Me.UserItemToolStripMenuItem, Me.UsernameToolStripMenuItem})
+        Me.mnuMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ReportToolStripMenuItem, Me.MasterlistToolStripMenuItem, Me.WindowToolStripMenuItem, Me.DatetimeToolStripMenuItem, Me.UserItemToolStripMenuItem, Me.UsernameToolStripMenuItem})
         Me.mnuMain.Location = New System.Drawing.Point(0, 0)
         Me.mnuMain.MdiWindowListItem = Me.WindowToolStripMenuItem
         Me.mnuMain.Name = "mnuMain"
@@ -68,7 +68,7 @@ Partial Class Main
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConsultationToolStripMenuItem, Me.EmpRecordToolStripMenuItem, Me.GoodsReceiveToolStripMenuItem, Me.FileToolStripSeparator, Me.LogOutToolStripMenuItem, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConsultationToolStripMenuItem, Me.EmployeeRecordToolStripMenuItem, Me.FileToolStripSeparator, Me.LogOutToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -79,18 +79,11 @@ Partial Class Main
         Me.ConsultationToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ConsultationToolStripMenuItem.Text = "Consultation"
         '
-        'EmpRecordToolStripMenuItem
+        'EmployeeRecordToolStripMenuItem
         '
-        Me.EmpRecordToolStripMenuItem.Name = "EmpRecordToolStripMenuItem"
-        Me.EmpRecordToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.EmpRecordToolStripMenuItem.Text = "Employee Record"
-        '
-        'GoodsReceiveToolStripMenuItem
-        '
-        Me.GoodsReceiveToolStripMenuItem.Name = "GoodsReceiveToolStripMenuItem"
-        Me.GoodsReceiveToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.GoodsReceiveToolStripMenuItem.Text = "Goods Receive"
-        Me.GoodsReceiveToolStripMenuItem.Visible = False
+        Me.EmployeeRecordToolStripMenuItem.Name = "EmployeeRecordToolStripMenuItem"
+        Me.EmployeeRecordToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.EmployeeRecordToolStripMenuItem.Text = "Employee Record"
         '
         'FileToolStripSeparator
         '
@@ -129,52 +122,58 @@ Partial Class Main
         Me.MedicineLogsheetToolStripMenuItem.Text = "Medicine Logsheet"
         Me.MedicineLogsheetToolStripMenuItem.Visible = False
         '
-        'MaintenanceToolStripMenuItem
+        'MasterlistToolStripMenuItem
         '
-        Me.MaintenanceToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MedicineToolStripMenuItem, Me.MedicineCategoryToolStripMenuItem, Me.MedicineUnitToolStripMenuItem, Me.MaintToolStripSeparator, Me.UserToolStripMenuItem})
-        Me.MaintenanceToolStripMenuItem.Name = "MaintenanceToolStripMenuItem"
-        Me.MaintenanceToolStripMenuItem.Size = New System.Drawing.Size(88, 20)
-        Me.MaintenanceToolStripMenuItem.Text = "Maintenance"
+        Me.MasterlistToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MedicineToolStripMenuItem, Me.MedicineCategoryToolStripMenuItem, Me.UomToolStripMenuItem, Me.MaintToolStripSeparator, Me.UserToolStripMenuItem})
+        Me.MasterlistToolStripMenuItem.Name = "MasterlistToolStripMenuItem"
+        Me.MasterlistToolStripMenuItem.Size = New System.Drawing.Size(70, 20)
+        Me.MasterlistToolStripMenuItem.Text = "Masterlist"
         '
         'MedicineToolStripMenuItem
         '
         Me.MedicineToolStripMenuItem.Name = "MedicineToolStripMenuItem"
-        Me.MedicineToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.MedicineToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MedicineToolStripMenuItem.Text = "Medicine"
-        Me.MedicineToolStripMenuItem.Visible = False
         '
         'MedicineCategoryToolStripMenuItem
         '
         Me.MedicineCategoryToolStripMenuItem.Name = "MedicineCategoryToolStripMenuItem"
-        Me.MedicineCategoryToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.MedicineCategoryToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MedicineCategoryToolStripMenuItem.Text = "Medicine Category"
         Me.MedicineCategoryToolStripMenuItem.Visible = False
         '
-        'MedicineUnitToolStripMenuItem
+        'UomToolStripMenuItem
         '
-        Me.MedicineUnitToolStripMenuItem.Name = "MedicineUnitToolStripMenuItem"
-        Me.MedicineUnitToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
-        Me.MedicineUnitToolStripMenuItem.Text = "UOM"
-        Me.MedicineUnitToolStripMenuItem.Visible = False
+        Me.UomToolStripMenuItem.Name = "UomToolStripMenuItem"
+        Me.UomToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.UomToolStripMenuItem.Text = "UOM"
+        Me.UomToolStripMenuItem.Visible = False
         '
         'MaintToolStripSeparator
         '
         Me.MaintToolStripSeparator.Name = "MaintToolStripSeparator"
-        Me.MaintToolStripSeparator.Size = New System.Drawing.Size(171, 6)
+        Me.MaintToolStripSeparator.Size = New System.Drawing.Size(177, 6)
         Me.MaintToolStripSeparator.Visible = False
         '
         'UserToolStripMenuItem
         '
         Me.UserToolStripMenuItem.Name = "UserToolStripMenuItem"
-        Me.UserToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.UserToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.UserToolStripMenuItem.Text = "User"
         Me.UserToolStripMenuItem.Visible = False
         '
         'WindowToolStripMenuItem
         '
+        Me.WindowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CloseToolStripSeparator, Me.CloseAllToolStripMenuItem})
         Me.WindowToolStripMenuItem.Name = "WindowToolStripMenuItem"
         Me.WindowToolStripMenuItem.Size = New System.Drawing.Size(63, 20)
         Me.WindowToolStripMenuItem.Text = "Window"
+        '
+        'CloseAllToolStripMenuItem
+        '
+        Me.CloseAllToolStripMenuItem.Name = "CloseAllToolStripMenuItem"
+        Me.CloseAllToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CloseAllToolStripMenuItem.Text = "Close All"
         '
         'DatetimeToolStripMenuItem
         '
@@ -253,10 +252,10 @@ Partial Class Main
         '
         Me.tmrMain.Interval = 1000
         '
-        'bgWorker
+        'CloseToolStripSeparator
         '
-        Me.bgWorker.WorkerReportsProgress = True
-        Me.bgWorker.WorkerSupportsCancellation = True
+        Me.CloseToolStripSeparator.Name = "CloseToolStripSeparator"
+        Me.CloseToolStripSeparator.Size = New System.Drawing.Size(177, 6)
         '
         'Main
         '
@@ -298,18 +297,18 @@ Partial Class Main
     Friend WithEvents DepartmentToolStripStatusLabel As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents SectionToolStripStatusLabel As System.Windows.Forms.ToolStripStatusLabel
     Public WithEvents StatusToolStripStatusLabel As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents bgWorker As System.ComponentModel.BackgroundWorker
     Friend WithEvents VersionToolStripStatusLabel As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents EmpRecordToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents EmployeeRecordToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ReportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ConsultationLogsheetToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MaintenanceToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MasterlistToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ConsultationToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MedicineToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MedicineLogsheetToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MaintToolStripSeparator As ToolStripSeparator
     Friend WithEvents UserToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MedicineCategoryToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MedicineUnitToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents GoodsReceiveToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents UomToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CloseAllToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CloseToolStripSeparator As ToolStripSeparator
 End Class
