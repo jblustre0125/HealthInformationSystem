@@ -23,9 +23,9 @@ Partial Class ConsultationDetail
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultationDetail))
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.lblLmp = New System.Windows.Forms.Label()
         Me.lblTemperature = New System.Windows.Forms.Label()
         Me.lblBloodPressure = New System.Windows.Forms.Label()
@@ -587,7 +587,7 @@ Partial Class ConsultationDetail
         Me.lblAttachmentCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblAttachmentCount.AutoSize = True
         Me.lblAttachmentCount.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblAttachmentCount.Location = New System.Drawing.Point(351, 679)
+        Me.lblAttachmentCount.Location = New System.Drawing.Point(669, 652)
         Me.lblAttachmentCount.Name = "lblAttachmentCount"
         Me.lblAttachmentCount.Size = New System.Drawing.Size(98, 15)
         Me.lblAttachmentCount.TabIndex = 572
@@ -1417,13 +1417,13 @@ Partial Class ConsultationDetail
         Me.dgvDetail.AllowUserToResizeRows = False
         Me.dgvDetail.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        Me.dgvDetail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        Me.dgvDetail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvDetail.ColumnHeadersHeight = 25
         Me.dgvDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.dgvDetail.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColTrxId, Me.ColMedicineId, Me.ColStockOut, Me.ColEndingBalance})
@@ -1457,9 +1457,9 @@ Partial Class ConsultationDetail
         'ColStockOut
         '
         Me.ColStockOut.DataPropertyName = "Qty"
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColStockOut.DefaultCellStyle = DataGridViewCellStyle5
-        Me.ColStockOut.HeaderText = "Quantity"
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColStockOut.DefaultCellStyle = DataGridViewCellStyle2
+        Me.ColStockOut.HeaderText = "Qty"
         Me.ColStockOut.Name = "ColStockOut"
         Me.ColStockOut.ReadOnly = True
         Me.ColStockOut.Width = 60
@@ -1467,8 +1467,8 @@ Partial Class ConsultationDetail
         'ColEndingBalance
         '
         Me.ColEndingBalance.DataPropertyName = "StockId"
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColEndingBalance.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColEndingBalance.DefaultCellStyle = DataGridViewCellStyle3
         Me.ColEndingBalance.HeaderText = "StockId"
         Me.ColEndingBalance.Name = "ColEndingBalance"
         Me.ColEndingBalance.ReadOnly = True
@@ -1556,7 +1556,7 @@ Partial Class ConsultationDetail
         Me.lblMedicineCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblMedicineCount.AutoSize = True
         Me.lblMedicineCount.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblMedicineCount.Location = New System.Drawing.Point(586, 679)
+        Me.lblMedicineCount.Location = New System.Drawing.Point(327, 652)
         Me.lblMedicineCount.Name = "lblMedicineCount"
         Me.lblMedicineCount.Size = New System.Drawing.Size(84, 15)
         Me.lblMedicineCount.TabIndex = 647
@@ -1930,9 +1930,9 @@ Partial Class ConsultationDetail
     Friend WithEvents txtStock As Label
     Friend WithEvents txtUnitName As Label
     Friend WithEvents picImage As PictureBox
+    Friend WithEvents AxAcroPDF As AxAcroPDFLib.AxAcroPDF
     Friend WithEvents ColTrxId As DataGridViewTextBoxColumn
     Friend WithEvents ColMedicineId As DataGridViewTextBoxColumn
     Friend WithEvents ColStockOut As DataGridViewTextBoxColumn
     Friend WithEvents ColEndingBalance As DataGridViewTextBoxColumn
-    Friend WithEvents AxAcroPDF As AxAcroPDFLib.AxAcroPDF
 End Class

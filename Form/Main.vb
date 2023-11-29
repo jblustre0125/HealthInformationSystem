@@ -59,7 +59,7 @@ Public Class Main
         End If
 
         If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            dbMain.FormLoader(Me, New Medicine(employeeId, isAdmin))
+            dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
         Else
             dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
         End If
@@ -247,7 +247,7 @@ Public Class Main
         End If
     End Sub
     Private Sub MedicineToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MedicineToolStripMenuItem.Click
-        dbMain.FormLoader(Me, New Medicine(employeeId, isAdmin))
+        dbMain.FormLoader(Me, New Medicine(employeeId))
     End Sub
 
     Private Sub ShowNotification()
@@ -349,6 +349,10 @@ Public Class Main
 
     Private Sub WindowToolStripMenuItem_DropDownOpened(sender As Object, e As EventArgs) Handles WindowToolStripMenuItem.DropDownOpened
         RefreshWindowList()
+    End Sub
+
+    Public Sub ClickMedicineLogs()
+        dbMain.FormLoader(Me, New MedicineLog)
     End Sub
 
 End Class

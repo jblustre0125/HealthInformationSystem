@@ -16,7 +16,7 @@
                 Return "B:\Users BACKUP\NBCP-LT-043\Desktop\Attachment\Medical Record"
             End If
         Else
-            Return "\\192.168.20.11\GA\00---CLINIC\Imgs\Medical Record"
+            Return "\\192.168.20.11\Clinic\SysFiles\Medical Record"
         End If
     End Function
 
@@ -36,7 +36,7 @@
                 Return "B:\Users BACKUP\NBCP-LT-043\Desktop\Attachment\APE"
             End If
         Else
-            Return "\\192.168.20.11\GA\00---CLINIC\Imgs\APE"
+            Return "\\192.168.20.11\Clinic\SysFiles\APE"
         End If
 
     End Function

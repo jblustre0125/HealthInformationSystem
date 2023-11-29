@@ -83,7 +83,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\\192.168.20.11\00---CLINIC\Imgs\Medical Record")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\\192.168.20.11\Clinic\SystemFiles\Medical Record")>  _
         Public ReadOnly Property AttachDirMedicalRecord() As String
             Get
                 Return CType(Me("AttachDirMedicalRecord"),String)
@@ -101,7 +101,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\\192.168.20.11\00---CLINIC\Imgs\APE")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\\192.168.20.11\Clinic\SystemFiles\APE")>  _
         Public ReadOnly Property AttachDirApe() As String
             Get
                 Return CType(Me("AttachDirApe"),String)

@@ -30,6 +30,7 @@ Public Class Consultation
 
     Private isFilterByCreationDate As Boolean = False
     Private isFilterByAlarmTime As Boolean = False
+    Private isFilterByEmployeeCode As Boolean = False
 
     Private imgList As New List(Of clsAttachment)
 
@@ -47,7 +48,7 @@ Public Class Consultation
         LoadSearchCriteria()
 
         pageIndex = 0
-        pageSize = 100
+        pageSize = 50
         LoadTransaction()
 
         Me.dgvConsultation.Columns(5).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
@@ -69,25 +70,18 @@ Public Class Consultation
         dicSearchCriteria.Clear()
 
         Select Case tcDashboard.SelectedIndex
-            Case 0
-                dicSearchCriteria.Add(" Creation Date", 1)
+            Case 0 'consultation
+                dicSearchCriteria.Add(" Employee ID", 1)
+                dicSearchCriteria.Add(" Creation Date", 2)
                 cmbSearchCriteria.DisplayMember = "Key"
                 cmbSearchCriteria.ValueMember = "Value"
                 cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
 
-            Case 1
-
-            Case 2
+            Case 1 'rest monitoring
                 dicSearchCriteria.Add(" Alarm Time", 1)
                 cmbSearchCriteria.DisplayMember = "Key"
                 cmbSearchCriteria.ValueMember = "Value"
                 cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
-
-            Case 3
-
-            Case 4
-
-            Case Else
 
         End Select
     End Sub
@@ -97,7 +91,7 @@ Public Class Consultation
             totalCount = 0
 
             Select Case tcDashboard.SelectedIndex
-                Case 0 'rest monitoring
+                Case 0 'consultation
                     If isFilterByCreationDate = True Then
                         Dim prm(4) As SqlParameter
                         prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
@@ -112,7 +106,22 @@ Public Class Consultation
                         prm(4) = New SqlParameter("@EndDate", SqlDbType.DateTime)
                         prm(4).Value = CDate(dtpEndDateCommon.Value)
 
-                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByCreatedDate", CommandType.StoredProcedure, prm)
+                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByDateCreated", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByEmployeeCode = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@EmployeeCode", SqlDbType.NVarChar)
+                        prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
+
+                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeCode", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
 
                     Else
@@ -134,10 +143,7 @@ Public Class Consultation
                     Me.dgvConsultation.AutoGenerateColumns = False
                     Me.dgvConsultation.DataSource = Me.bsEmployeeMedicalRecord
 
-                Case 1'medicine logsheet
-
-
-                Case 2 'rest monitoring
+                Case 1 'rest monitoring
                     If isFilterByAlarmTime = True Then
                         Dim prm(4) As SqlParameter
                         prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
@@ -175,10 +181,6 @@ Public Class Consultation
                     Me.bsRestAlarm.ResetBindings(True)
                     Me.dgvRest.AutoGenerateColumns = False
                     Me.dgvRest.DataSource = Me.bsRestAlarm
-
-                Case 3
-
-                Case 4
 
             End Select
 
@@ -228,10 +230,6 @@ Public Class Consultation
                 Case 1
 
                 Case 2
-
-                Case 3
-
-                Case 4
 
             End Select
         Catch ex As Exception
@@ -343,16 +341,8 @@ Public Class Consultation
                     indexPosition = dgvConsultation.CurrentRow.Index
 
                 Case 1
-
-                Case 2
                     indexScroll = dgvRest.FirstDisplayedCell.RowIndex
                     indexPosition = dgvRest.CurrentRow.Index
-
-                Case 3
-
-                Case 4
-
-                Case Else
 
             End Select
         Catch ex As Exception
@@ -373,8 +363,6 @@ Public Class Consultation
                     Me.bsEmployeeMedicalRecord.Position = dgvConsultation.SelectedCells(0).RowIndex
 
                 Case 1
-
-                Case 2
                     dgvRest.FirstDisplayedScrollingRowIndex = indexScroll
                     If dgvRest.Rows.Count > indexPosition Then
                         dgvRest.Rows(indexPosition).Selected = True
@@ -382,12 +370,6 @@ Public Class Consultation
                         dgvRest.Rows(indexPosition - 1).Selected = True
                     End If
                     Me.bsEmployeeMedicalRecord.Position = dgvRest.SelectedCells(0).RowIndex
-
-                Case 3
-
-                Case 4
-
-                Case Else
 
             End Select
         Catch ex As Exception
@@ -405,18 +387,10 @@ Public Class Consultation
                     If dgvConsultation IsNot Nothing AndAlso dgvConsultation.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf SetScrollingIndex))
 
                 Case 1
-
-                Case 2
                     If dgvRest IsNot Nothing AndAlso dgvRest.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf GetScrollingIndex))
                     pageIndex = 0
                     LoadTransaction()
                     If dgvRest IsNot Nothing AndAlso dgvRest.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf SetScrollingIndex))
-
-                Case 3
-
-                Case 4
-
-                Case Else
 
             End Select
         Catch ex As Exception
@@ -437,15 +411,6 @@ Public Class Consultation
                     End Using
 
                 End If
-
-            Case 1
-
-            Case 2
-
-            Case 3
-
-            Case 4
-
         End Select
     End Sub
 
@@ -488,7 +453,9 @@ Public Class Consultation
                             Using rdr As IDataReader = dbHealth.ExecuteReader("RdMedicineTrxDetailByTrxId", CommandType.StoredProcedure, prmRdDetail)
                                 While rdr.Read
                                     Dim prmAdj(2) As SqlParameter
-                                    prmAdj(0) = New SqlParameter("@StockId", SqlDbType.Int)
+                                    prmAdj(0) = New SqlParameter("@
+
+", SqlDbType.Int)
                                     prmAdj(0).Value = rdr.Item("StockId")
                                     prmAdj(1) = New SqlParameter("@TrxTypeId", SqlDbType.Int)
                                     prmAdj(1).Value = 1
@@ -593,14 +560,38 @@ Public Class Consultation
 
     Private Sub cmbSearchCriteria_SelectedValueChanged(sender As Object, e As EventArgs) Handles cmbSearchCriteria.SelectedValueChanged
         Try
-            Select Case cmbSearchCriteria.SelectedValue
-                Case 0, 2
-                    dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
-                    dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+            Select Case tcDashboard.SelectedIndex
+                Case 0 'consultation
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            pnlSearchDate.Visible = False
+                            pnlSearchCmb.Visible = False
+                            pnlSearchTxt.Visible = True
 
-                    pnlSearchDate.Visible = True
-                    pnlSearchCmb.Visible = False
-                    pnlSearchTxt.Visible = False
+                            txtCommon.Clear()
+
+                        Case 2
+                            pnlSearchDate.Visible = True
+                            pnlSearchCmb.Visible = False
+                            pnlSearchTxt.Visible = False
+
+                            dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                            dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+
+                    End Select
+
+                Case 1 'rest monitoring
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            pnlSearchDate.Visible = True
+                            pnlSearchCmb.Visible = False
+                            pnlSearchTxt.Visible = False
+
+                            dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                            dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+
+                    End Select
+
             End Select
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -609,27 +600,34 @@ Public Class Consultation
 
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
         Try
-            Select Case cmbSearchCriteria.SelectedValue
-                Case 0
-                    If cmbSearchCriteria.SelectedValue = 1 Then
-                        If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
-                            MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Return
-                        End If
+            Select Case tcDashboard.SelectedIndex
+                Case 0 'consultation
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            isFilterByCreationDate = False
+                            isFilterByEmployeeCode = True
 
-                        isFilterByCreationDate = True
-                    End If
+                        Case 2
+                            If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
+                                MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                Return
+                            End If
 
+                            isFilterByCreationDate = True
+                            isFilterByEmployeeCode = False
 
-                Case 2
-                    If cmbSearchCriteria.SelectedValue = 1 Then
-                        If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
-                            MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                            Return
-                        End If
+                    End Select
 
-                        isFilterByAlarmTime = True
-                    End If
+                Case 1 'rest monitoring
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
+                                MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                Return
+                            End If
+
+                            isFilterByAlarmTime = True
+                    End Select
             End Select
 
             pageIndex = 0
@@ -641,18 +639,28 @@ Public Class Consultation
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Try
-            Select Case cmbSearchCriteria.SelectedValue
-                Case 0
-                    If cmbSearchCriteria.SelectedValue = 1 Then
-                        dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
-                        dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
-                    End If
+            Select Case tcDashboard.SelectedIndex
+                Case 0 'consultation
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            txtCommon.Clear()
 
+                        Case 2
+                            dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                            dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+
+                    End Select
+
+                    isFilterByEmployeeCode = False
                     isFilterByCreationDate = False
-                Case 2
-                    If cmbSearchCriteria.SelectedValue = 1 Then
 
-                    End If
+                Case 1 'rest monitoring
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                            dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+
+                    End Select
 
                     isFilterByAlarmTime = False
             End Select

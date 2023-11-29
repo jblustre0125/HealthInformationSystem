@@ -28,7 +28,7 @@ Public Class Medicine
     Private userId As Integer = 0
 
     'Public Sub New(_userId As Integer, _workgroupId As Integer, _isAdmin As Boolean)
-    Public Sub New(_userId As Integer, _isAdmin As Boolean)
+    Public Sub New(_userId As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -168,37 +168,37 @@ Public Class Medicine
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Try
-            'allow delete function from senior technician and above only
-            If Not (userId = 5 Or userId = 17 Or userId = 2 Or userId = 21) Then
-                MessageBox.Show("You do not have permission to delete a record.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
+            ''allow delete function from senior technician and above only
+            'If Not (userId = 5 Or userId = 17 Or userId = 2 Or userId = 21) Then
+            '    MessageBox.Show("You do not have permission to delete a record.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            '    Exit Sub
+            'End If
 
-            If Me.dgvList.Rows.Count > 0 Then
-                Dim partId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("PartId")
+            'If Me.dgvList.Rows.Count > 0 Then
+            '    Dim partId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("PartId")
 
-                Dim prmCnt(0) As SqlParameter
-                prmCnt(0) = New SqlParameter("@PartId", SqlDbType.Int)
-                prmCnt(0).Value = partId
+            '    Dim prmCnt(0) As SqlParameter
+            '    prmCnt(0) = New SqlParameter("@PartId", SqlDbType.Int)
+            '    prmCnt(0).Value = partId
 
-                'Dim count As Integer = dbMethod.ExecuteScalar("CntMntSparePartByPartId", CommandType.StoredProcedure, prmCnt)
+            '    'Dim count As Integer = dbMethod.ExecuteScalar("CntMntSparePartByPartId", CommandType.StoredProcedure, prmCnt)
 
-                'If count > 0 Then
-                '    MessageBox.Show("This item contains records. Set to inactive instead.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                '    Return
-                'End If
+            '    'If count > 0 Then
+            '    '    MessageBox.Show("This item contains records. Set to inactive instead.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            '    '    Return
+            '    'End If
 
-                'Dim question = String.Format("Are you sure you want to delete this item?")
-                'If MessageBox.Show(question, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
-                '    Dim prmDel(0) As SqlParameter
-                '    prmDel(0) = New SqlParameter("@PartId", SqlDbType.Int)
-                '    prmDel(0).Value = partId
+            '    'Dim question = String.Format("Are you sure you want to delete this item?")
+            '    'If MessageBox.Show(question, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+            '    '    Dim prmDel(0) As SqlParameter
+            '    '    prmDel(0) = New SqlParameter("@PartId", SqlDbType.Int)
+            '    '    prmDel(0).Value = partId
 
-                '    dbMethod.ExecuteNonQuery("DelMntSparePart", CommandType.StoredProcedure, prmDel)
-                'End If
+            '    '    dbMethod.ExecuteNonQuery("DelMntSparePart", CommandType.StoredProcedure, prmDel)
+            '    'End If
 
-                btnRefresh.PerformClick()
-            End If
+            '    btnRefresh.PerformClick()
+            'End If
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -206,16 +206,16 @@ Public Class Medicine
 
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         Try
-            If Me.dgvList.Rows.Count > 0 Then
-                Dim partId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("PartId")
+            'If Me.dgvList.Rows.Count > 0 Then
+            '    Dim partId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("PartId")
 
-                'Using frm As New MntSparePartDetail(userId, workgroupId, isAdmin, partId)
-                '    If frm.ShowDialog(Me) = DialogResult.OK Then
-                '        Reload()
-                '        bsSparePart.Position = bsSparePart.Find("PartId", frm.pKey)
-                '    End If
-                'End Using
-            End If
+            '    'Using frm As New MntSparePartDetail(userId, workgroupId, isAdmin, partId)
+            '    '    If frm.ShowDialog(Me) = DialogResult.OK Then
+            '    '        Reload()
+            '    '        bsSparePart.Position = bsSparePart.Find("PartId", frm.pKey)
+            '    '    End If
+            '    'End Using
+            'End If
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -236,16 +236,11 @@ Public Class Medicine
 
     Private Sub btnIssueStock_Click(sender As Object, e As EventArgs) Handles btnIssueStock.Click
         Try
-            If Not (userId = 5 Or userId = 17 Or userId = 2 Or userId = 21) Then
-                MessageBox.Show("You are not allowed to issue spare parts without an activity.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-
-            'Using frm As New MntTrxPartIssue(userId)
-            '    If frm.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
-            '        Reload()
-            '    End If
-            'End Using
+            Using frm As New MedicineIssue(userId)
+                If frm.ShowDialog(Me) = DialogResult.OK Then
+                    Reload()
+                End If
+            End Using
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -253,11 +248,11 @@ Public Class Medicine
 
     Private Sub btnReceiveStock_Click(sender As Object, e As EventArgs) Handles btnReceiveStock.Click
         Try
-            'Using frm As New MntTrxPartReceive(userId)
-            '    If frm.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
-            '        Reload()
-            '    End If
-            'End Using
+            Using frm As New MedicineReceive(userId)
+                If frm.ShowDialog(Me) = DialogResult.OK Then
+                    Reload()
+                End If
+            End Using
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -327,7 +322,7 @@ Public Class Medicine
     Private Sub btnViewLogs_Click(sender As Object, e As EventArgs) Handles btnViewLogs.Click
         Try
             'https://www.vbforums.com/showthread.php?369474-RESOLVED-Accessing-MDI-Parent-object-from-MDI-Child
-            'DirectCast(Me.MdiParent, Main).ClickSparePartsLogs()
+            DirectCast(Me.MdiParent, Main).ClickMedicineLogs()
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

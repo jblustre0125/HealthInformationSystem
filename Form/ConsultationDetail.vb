@@ -98,11 +98,10 @@ Public Class ConsultationDetail
         colUnitCode.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         colUnitCode.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
         colUnitCode.SortMode = DataGridViewColumnSortMode.Automatic
-        dgvDetail.Columns.Insert(3, colUnitCode)
+        dgvDetail.Columns.Insert(4, colUnitCode)
 
         If recordId = 0 Then
             Me.bsMedicineTrxDetail.DataSource = dtMedicineTrxDetail
-            Me.bsMedicineTrxDetail.Filter = String.Format("TrxId IS NULL")
             dgvDetail.AutoGenerateColumns = False
             dgvDetail.DataSource = Me.bsMedicineTrxDetail
         Else
@@ -464,32 +463,31 @@ Public Class ConsultationDetail
     Private Sub btnRemoveRow_Click(sender As Object, e As EventArgs) Handles btnRemoveRow.Click
         Try
             If dgvDetail.Rows.Count > 0 Then
-                Dim currentRow = CType(Me.bsMedicineTrxDetail.Current, DataRowView).Row
-                Dim rowState = currentRow.RowState
+                Dim question As String = "Are you sure you want to remove this item?"
 
-                Select Case rowState
-                    Case DataRowState.Added
-                        Me.bsMedicineTrxDetail.RemoveCurrent()
+                If MessageBox.Show(question, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+                    Dim currentRow = CType(Me.bsMedicineTrxDetail.Current, DataRowView).Row
+                    Dim rowState = currentRow.RowState
 
-                    Case DataRowState.Detached
-                        Me.bsMedicineTrxDetail.CancelEdit()
-
-                    Case DataRowState.Modified, DataRowState.Unchanged
-                        If dgvDetail.SelectedCells.Count > 0 AndAlso dgvDetail.SelectedCells(0).RowIndex = dgvDetail.NewRowIndex Then
-                            Me.bsMedicineTrxDetail.CancelEdit()
-                            Exit Sub
-                        End If
-
-                        Me.bsMedicineTrxDetail.RemoveCurrent()
-
-                    Case Else
-                        Dim message = String.Format("Are you sure you want to remove this item from the list?")
-                        If MessageBox.Show(message, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+                    Select Case rowState
+                        Case DataRowState.Added
                             Me.bsMedicineTrxDetail.RemoveCurrent()
-                        End If
-                End Select
 
-                'Me.bsMedicineTrxDetail.EndEdit()
+                        Case DataRowState.Detached
+                            Me.bsMedicineTrxDetail.CancelEdit()
+
+                        Case DataRowState.Modified, DataRowState.Unchanged
+                            If dgvDetail.SelectedCells.Count > 0 AndAlso dgvDetail.SelectedCells(0).RowIndex = dgvDetail.NewRowIndex Then
+                                Me.bsMedicineTrxDetail.CancelEdit()
+                                Exit Sub
+                            End If
+
+                            Me.bsMedicineTrxDetail.RemoveCurrent()
+
+                        Case Else
+                            Me.bsMedicineTrxDetail.RemoveCurrent()
+                    End Select
+                End If
             End If
 
             cmbMedicine.Focus()
@@ -949,6 +947,8 @@ Public Class ConsultationDetail
                     Next
                 End If
 
+                'check if employee name is already in the agency masterlist
+                'if not, insert name, if yes, update name based on badge number
                 If patientId = 0 AndAlso txtEmployeeNameAgency.Visible = True Then 'agency
                     Dim countEmp As Integer = 0
                     Dim prmCnt(0) As SqlParameter
@@ -2099,54 +2099,34 @@ Public Class ConsultationDetail
 
     Private Sub cmbMedicine_SelectedValueChanged(sender As Object, e As EventArgs)
         Try
-            Dim qtyStock As Integer = 0
+            Dim qtyActStock As Integer = 0
             Dim qtyMinStock As Integer = 0
             Dim unitCode As String = String.Empty
 
             If cmbMedicine.SelectedValue <> 0 Then 'selection made
-                If agencyId = 0 Then 'nbc
-                    Dim prm(1) As SqlParameter
-                    prm(0) = New SqlParameter("@MedicineId", SqlDbType.Int)
-                    prm(0).Value = cmbMedicine.SelectedValue
-                    prm(1) = New SqlParameter("@IsAgency", SqlDbType.Bit)
-                    prm(1).Value = False
+                Dim prm(2) As SqlParameter
+                prm(0) = New SqlParameter("@MedicineId", SqlDbType.Int)
+                prm(0).Value = cmbMedicine.SelectedValue
+                prm(1) = New SqlParameter("@IsAgency", SqlDbType.Bit)
+                prm(1).Value = False
+                prm(2) = New SqlParameter("@IsActive", SqlDbType.Bit)
+                prm(2).Value = True
 
-                    Using rdr As IDataReader = dbHealth.ExecuteReader("RdMedicineStock", CommandType.StoredProcedure, prm)
-                        While rdr.Read
-                            stockId = rdr.Item("StockId")
-                            qtyStock = rdr.Item("EndingBalance").ToString
-                            qtyMinStock = rdr.Item("MinStock").ToString
-                            unitId = rdr.Item("UnitId")
-                            unitCode = rdr.Item("UnitCode")
-                        End While
-                        rdr.Close()
-                    End Using
+                Using rdr As IDataReader = dbHealth.ExecuteReader("RdMedicineStock", CommandType.StoredProcedure, prm)
+                    While rdr.Read
+                        stockId = rdr.Item("StockId")
+                        qtyActStock = rdr.Item("ActualStock").ToString
+                        qtyMinStock = rdr.Item("MinStock").ToString
+                        unitId = rdr.Item("UnitId")
+                        unitCode = rdr.Item("UnitCode")
+                    End While
+                    rdr.Close()
+                End Using
 
-                Else 'agency
-                    Dim prm(2) As SqlParameter
-                    prm(0) = New SqlParameter("@MedicineId", SqlDbType.Int)
-                    prm(0).Value = cmbMedicine.SelectedValue
-                    prm(1) = New SqlParameter("@IsAgency", SqlDbType.Bit)
-                    prm(1).Value = True
-                    prm(2) = New SqlParameter("@AgencyId", SqlDbType.Bit)
-                    prm(2).Value = True
-
-                    Using rdr As IDataReader = dbHealth.ExecuteReader("RdMedicineStock", CommandType.StoredProcedure, prm)
-                        While rdr.Read
-                            stockId = rdr.Item("StockId")
-                            qtyStock = rdr.Item("EndingBalance").ToString
-                            qtyMinStock = rdr.Item("MinStock").ToString
-                            unitId = rdr.Item("UnitId")
-                            unitCode = rdr.Item("UnitCode")
-                        End While
-                        rdr.Close()
-                    End Using
-                End If
-
-                txtStock.Text = qtyStock
+                txtStock.Text = qtyActStock
                 txtUnitName.Text = unitCode
 
-                If qtyStock <= qtyMinStock Then
+                If qtyActStock <= qtyMinStock Then
                     txtStock.Font = New Font("Segoe UI", 9.0!, FontStyle.Bold)
                     txtStock.ForeColor = Color.Red
                 Else
@@ -2281,6 +2261,8 @@ Public Class ConsultationDetail
         e.Cancel = False
     End Sub
 
+    Public Property fromMedLogs As Boolean = False
+
     Private Sub DisableForm(isDisable As Boolean)
         If isDisable = True Then
             txtTimeIn.Enabled = False
@@ -2341,171 +2323,194 @@ Public Class ConsultationDetail
         End If
     End Sub
 
-    Private Sub frmEmployeeRecordDetail_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If recordId = 0 Then
-            Me.Text = "New Record"
-            btnDelete.Enabled = False
+    Private Sub ConsultationDetail_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Try
+            If recordId = 0 Then
+                Me.Text = "New Record"
+                btnDelete.Enabled = False
 
-            GetEncoderInformation(doctorId)
+                GetEncoderInformation(doctorId)
 
-            txtCreatedDate.Text = String.Format("{0:MMMM dd, yyyy  HH:mm}", dbHealth.GetServerDate)
-            txtRestMinutes.Text = 30
-            txtAttachmentName.Text = String.Empty
-            chkFitToWork.Checked = True
+                txtCreatedDate.Text = String.Format("{0:MMMM dd, yyyy  HH:mm}", dbHealth.GetServerDate)
+                txtRestMinutes.Text = 30
+                txtAttachmentName.Text = String.Empty
+                chkFitToWork.Checked = True
 
-            DisableForm(True)
+                DisableForm(True)
 
-            Me.ActiveControl = txtEmployeeCode
+                Me.ActiveControl = txtEmployeeCode
 
-            If isDebug = True Then
-                txtEmployeeCode.Text = "2009-002"
-                txtEmployeeCode.Select(txtEmployeeCode.Text.Trim.Length, 0)
-            End If
-
-        Else
-            Me.Text = "Record No. " & recordId
-            btnDelete.Enabled = True
-
-            'employee medical record
-            For Each row As DataRow In dtEmployeeMedicalRecord.Rows
-                txtCreatedDate.Text = String.Format("{0:MM/dd/yyyy HH:mm}", row("CreatedDate"))
-
-                If row("ModifiedBy") Is DBNull.Value Then
-                    GetEncoderInformation(doctorId)
-                Else
-                    GetEncoderInformation(doctorId, row("ModifiedBy"))
-                    txtModifiedDate.Text = String.Format("{0:MM/dd/yyyy HH:mm}", row("ModifiedDate"))
+                If isDebug = True Then
+                    txtEmployeeCode.Text = "2009-002"
+                    txtEmployeeCode.Select(txtEmployeeCode.Text.Trim.Length, 0)
                 End If
 
-                GetEmployeeInformation(row("EmployeeCode"))
-
-                If Not row("LMP") Is DBNull.Value Then
-                    txtLmp.Text = String.Format("{0:MM/dd/yyyy}", row("LMP"))
-                End If
-
-                If Not row("Temperature") Is DBNull.Value Then
-                    txtTemperature.Text = row("Temperature")
-                End If
-
-                If Not row("BloodPressure") Is DBNull.Value Then
-                    txtBloodPressure.Text = row("BloodPressure")
-                End If
-
-                If Not row("OxygenLevel") Is DBNull.Value Then
-                    txtOxygenLevel.Text = row("OxygenLevel")
-                End If
-
-                If Not row("PulseRate") Is DBNull.Value Then
-                    txtPulseRate.Text = row("PulseRate")
-                End If
-
-                If Not row("RespiratoryRate") Is DBNull.Value Then
-                    txtRespiratoryRate.Text = row("RespiratoryRate")
-                End If
-
-                If Not row("ChiefComplaint") Is DBNull.Value Then
-                    txtChiefComplaint.Text = row("ChiefComplaint")
-                End If
-
-                If Not row("Diagnosis") Is DBNull.Value Then
-                    txtDiagnosis.Text = row("Diagnosis")
-                End If
-
-                If Not row("Plano") Is DBNull.Value Then
-                    txtPlan.Text = row("Plano")
-                End If
-
-                If Not row("HPI") Is DBNull.Value Then
-                    txtHpi.Text = row("HPI")
-                End If
-
-                If row("IsFitToWork") = True Then chkFitToWork.Checked = True Else chkFitToWork.Checked = False
-                If row("IsSentHome") = True Then chkSentHome.Checked = True Else chkSentHome.Checked = False
-                If row("IsTeleConsult") = True Then chkTeleconsult.Checked = True Else chkTeleconsult.Checked = False
-                If row("IsRest") = True Then chkRest.Checked = True Else chkRest.Checked = False
-
-                txtTimeIn.Text = String.Format("{0:MM/dd/yyyy HH:mm}", row("DatetimeStarted"))
-
-                If Not row("DatetimeEnded") Is DBNull.Value Then
-                    txtTimeOut.Text = String.Format("{0:MM/dd/yyyy HH:mm}", row("DatetimeEnded"))
-                End If
-
-                txtRestMinutes.Text = row("TotalRestTime")
-            Next
-
-            'medicine trx header and detail
-            If dtMedicineTrxHeader.Rows.Count > 0 Then
-                Me.bsMedicineTrxDetail.DataSource = dtMedicineTrxDetail
-                Me.bsMedicineTrxDetail.Position = dtMedicineTrxHeader.Rows(0).Item("TrxId")
-                Me.bsMedicineTrxDetail.Sort = "TrxDetailId"
-                dgvDetail.AutoGenerateColumns = False
-                dgvDetail.DataSource = Me.bsMedicineTrxDetail
             Else
-                Me.bsMedicineTrxDetail.DataSource = dtMedicineTrxDetail
-                Me.bsMedicineTrxDetail.Sort = "TrxDetailId"
+                Me.Text = "Record No. " & recordId
+                btnDelete.Enabled = True
 
-                dgvDetail.AutoGenerateColumns = False
-                dgvDetail.DataSource = Me.bsMedicineTrxDetail
-            End If
+                'employee medical record
+                For Each row As DataRow In dtEmployeeMedicalRecord.Rows
+                    txtCreatedDate.Text = String.Format("{0:MM/dd/yyyy HH:mm}", row("CreatedDate"))
 
-            If chkRest.Checked = True Then
-                If dtRestAlarm.Rows.Count > 0 Then
-                    orgRoomId = dtRestAlarm.Rows(0).Item("RoomId")
-                    orgBedId = dtRestAlarm.Rows(0).Item("BedId")
-                End If
+                    If row("ModifiedBy") Is DBNull.Value Then
+                        GetEncoderInformation(doctorId)
+                    Else
+                        GetEncoderInformation(doctorId, row("ModifiedBy"))
+                        txtModifiedDate.Text = String.Format("{0:MM/dd/yyyy HH:mm}", row("ModifiedDate"))
+                    End If
 
-                LoadRoom()
-                cmbRoom.SelectedValue = orgRoomId
-                LoadBed(orgRoomId)
-                cmbBed.SelectedValue = orgBedId
-            Else
-                txtRestMinutes.Enabled = False
-                cmbRoom.Enabled = False
-                cmbBed.Enabled = False
-                cmbRoom.SelectedValue = 0
-                cmbBed.SelectedValue = 0
-            End If
+                    GetEmployeeInformation(row("EmployeeCode"))
 
-            'employee medical attachment
-            Dim attachmentCount As Integer = 0
-            Dim prmCnt(0) As SqlParameter
-            prmCnt(0) = New SqlParameter("@RecordId", SqlDbType.Int)
-            prmCnt(0).Value = recordId
+                    If Not row("LMP") Is DBNull.Value Then
+                        txtLmp.Text = String.Format("{0:MM/dd/yyyy}", row("LMP"))
+                    End If
 
-            attachmentCount = dbHealth.ExecuteScalar("CntEmployeeMedicalAttachmentByRecordId", CommandType.StoredProcedure, prmCnt)
+                    If Not row("Temperature") Is DBNull.Value Then
+                        txtTemperature.Text = row("Temperature")
+                    End If
 
-            If attachmentCount > 0 Then
-                Dim prmAttachment(0) As SqlParameter
-                prmAttachment(0) = New SqlParameter("@RecordId", SqlDbType.Int)
-                prmAttachment(0).Value = recordId
+                    If Not row("BloodPressure") Is DBNull.Value Then
+                        txtBloodPressure.Text = row("BloodPressure")
+                    End If
 
-                dtEmployeeMedicalAttachment = dbHealth.FillDataTable("RdEmployeeMedicalAttachmentByRecordId", CommandType.StoredProcedure, prmAttachment)
+                    If Not row("OxygenLevel") Is DBNull.Value Then
+                        txtOxygenLevel.Text = row("OxygenLevel")
+                    End If
 
-                For i As Integer = 0 To dtEmployeeMedicalAttachment.Rows.Count - 1
-                    Dim oldAttachment As New clsAttachment(Path.Combine(medRecordDirectory, dtEmployeeMedicalAttachment.Rows(i).Item("Filename").ToString),
-                                                           dtEmployeeMedicalAttachment.Rows(i).Item("Filename").ToString,
-                                                           Path.GetExtension(Path.Combine(medRecordDirectory, dtEmployeeMedicalAttachment.Rows(i).Item("Filename").ToString)),
-                                                           dtEmployeeMedicalAttachment.Rows(i).Item("AttachmentId"))
-                    lstAttachment.Add(oldAttachment)
-                    currentIndex = 0
+                    If Not row("PulseRate") Is DBNull.Value Then
+                        txtPulseRate.Text = row("PulseRate")
+                    End If
+
+                    If Not row("RespiratoryRate") Is DBNull.Value Then
+                        txtRespiratoryRate.Text = row("RespiratoryRate")
+                    End If
+
+                    If Not row("ChiefComplaint") Is DBNull.Value Then
+                        txtChiefComplaint.Text = row("ChiefComplaint")
+                    End If
+
+                    If Not row("Diagnosis") Is DBNull.Value Then
+                        txtDiagnosis.Text = row("Diagnosis")
+                    End If
+
+                    If Not row("Plano") Is DBNull.Value Then
+                        txtPlan.Text = row("Plano")
+                    End If
+
+                    If Not row("HPI") Is DBNull.Value Then
+                        txtHpi.Text = row("HPI")
+                    End If
+
+                    If row("IsFitToWork") = True Then chkFitToWork.Checked = True Else chkFitToWork.Checked = False
+                    If row("IsSentHome") = True Then chkSentHome.Checked = True Else chkSentHome.Checked = False
+                    If row("IsTeleConsult") = True Then chkTeleconsult.Checked = True Else chkTeleconsult.Checked = False
+                    If row("IsRest") = True Then chkRest.Checked = True Else chkRest.Checked = False
+
+                    txtTimeIn.Text = String.Format("{0:MM/dd/yyyy HH:mm}", row("DatetimeStarted"))
+
+                    If Not row("DatetimeEnded") Is DBNull.Value Then
+                        txtTimeOut.Text = String.Format("{0:MM/dd/yyyy HH:mm}", row("DatetimeEnded"))
+                    End If
+
+                    txtRestMinutes.Text = row("TotalRestTime")
                 Next
-                ShowAttachment()
+
+                'medicine trx header and detail
+                If dtMedicineTrxHeader.Rows.Count > 0 Then
+                    Me.bsMedicineTrxDetail.DataSource = dtMedicineTrxDetail
+                    Me.bsMedicineTrxDetail.Position = dtMedicineTrxHeader.Rows(0).Item("TrxId")
+                    Me.bsMedicineTrxDetail.Sort = "TrxDetailId"
+                    dgvDetail.AutoGenerateColumns = False
+                    dgvDetail.DataSource = Me.bsMedicineTrxDetail
+                Else
+                    Me.bsMedicineTrxDetail.DataSource = dtMedicineTrxDetail
+                    Me.bsMedicineTrxDetail.Sort = "TrxDetailId"
+
+                    dgvDetail.AutoGenerateColumns = False
+                    dgvDetail.DataSource = Me.bsMedicineTrxDetail
+                End If
+
+                If chkRest.Checked = True Then
+                    If dtRestAlarm.Rows.Count > 0 Then
+                        orgRoomId = dtRestAlarm.Rows(0).Item("RoomId")
+                        orgBedId = dtRestAlarm.Rows(0).Item("BedId")
+                    End If
+
+                    LoadRoom()
+                    cmbRoom.SelectedValue = orgRoomId
+                    LoadBed(orgRoomId)
+                    cmbBed.SelectedValue = orgBedId
+                Else
+                    txtRestMinutes.Enabled = False
+                    cmbRoom.Enabled = False
+                    cmbBed.Enabled = False
+                    cmbRoom.SelectedValue = 0
+                    cmbBed.SelectedValue = 0
+                End If
+
+                'employee medical attachment
+                Dim attachmentCount As Integer = 0
+                Dim prmCnt(0) As SqlParameter
+                prmCnt(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+                prmCnt(0).Value = recordId
+
+                attachmentCount = dbHealth.ExecuteScalar("CntEmployeeMedicalAttachmentByRecordId", CommandType.StoredProcedure, prmCnt)
+
+                If attachmentCount > 0 Then
+                    Dim prmAttachment(0) As SqlParameter
+                    prmAttachment(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+                    prmAttachment(0).Value = recordId
+
+                    dtEmployeeMedicalAttachment = dbHealth.FillDataTable("RdEmployeeMedicalAttachmentByRecordId", CommandType.StoredProcedure, prmAttachment)
+
+                    For i As Integer = 0 To dtEmployeeMedicalAttachment.Rows.Count - 1
+                        Dim oldAttachment As New clsAttachment(Path.Combine(medRecordDirectory, dtEmployeeMedicalAttachment.Rows(i).Item("Filename").ToString),
+                                                               dtEmployeeMedicalAttachment.Rows(i).Item("Filename").ToString,
+                                                               Path.GetExtension(Path.Combine(medRecordDirectory, dtEmployeeMedicalAttachment.Rows(i).Item("Filename").ToString)),
+                                                               dtEmployeeMedicalAttachment.Rows(i).Item("AttachmentId"))
+                        lstAttachment.Add(oldAttachment)
+                        currentIndex = 0
+                    Next
+                    ShowAttachment()
+                End If
+
+                lblAttachmentCount.Text = String.Format("Attachment Qty : {0}", lstAttachment.Count)
+                lblMedicineCount.Text = String.Format("Medicine Qty : {0}", Me.bsMedicineTrxDetail.Count)
             End If
 
-            lblAttachmentCount.Text = String.Format("Attachment Qty : {0}", lstAttachment.Count)
-            lblMedicineCount.Text = String.Format("Medicine Qty : {0}", Me.bsMedicineTrxDetail.Count)
-        End If
+            If fromMedLogs = True Then
+                DisableForm(True)
+                txtEmployeeCode.Enabled = False
+
+                btnSave.Enabled = False
+                btnDelete.Enabled = False
+                btnCancel.Enabled = False
+
+                Me.ActiveControl = btnClose
+            End If
+
+            If btnCancel.Enabled = True Then
+                Me.CancelButton = btnCancel
+            Else
+                Me.CancelButton = btnClose
+            End If
+        Catch ex As Exception
+            MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub frmEmpRecordDetail_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        Select Case e.KeyCode
-            Case Keys.F8
-                btnDelete.PerformClick()
-                e.Handled = True
-            Case Keys.F10
-                e.Handled = True
-                btnSave.PerformClick()
-        End Select
+        If fromMedLogs = False Then
+            Select Case e.KeyCode
+                Case Keys.F8
+                    btnDelete.PerformClick()
+                    e.Handled = True
+                Case Keys.F10
+                    e.Handled = True
+                    btnSave.PerformClick()
+            End Select
+        End If
     End Sub
     Private Sub GetEmployeeInformation(employeeCode As String)
         Try
@@ -2851,26 +2856,17 @@ Public Class ConsultationDetail
             cmbMedicine.DataSource = Nothing
             cmbMedicine.Items.Clear()
 
-            If agencyId = 0 Then 'nbc
-                Dim prm(1) As SqlParameter
-                prm(0) = New SqlParameter("@IsAgency", SqlDbType.Bit)
-                prm(0).Value = False
-                prm(1) = New SqlParameter("@IsActive", SqlDbType.Bit)
-                prm(1).Value = True
+            Dim prm(1) As SqlParameter
+            prm(0) = New SqlParameter("@IsAgency", SqlDbType.Bit)
+            prm(0).Value = False
+            prm(1) = New SqlParameter("@IsActive", SqlDbType.Bit)
+            prm(1).Value = True
 
-                dbHealth.FillCmbWithCaption("RdMedicineStock", CommandType.StoredProcedure, "MedicineId", "MedicineName", cmbMedicine, "", prm)
-
-            Else 'agency
-                Dim prm(2) As SqlParameter
-                prm(0) = New SqlParameter("@IsAgency", SqlDbType.Bit)
-                prm(0).Value = True
-                prm(1) = New SqlParameter("@AgencyId", SqlDbType.Int)
-                prm(1).Value = agencyId
-                prm(2) = New SqlParameter("@IsActive", SqlDbType.Bit)
-                prm(2).Value = True
-
-                dbHealth.FillCmbWithCaption("RdMedicineStock", CommandType.StoredProcedure, "MedicineId", "MedicineName", cmbMedicine, "", prm)
-            End If
+            dbHealth.FillCmbWithCaption("SELECT A.MedicineId, TRIM(MedicineName) AS MedicineName " &
+                                        "FROM dbo.MedicineStock A INNER JOIN dbo.Medicine B " &
+                                        "On A.MedicineId = B.MedicineId " &
+                                        "WHERE A.IsAgency = @IsAgency AND A.IsActive = @IsActive AND A.ActualStock > 0",
+                                        CommandType.Text, "MedicineId", "MedicineName", cmbMedicine, "", prm)
 
             AddHandler cmbMedicine.SelectedValueChanged, AddressOf cmbMedicine_SelectedValueChanged
         Catch ex As Exception
