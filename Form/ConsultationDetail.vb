@@ -340,25 +340,27 @@ Public Class ConsultationDetail
             If MessageBox.Show("Are you sure you want to delete this record?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) =
                 System.Windows.Forms.DialogResult.Yes Then
 
-                Dim prmRdDetail(0) As SqlParameter
-                prmRdDetail(0) = New SqlParameter("@TrxId", SqlDbType.Int)
-                prmRdDetail(0).Value = dtMedicineTrxHeader.Rows(0).Item("TrxId")
+                If dtMedicineTrxHeader.Rows.Count > 0 Then
+                    Dim prmRdDetail(0) As SqlParameter
+                    prmRdDetail(0) = New SqlParameter("@TrxId", SqlDbType.Int)
+                    prmRdDetail(0).Value = dtMedicineTrxHeader.Rows(0).Item("TrxId")
 
-                're-add the issued medicine quantity to current ending balance
-                Using rdr As IDataReader = dbHealth.ExecuteReader("RdMedicineTrxDetailByTrxId", CommandType.StoredProcedure, prmRdDetail)
-                    While rdr.Read
-                        Dim prmAdj(2) As SqlParameter
-                        prmAdj(0) = New SqlParameter("@StockId", SqlDbType.Int)
-                        prmAdj(0).Value = rdr.Item("StockId")
-                        prmAdj(1) = New SqlParameter("@TrxTypeId", SqlDbType.Int)
-                        prmAdj(1).Value = 1
-                        prmAdj(2) = New SqlParameter("@Qty", SqlDbType.Int)
-                        prmAdj(2).Value = rdr.Item("Qty")
+                    're-add the issued medicine quantity to current ending balance
+                    Using rdr As IDataReader = dbHealth.ExecuteReader("RdMedicineTrxDetailByTrxId", CommandType.StoredProcedure, prmRdDetail)
+                        While rdr.Read
+                            Dim prmAdj(2) As SqlParameter
+                            prmAdj(0) = New SqlParameter("@StockId", SqlDbType.Int)
+                            prmAdj(0).Value = rdr.Item("StockId")
+                            prmAdj(1) = New SqlParameter("@TrxTypeId", SqlDbType.Int)
+                            prmAdj(1).Value = 1
+                            prmAdj(2) = New SqlParameter("@Qty", SqlDbType.Int)
+                            prmAdj(2).Value = rdr.Item("Qty")
 
-                        dbHealth.ExecuteNonQuery("UpdMedicineStockByStockId", CommandType.StoredProcedure, prmAdj)
-                    End While
-                    rdr.Close()
-                End Using
+                            dbHealth.ExecuteNonQuery("UpdMedicineStockByStockId", CommandType.StoredProcedure, prmAdj)
+                        End While
+                        rdr.Close()
+                    End Using
+                End If
 
                 If lstAttachment.Count > 0 Then
                     For i As Integer = 0 To lstAttachment.Count - 1
@@ -2340,10 +2342,10 @@ Public Class ConsultationDetail
 
                 Me.ActiveControl = txtEmployeeCode
 
-                If isDebug = True Then
-                    txtEmployeeCode.Text = "2009-002"
-                    txtEmployeeCode.Select(txtEmployeeCode.Text.Trim.Length, 0)
-                End If
+                'If isDebug = True Then
+                '    txtEmployeeCode.Text = "2009-002"
+                '    txtEmployeeCode.Select(txtEmployeeCode.Text.Trim.Length, 0)
+                'End If
 
             Else
                 Me.Text = "Record No. " & recordId

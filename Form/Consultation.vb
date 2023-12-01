@@ -28,9 +28,12 @@ Public Class Consultation
 
     Private attachDirMedicalRecord As String = directories.AttDirMedRecord
 
-    Private isFilterByCreationDate As Boolean = False
     Private isFilterByAlarmTime As Boolean = False
+
+    Private isFilterByEmployeeNameNbc As Boolean = False
+    Private isFilterByEmployeeNameAgency As Boolean = False
     Private isFilterByEmployeeCode As Boolean = False
+    Private isFilterByDateCreated As Boolean = False
 
     Private imgList As New List(Of clsAttachment)
 
@@ -71,8 +74,10 @@ Public Class Consultation
 
         Select Case tcDashboard.SelectedIndex
             Case 0 'consultation
-                dicSearchCriteria.Add(" Employee ID", 1)
-                dicSearchCriteria.Add(" Creation Date", 2)
+                dicSearchCriteria.Add(" Name (NBC)", 1)
+                dicSearchCriteria.Add(" Name (Agency)", 2)
+                dicSearchCriteria.Add(" Employee ID", 3)
+                dicSearchCriteria.Add(" Creation Date", 4)
                 cmbSearchCriteria.DisplayMember = "Key"
                 cmbSearchCriteria.ValueMember = "Value"
                 cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
@@ -92,7 +97,7 @@ Public Class Consultation
 
             Select Case tcDashboard.SelectedIndex
                 Case 0 'consultation
-                    If isFilterByCreationDate = True Then
+                    If isFilterByDateCreated = True Then
                         Dim prm(4) As SqlParameter
                         prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
                         prm(0).Value = pageIndex
@@ -122,6 +127,36 @@ Public Class Consultation
                         prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
 
                         dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeCode", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByEmployeeNameNbc = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@EmployeeName", SqlDbType.NVarChar)
+                        prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
+
+                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeName", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByEmployeeNameAgency = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@EmployeeName", SqlDbType.NVarChar)
+                        prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
+
+                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeNameAgency", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
 
                     Else
@@ -220,16 +255,12 @@ Public Class Consultation
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         Try
             Select Case tcDashboard.SelectedIndex
-                Case 0
+                Case 0, 1
                     Using frmDetail As New ConsultationDetail(employeeId)
                         If frmDetail.ShowDialog(Me) = DialogResult.OK Then
                             Reload()
                         End If
                     End Using
-
-                Case 1
-
-                Case 2
 
             End Select
         Catch ex As Exception
@@ -400,7 +431,7 @@ Public Class Consultation
 
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         Select Case tcDashboard.SelectedIndex
-            Case 0
+            Case 0, 1
                 If Me.dgvConsultation.Rows.Count > 0 Then
                     Dim recordId As Integer = CType(Me.bsEmployeeMedicalRecord.Current, DataRowView).Item("RecordId")
 
@@ -453,9 +484,6 @@ Public Class Consultation
                             Using rdr As IDataReader = dbHealth.ExecuteReader("RdMedicineTrxDetailByTrxId", CommandType.StoredProcedure, prmRdDetail)
                                 While rdr.Read
                                     Dim prmAdj(2) As SqlParameter
-                                    prmAdj(0) = New SqlParameter("@
-
-", SqlDbType.Int)
                                     prmAdj(0).Value = rdr.Item("StockId")
                                     prmAdj(1) = New SqlParameter("@TrxTypeId", SqlDbType.Int)
                                     prmAdj(1).Value = 1
@@ -541,15 +569,6 @@ Public Class Consultation
                             End Using
                         End If
                     End If
-
-                Case 1
-
-                Case 2
-
-                Case 3
-
-                Case 4
-
             End Select
 
             LoadTransaction()
@@ -563,14 +582,14 @@ Public Class Consultation
             Select Case tcDashboard.SelectedIndex
                 Case 0 'consultation
                     Select Case cmbSearchCriteria.SelectedValue
-                        Case 1
+                        Case 1, 2, 3
                             pnlSearchDate.Visible = False
                             pnlSearchCmb.Visible = False
                             pnlSearchTxt.Visible = True
 
                             txtCommon.Clear()
 
-                        Case 2
+                        Case 4
                             pnlSearchDate.Visible = True
                             pnlSearchCmb.Visible = False
                             pnlSearchTxt.Visible = False
@@ -604,18 +623,33 @@ Public Class Consultation
                 Case 0 'consultation
                     Select Case cmbSearchCriteria.SelectedValue
                         Case 1
-                            isFilterByCreationDate = False
-                            isFilterByEmployeeCode = True
+                            isFilterByEmployeeNameNbc = True
+                            isFilterByEmployeeNameAgency = False
+                            isFilterByEmployeeCode = False
+                            isFilterByDateCreated = False
 
                         Case 2
+                            isFilterByEmployeeNameNbc = False
+                            isFilterByEmployeeNameAgency = True
+                            isFilterByEmployeeCode = False
+                            isFilterByDateCreated = False
+
+                        Case 3
+                            isFilterByEmployeeNameNbc = False
+                            isFilterByEmployeeNameAgency = False
+                            isFilterByEmployeeCode = True
+                            isFilterByDateCreated = False
+
+                        Case 4
                             If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
                                 MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 Return
                             End If
 
-                            isFilterByCreationDate = True
+                            isFilterByEmployeeNameNbc = False
+                            isFilterByEmployeeNameAgency = False
                             isFilterByEmployeeCode = False
-
+                            isFilterByDateCreated = True
                     End Select
 
                 Case 1 'rest monitoring
@@ -642,17 +676,19 @@ Public Class Consultation
             Select Case tcDashboard.SelectedIndex
                 Case 0 'consultation
                     Select Case cmbSearchCriteria.SelectedValue
-                        Case 1
+                        Case 1, 2, 3
                             txtCommon.Clear()
 
-                        Case 2
+                        Case 4
                             dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
                             dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
 
                     End Select
 
+                    isFilterByEmployeeNameNbc = False
+                    isFilterByEmployeeNameAgency = False
                     isFilterByEmployeeCode = False
-                    isFilterByCreationDate = False
+                    isFilterByDateCreated = False
 
                 Case 1 'rest monitoring
                     Select Case cmbSearchCriteria.SelectedValue

@@ -105,9 +105,13 @@ Public Class Login
             'txtEmployeeId.Text = "FMB-0451"
             'txtPassword.Text = "1001"
 
-            ''mam irene
-            txtEmployeeId.Text = "1805-003"
-            txtPassword.Text = "torejas"
+            'mam irene
+            'txtEmployeeId.Text = "1805-003"
+            'txtPassword.Text = "torejas"
+
+            'mam meds
+            txtEmployeeId.Text = "2006-021"
+            txtPassword.Text = "medelyn062320"
 
             ''sys admin
             'txtEmployeeId.Text = "0000"
