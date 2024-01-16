@@ -25,10 +25,14 @@ Public Class Consultation
     Private indexScroll As Integer = 0
 
     Private dicSearchCriteria As New Dictionary(Of String, Integer)
+    Private dicAlarmStatus As New Dictionary(Of String, Integer)
 
     Private attachDirMedicalRecord As String = directories.AttDirMedRecord
 
-    Private isFilterByAlarmTime As Boolean = False
+    Private isFilterByAlarmStatus As Boolean = False
+    Private isFilterByAlarmDate As Boolean = False
+    Private isFilterByEmployeeNameRestNbc As Boolean = False
+    Private isFilterByEmployeeNameRestAgency As Boolean = False
 
     Private isFilterByEmployeeNameNbc As Boolean = False
     Private isFilterByEmployeeNameAgency As Boolean = False
@@ -83,7 +87,10 @@ Public Class Consultation
                 cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
 
             Case 1 'rest monitoring
-                dicSearchCriteria.Add(" Alarm Time", 1)
+                dicSearchCriteria.Add(" Alarm Status", 1)
+                dicSearchCriteria.Add(" Alarm Date", 2)
+                dicSearchCriteria.Add(" Name (NBC)", 3)
+                dicSearchCriteria.Add(" Name (Agency)", 4)
                 cmbSearchCriteria.DisplayMember = "Key"
                 cmbSearchCriteria.ValueMember = "Value"
                 cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
@@ -179,7 +186,30 @@ Public Class Consultation
                     Me.dgvConsultation.DataSource = Me.bsEmployeeMedicalRecord
 
                 Case 1 'rest monitoring
-                    If isFilterByAlarmTime = True Then
+                    If isFilterByAlarmStatus = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@IsActive", SqlDbType.Bit)
+
+                        Select Case cmbCommon.SelectedValue
+                            Case 1
+                                prm(3).Value = Nothing
+                            Case 2
+                                prm(3).Value = 1
+                            Case 3
+                                prm(3).Value = 0
+                        End Select
+
+                        dtRestAlarm = dbHealth.FillDataTable("RdRestAlarmMasterlistByIsActive", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByAlarmDate = True Then
                         Dim prm(4) As SqlParameter
                         prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
                         prm(0).Value = pageIndex
@@ -196,6 +226,36 @@ Public Class Consultation
                         dtRestAlarm = dbHealth.FillDataTable("RdRestAlarmMasterlistByAlarmTime", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
 
+                    ElseIf isFilterByEmployeeNameRestNbc = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@EmployeeName", SqlDbType.NVarChar)
+                        prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
+
+                        dtRestAlarm = dbHealth.FillDataTable("RdRestAlarmMasterlistByEmployeeName", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByEmployeeNameRestAgency = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@EmployeeName", SqlDbType.NVarChar)
+                        prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
+
+                        dtRestAlarm = dbHealth.FillDataTable("RdRestAlarmMasterlistByEmployeeNameAgency", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
                     Else
                         Dim prm(3) As SqlParameter
                         prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
@@ -206,7 +266,7 @@ Public Class Consultation
                         prm(2).Direction = ParameterDirection.Output
                         prm(2).Value = totalCount
                         prm(3) = New SqlParameter("@IsActive", SqlDbType.Bit)
-                        prm(3).Value = True
+                        prm(3).Value = Nothing
 
                         dtRestAlarm = dbHealth.FillDataTable("RdRestAlarmMasterlistByIsActive", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
@@ -400,7 +460,7 @@ Public Class Consultation
                     Else
                         dgvRest.Rows(indexPosition - 1).Selected = True
                     End If
-                    Me.bsEmployeeMedicalRecord.Position = dgvRest.SelectedCells(0).RowIndex
+                    Me.bsRestAlarm.Position = dgvRest.SelectedCells(0).RowIndex
 
             End Select
         Catch ex As Exception
@@ -431,7 +491,7 @@ Public Class Consultation
 
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         Select Case tcDashboard.SelectedIndex
-            Case 0, 1
+            Case 0
                 If Me.dgvConsultation.Rows.Count > 0 Then
                     Dim recordId As Integer = CType(Me.bsEmployeeMedicalRecord.Current, DataRowView).Item("RecordId")
 
@@ -442,6 +502,19 @@ Public Class Consultation
                     End Using
 
                 End If
+
+            Case 1
+                If Me.dgvRest.Rows.Count > 0 Then
+                    Dim recordId As Integer = CType(Me.bsRestAlarm.Current, DataRowView).Item("RecordId")
+
+                    Using frmDetail As New ConsultationDetail(employeeId, recordId)
+                        If frmDetail.ShowDialog(Me) = DialogResult.OK Then
+                            Reload()
+                        End If
+                    End Using
+
+                End If
+
         End Select
     End Sub
 
@@ -579,6 +652,10 @@ Public Class Consultation
 
     Private Sub cmbSearchCriteria_SelectedValueChanged(sender As Object, e As EventArgs) Handles cmbSearchCriteria.SelectedValueChanged
         Try
+            cmbCommon.SelectedValue = 0
+            cmbCommon.DataSource = Nothing
+            cmbCommon.Items.Clear()
+
             Select Case tcDashboard.SelectedIndex
                 Case 0 'consultation
                     Select Case cmbSearchCriteria.SelectedValue
@@ -602,12 +679,24 @@ Public Class Consultation
                 Case 1 'rest monitoring
                     Select Case cmbSearchCriteria.SelectedValue
                         Case 1
+                            pnlSearchDate.Visible = False
+                            pnlSearchCmb.Visible = True
+                            pnlSearchTxt.Visible = False
+
+                            LoadAlarmStatus()
+
+                        Case 2
                             pnlSearchDate.Visible = True
                             pnlSearchCmb.Visible = False
                             pnlSearchTxt.Visible = False
 
                             dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
                             dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+
+                        Case 3, 4
+                            pnlSearchDate.Visible = False
+                            pnlSearchCmb.Visible = False
+                            pnlSearchTxt.Visible = True
 
                     End Select
 
@@ -655,12 +744,34 @@ Public Class Consultation
                 Case 1 'rest monitoring
                     Select Case cmbSearchCriteria.SelectedValue
                         Case 1
+                            isFilterByAlarmStatus = True
+                            isFilterByAlarmDate = False
+                            isFilterByEmployeeNameRestNbc = False
+                            isFilterByEmployeeNameRestAgency = False
+
+                        Case 2
                             If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
                                 MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 Return
                             End If
 
-                            isFilterByAlarmTime = True
+                            isFilterByAlarmStatus = False
+                            isFilterByAlarmDate = True
+                            isFilterByEmployeeNameRestNbc = False
+                            isFilterByEmployeeNameRestAgency = False
+
+                        Case 3
+                            isFilterByAlarmStatus = False
+                            isFilterByAlarmDate = False
+                            isFilterByEmployeeNameRestNbc = True
+                            isFilterByEmployeeNameRestAgency = False
+
+                        Case 4
+                            isFilterByAlarmStatus = False
+                            isFilterByAlarmDate = False
+                            isFilterByEmployeeNameRestNbc = False
+                            isFilterByEmployeeNameRestAgency = True
+
                     End Select
             End Select
 
@@ -693,12 +804,21 @@ Public Class Consultation
                 Case 1 'rest monitoring
                     Select Case cmbSearchCriteria.SelectedValue
                         Case 1
+                            cmbCommon.SelectedValue = 1
+
+                        Case 2
                             dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
                             dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
 
+                        Case 3, 4
+                            txtCommon.Clear()
+
                     End Select
 
-                    isFilterByAlarmTime = False
+                    isFilterByAlarmStatus = False
+                    isFilterByAlarmDate = False
+                    isFilterByEmployeeNameRestNbc = False
+                    isFilterByEmployeeNameRestAgency = False
             End Select
 
             pageIndex = 0
@@ -711,6 +831,22 @@ Public Class Consultation
     Private Sub tcDashboard_SelectedIndexChanged(sender As Object, e As EventArgs) Handles tcDashboard.SelectedIndexChanged
         LoadSearchCriteria()
         LoadTransaction()
+    End Sub
+
+    Private Sub LoadAlarmStatus()
+        Try
+            dicAlarmStatus.Clear()
+
+            dicAlarmStatus.Add(" < All >", 1)
+            dicAlarmStatus.Add(" Active", 2)
+            dicAlarmStatus.Add(" Inactive", 3)
+
+            cmbCommon.DisplayMember = "Key"
+            cmbCommon.ValueMember = "Value"
+            cmbCommon.DataSource = New BindingSource(dicAlarmStatus, Nothing)
+        Catch ex As Exception
+            MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 End Class

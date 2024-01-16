@@ -24,12 +24,12 @@ Partial Class Medicine
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Medicine))
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.cmbSearchCriteria = New System.Windows.Forms.ComboBox()
         Me.pnlSearchByText = New System.Windows.Forms.Panel()
         Me.txtCommon = New System.Windows.Forms.TextBox()
@@ -66,6 +66,7 @@ Partial Class Medicine
         Me.btnExport = New PinkieControls.ButtonXP()
         Me.cmsExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ZeroStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BelowOrderingPointToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BelowMinStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.btnIssueStock = New PinkieControls.ButtonXP()
@@ -79,7 +80,6 @@ Partial Class Medicine
         Me.ColOrderingPoint = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColActualStock = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColIsActive = New System.Windows.Forms.DataGridViewCheckBoxColumn()
-        Me.ZeroStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.pnlSearchByText.SuspendLayout()
         Me.pnlSearchByCmb.SuspendLayout()
         Me.pnlSearchByDate.SuspendLayout()
@@ -277,6 +277,7 @@ Partial Class Medicine
         '
         Me.txtPageNumber.AccessibleName = "Position"
         Me.txtPageNumber.AutoSize = False
+        Me.txtPageNumber.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.txtPageNumber.Name = "txtPageNumber"
         Me.txtPageNumber.Size = New System.Drawing.Size(30, 23)
         Me.txtPageNumber.Text = "0"
@@ -485,6 +486,12 @@ Partial Class Medicine
         Me.AllToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
         Me.AllToolStripMenuItem.Text = "All"
         '
+        'ZeroStockToolStripMenuItem
+        '
+        Me.ZeroStockToolStripMenuItem.Name = "ZeroStockToolStripMenuItem"
+        Me.ZeroStockToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
+        Me.ZeroStockToolStripMenuItem.Text = "Zero Stock"
+        '
         'BelowOrderingPointToolStripMenuItem
         '
         Me.BelowOrderingPointToolStripMenuItem.Name = "BelowOrderingPointToolStripMenuItem"
@@ -523,13 +530,13 @@ Partial Class Medicine
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvList.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        Me.dgvList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        Me.dgvList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvList.ColumnHeadersHeight = 25
         Me.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.dgvList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColStockId, Me.ColMedicineName, Me.ColCategoryName, Me.ColUnitCode, Me.ColMinStock, Me.ColMaxStock, Me.ColOrderingPoint, Me.ColActualStock, Me.ColIsActive})
@@ -556,8 +563,8 @@ Partial Class Medicine
         'ColMedicineName
         '
         Me.ColMedicineName.DataPropertyName = "MedicineName"
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.ColMedicineName.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.ColMedicineName.DefaultCellStyle = DataGridViewCellStyle2
         Me.ColMedicineName.HeaderText = "Medicine"
         Me.ColMedicineName.Name = "ColMedicineName"
         Me.ColMedicineName.ReadOnly = True
@@ -581,8 +588,8 @@ Partial Class Medicine
         'ColMinStock
         '
         Me.ColMinStock.DataPropertyName = "MinStock"
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColMinStock.DefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColMinStock.DefaultCellStyle = DataGridViewCellStyle3
         Me.ColMinStock.HeaderText = "Min Stock"
         Me.ColMinStock.Name = "ColMinStock"
         Me.ColMinStock.ReadOnly = True
@@ -591,8 +598,8 @@ Partial Class Medicine
         'ColMaxStock
         '
         Me.ColMaxStock.DataPropertyName = "MaxStock"
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColMaxStock.DefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColMaxStock.DefaultCellStyle = DataGridViewCellStyle4
         Me.ColMaxStock.HeaderText = "Max Stock"
         Me.ColMaxStock.Name = "ColMaxStock"
         Me.ColMaxStock.ReadOnly = True
@@ -601,8 +608,8 @@ Partial Class Medicine
         'ColOrderingPoint
         '
         Me.ColOrderingPoint.DataPropertyName = "OrderingPoint"
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColOrderingPoint.DefaultCellStyle = DataGridViewCellStyle11
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColOrderingPoint.DefaultCellStyle = DataGridViewCellStyle5
         Me.ColOrderingPoint.HeaderText = "Ord Point"
         Me.ColOrderingPoint.Name = "ColOrderingPoint"
         Me.ColOrderingPoint.ReadOnly = True
@@ -611,8 +618,8 @@ Partial Class Medicine
         'ColActualStock
         '
         Me.ColActualStock.DataPropertyName = "ActualStock"
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColActualStock.DefaultCellStyle = DataGridViewCellStyle12
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColActualStock.DefaultCellStyle = DataGridViewCellStyle6
         Me.ColActualStock.HeaderText = "Stock"
         Me.ColActualStock.Name = "ColActualStock"
         Me.ColActualStock.ReadOnly = True
@@ -626,12 +633,6 @@ Partial Class Medicine
         Me.ColIsActive.ReadOnly = True
         Me.ColIsActive.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.ColIsActive.Width = 50
-        '
-        'ZeroStockToolStripMenuItem
-        '
-        Me.ZeroStockToolStripMenuItem.Name = "ZeroStockToolStripMenuItem"
-        Me.ZeroStockToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-        Me.ZeroStockToolStripMenuItem.Text = "Zero Stock"
         '
         'Medicine
         '

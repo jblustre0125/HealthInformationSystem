@@ -336,11 +336,9 @@ Public Class MedicineReceive
 
     Private Sub MedicineReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If trxId = 0 Then
-            Dim prmRd(1) As SqlParameter
-            prmRd(0) = New SqlParameter("@IsAgency", SqlDbType.Bit)
-            prmRd(0).Value = False
-            prmRd(1) = New SqlParameter("@IsActive", SqlDbType.Bit)
-            prmRd(1).Value = True
+            Dim prmRd(0) As SqlParameter
+            prmRd(0) = New SqlParameter("@IsActive", SqlDbType.Bit)
+            prmRd(0).Value = True
 
             dbMethod.FillCmbWithCaption("RdMedicineStock", CommandType.StoredProcedure, "MedicineId", "MedicineName", cmbMedicine, "", prmRd)
 
@@ -421,13 +419,11 @@ Public Class MedicineReceive
     Private Sub cmbMedicine_SelectedValueChanged(sender As Object, e As EventArgs)
         Try
             If cmbMedicine.SelectedValue <> 0 Then
-                Dim prm(2) As SqlParameter
+                Dim prm(1) As SqlParameter
                 prm(0) = New SqlParameter("@MedicineId", SqlDbType.Int)
                 prm(0).Value = cmbMedicine.SelectedValue
-                prm(1) = New SqlParameter("@IsAgency", SqlDbType.Bit)
-                prm(1).Value = False
-                prm(2) = New SqlParameter("@IsActive", SqlDbType.Bit)
-                prm(2).Value = True
+                prm(1) = New SqlParameter("@IsActive", SqlDbType.Bit)
+                prm(1).Value = True
 
                 Using rdr As IDataReader = dbMethod.ExecuteReader("RdMedicineStock", CommandType.StoredProcedure, prm)
                     While rdr.Read

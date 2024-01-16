@@ -414,7 +414,6 @@ Partial Class Consultation
         'BindingNavigatorPageNumber
         '
         Me.BindingNavigatorPageNumber.AutoSize = False
-        Me.BindingNavigatorPageNumber.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.BindingNavigatorPageNumber.Name = "BindingNavigatorPageNumber"
         Me.BindingNavigatorPageNumber.Size = New System.Drawing.Size(30, 25)
         Me.BindingNavigatorPageNumber.Text = "0"

@@ -59,7 +59,7 @@ Public Class Main
         End If
 
         If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
+            dbMain.FormLoader(Me, New Medicine(employeeId))
         Else
             dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
         End If

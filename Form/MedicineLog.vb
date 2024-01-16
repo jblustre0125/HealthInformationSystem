@@ -696,11 +696,7 @@ Public Class MedicineLog
     End Sub
 
     Private Sub LoadMedicine()
-        Dim prm(0) As SqlParameter
-        prm(0) = New SqlParameter("@IsAgency", SqlDbType.Bit)
-        prm(0).Value = False
-
-        dbMethod.FillCmbWithCaption("RdMedicineStock", CommandType.StoredProcedure, "MedicineId", "MedicineName", cmbCommon2, "< All >", prm)
+        dbMethod.FillCmbWithCaption("RdMedicineStock", CommandType.StoredProcedure, "MedicineId", "MedicineName", cmbCommon2, "< All >")
     End Sub
 
     Private Sub MntSpare_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

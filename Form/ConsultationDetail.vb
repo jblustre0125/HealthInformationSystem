@@ -2106,13 +2106,11 @@ Public Class ConsultationDetail
             Dim unitCode As String = String.Empty
 
             If cmbMedicine.SelectedValue <> 0 Then 'selection made
-                Dim prm(2) As SqlParameter
+                Dim prm(1) As SqlParameter
                 prm(0) = New SqlParameter("@MedicineId", SqlDbType.Int)
                 prm(0).Value = cmbMedicine.SelectedValue
-                prm(1) = New SqlParameter("@IsAgency", SqlDbType.Bit)
-                prm(1).Value = False
-                prm(2) = New SqlParameter("@IsActive", SqlDbType.Bit)
-                prm(2).Value = True
+                prm(1) = New SqlParameter("@IsActive", SqlDbType.Bit)
+                prm(1).Value = True
 
                 Using rdr As IDataReader = dbHealth.ExecuteReader("RdMedicineStock", CommandType.StoredProcedure, prm)
                     While rdr.Read

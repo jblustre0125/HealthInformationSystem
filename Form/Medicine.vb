@@ -27,7 +27,6 @@ Public Class Medicine
     Private totalCount As Integer
     Private userId As Integer = 0
 
-    'Public Sub New(_userId As Integer, _workgroupId As Integer, _isAdmin As Boolean)
     Public Sub New(_userId As Integer)
 
         ' This call is required by the designer.
@@ -47,23 +46,23 @@ Public Class Medicine
 
     Private Sub AllToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AllToolStripMenuItem.Click
         Try
-            'Dim dt As New DataTable
+            Dim dt As New DataTable
 
-            'dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMntSparePart", CommandType.Text)
+            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock", CommandType.Text)
 
-            'Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
-            'Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Spare Parts Inventory.xlsx")
+            Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
+            Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Medicine Inventory.xlsx")
 
-            'If Not System.IO.Directory.Exists(folderPath) Then
-            '    System.IO.Directory.CreateDirectory(folderPath)
-            'End If
+            If Not System.IO.Directory.Exists(folderPath) Then
+                System.IO.Directory.CreateDirectory(folderPath)
+            End If
 
-            'Using wb As New XLWorkbook()
-            '    wb.Worksheets.Add(dt, "Sheet1")
-            '    wb.SaveAs(fileName)
-            'End Using
+            Using wb As New XLWorkbook()
+                wb.Worksheets.Add(dt, "Sheet1")
+                wb.SaveAs(fileName)
+            End Using
 
-            'Process.Start(fileName)
+            Process.Start(fileName)
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -71,23 +70,23 @@ Public Class Medicine
 
     Private Sub BelowMinStockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BelowMinStockToolStripMenuItem.Click
         Try
-            'Dim dt As New DataTable
+            Dim dt As New DataTable
 
-            'dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMntSparePart WHERE ActualStock <= MinStock", CommandType.Text)
+            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock WHERE ActualStock <= MinStock", CommandType.Text)
 
-            'Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
-            'Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Spare Parts Inventory.xlsx")
+            Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
+            Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Medicine Inventory.xlsx")
 
-            'If Not System.IO.Directory.Exists(folderPath) Then
-            '    System.IO.Directory.CreateDirectory(folderPath)
-            'End If
+            If Not System.IO.Directory.Exists(folderPath) Then
+                System.IO.Directory.CreateDirectory(folderPath)
+            End If
 
-            'Using wb As New XLWorkbook()
-            '    wb.Worksheets.Add(dt, "Sheet1")
-            '    wb.SaveAs(fileName)
-            'End Using
+            Using wb As New XLWorkbook()
+                wb.Worksheets.Add(dt, "Sheet1")
+                wb.SaveAs(fileName)
+            End Using
 
-            'Process.Start(fileName)
+            Process.Start(fileName)
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -95,23 +94,23 @@ Public Class Medicine
 
     Private Sub BelowOrderingPointToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BelowOrderingPointToolStripMenuItem.Click
         Try
-            'Dim dt As New DataTable
+            Dim dt As New DataTable
 
-            'dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMntSparePart WHERE ActualStock <= OrderingPoint", CommandType.Text)
+            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock WHERE ActualStock <= OrderingPoint", CommandType.Text)
 
-            'Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
-            'Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Spare Parts Inventory.xlsx")
+            Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
+            Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Medicine Inventory.xlsx")
 
-            'If Not System.IO.Directory.Exists(folderPath) Then
-            '    System.IO.Directory.CreateDirectory(folderPath)
-            'End If
+            If Not System.IO.Directory.Exists(folderPath) Then
+                System.IO.Directory.CreateDirectory(folderPath)
+            End If
 
-            'Using wb As New XLWorkbook()
-            '    wb.Worksheets.Add(dt, "Sheet1")
-            '    wb.SaveAs(fileName)
-            'End Using
+            Using wb As New XLWorkbook()
+                wb.Worksheets.Add(dt, "Sheet1")
+                wb.SaveAs(fileName)
+            End Using
 
-            'Process.Start(fileName)
+            Process.Start(fileName)
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -146,17 +145,11 @@ Public Class Medicine
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         Try
-            'Using frm As New MntSparePartDetail(userId, workgroupId, isAdmin)
-            '    If frm.ShowDialog(Me) = DialogResult.OK Then
-            '        Reload()
-
-            '        cmbSearchCriteria.SelectedValue = 1
-            '        txtCommon.Text = frm.partNo
-            '        btnSearch.PerformClick()
-
-            '        bsSparePart.Position = bsSparePart.Find("PartNo", frm.partNo)
-            '    End If
-            'End Using
+            Using frm As New MedicineDetail(userId)
+                If frm.ShowDialog(Me) = DialogResult.OK Then
+                    Reload()
+                End If
+            End Using
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -168,37 +161,31 @@ Public Class Medicine
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Try
-            ''allow delete function from senior technician and above only
-            'If Not (userId = 5 Or userId = 17 Or userId = 2 Or userId = 21) Then
-            '    MessageBox.Show("You do not have permission to delete a record.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            '    Exit Sub
-            'End If
+            If Me.dgvList.Rows.Count > 0 Then
+                Dim medicineId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("MedicineId")
 
-            'If Me.dgvList.Rows.Count > 0 Then
-            '    Dim partId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("PartId")
+                Dim prmCnt(0) As SqlParameter
+                prmCnt(0) = New SqlParameter("@MedicineId", SqlDbType.Int)
+                prmCnt(0).Value = medicineId
 
-            '    Dim prmCnt(0) As SqlParameter
-            '    prmCnt(0) = New SqlParameter("@PartId", SqlDbType.Int)
-            '    prmCnt(0).Value = partId
+                Dim count As Integer = dbMethod.ExecuteScalar("CntMedicineTrx", CommandType.StoredProcedure, prmCnt)
 
-            '    'Dim count As Integer = dbMethod.ExecuteScalar("CntMntSparePartByPartId", CommandType.StoredProcedure, prmCnt)
+                If count > 0 Then
+                    MessageBox.Show("This item contains records. Set to inactive instead.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Return
+                End If
 
-            '    'If count > 0 Then
-            '    '    MessageBox.Show("This item contains records. Set to inactive instead.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            '    '    Return
-            '    'End If
+                Dim question = String.Format("Are you sure you want to delete this item?")
+                If MessageBox.Show(question, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+                    Dim prmDel(0) As SqlParameter
+                    prmDel(0) = New SqlParameter("@MedicineId", SqlDbType.Int)
+                    prmDel(0).Value = medicineId
 
-            '    'Dim question = String.Format("Are you sure you want to delete this item?")
-            '    'If MessageBox.Show(question, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
-            '    '    Dim prmDel(0) As SqlParameter
-            '    '    prmDel(0) = New SqlParameter("@PartId", SqlDbType.Int)
-            '    '    prmDel(0).Value = partId
+                    dbMethod.ExecuteNonQuery("DelMedicine", CommandType.StoredProcedure, prmDel)
+                End If
 
-            '    '    dbMethod.ExecuteNonQuery("DelMntSparePart", CommandType.StoredProcedure, prmDel)
-            '    'End If
-
-            '    btnRefresh.PerformClick()
-            'End If
+                btnRefresh.PerformClick()
+            End If
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -206,16 +193,15 @@ Public Class Medicine
 
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         Try
-            'If Me.dgvList.Rows.Count > 0 Then
-            '    Dim partId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("PartId")
+            If Me.dgvList.Rows.Count > 0 Then
+                Dim medicineId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("MedicineId")
 
-            '    'Using frm As New MntSparePartDetail(userId, workgroupId, isAdmin, partId)
-            '    '    If frm.ShowDialog(Me) = DialogResult.OK Then
-            '    '        Reload()
-            '    '        bsSparePart.Position = bsSparePart.Find("PartId", frm.pKey)
-            '    '    End If
-            '    'End Using
-            'End If
+                Using frm As New MedicineDetail(userId, medicineId)
+                    If frm.ShowDialog(Me) = DialogResult.OK Then
+                        Reload()
+                    End If
+                End Using
+            End If
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -651,6 +637,30 @@ Public Class Medicine
         Else
             e.Handled = True
         End If
+    End Sub
+
+    Private Sub ZeroStockToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ZeroStockToolStripMenuItem.Click
+        Try
+            Dim dt As New DataTable
+
+            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock WHERE ActualStock = 0", CommandType.Text)
+
+            Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
+            Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Medicine Inventory.xlsx")
+
+            If Not System.IO.Directory.Exists(folderPath) Then
+                System.IO.Directory.CreateDirectory(folderPath)
+            End If
+
+            Using wb As New XLWorkbook()
+                wb.Worksheets.Add(dt, "Sheet1")
+                wb.SaveAs(fileName)
+            End Using
+
+            Process.Start(fileName)
+        Catch ex As Exception
+            MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 End Class
