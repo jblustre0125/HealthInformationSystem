@@ -13,10 +13,11 @@
             If Environment.MachineName.ToString.ToString = "NBCP-DT-032" Then
                 Return "B:\Users BACKUP\NBCP-DT-032\Desktop\Attachment\Medical Record"
             Else
-                Return "B:\Users BACKUP\NBCP-LT-043\Desktop\Attachment\Medical Record"
+                Return "B:\Users BACKUP\NBCP-LT-144\Desktop\Attachment\Medical Record"
             End If
         Else
-            Return "\\192.168.20.11\Clinic\SystemFiles\Medical Record"
+            'Return "\\192.168.20.11\Clinic\SystemFiles\Medical Record"
+            Return "\\192.168.20.230\HIS_Attachment\Medical Record"
         End If
     End Function
 
@@ -33,10 +34,11 @@
             If Environment.MachineName.ToString.ToString = "NBCP-DT-032" Then
                 Return "B:\Users BACKUP\NBCP-DT-032\Desktop\Attachment\APE"
             Else
-                Return "B:\Users BACKUP\NBCP-LT-043\Desktop\Attachment\APE"
+                Return "B:\Users BACKUP\NBCP-LT-144\Desktop\Attachment\APE"
             End If
         Else
-            Return "\\192.168.20.11\Clinic\SystemFiles\APE"
+            'Return "\\192.168.20.11\Clinic\SystemFiles\APE"
+            Return "\\192.168.20.230\HIS_Attachment\APE"
         End If
 
     End Function
