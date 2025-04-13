@@ -22,8 +22,8 @@ Partial Class MedicineIssue
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.lblMedicineIssuance = New System.Windows.Forms.Label()
         Me.btnClose = New PinkieControls.ButtonXP()
         Me.btnDelete = New PinkieControls.ButtonXP()
@@ -232,13 +232,13 @@ Partial Class MedicineIssue
         Me.btnAdd.DefaultScheme = False
         Me.btnAdd.DialogResult = System.Windows.Forms.DialogResult.None
         Me.btnAdd.Font = New System.Drawing.Font("Verdana", 8.5!)
-        Me.btnAdd.Hint = ""
-        Me.btnAdd.Location = New System.Drawing.Point(573, 196)
+        Me.btnAdd.Hint = "Add the selected item to item list"
+        Me.btnAdd.Location = New System.Drawing.Point(471, 196)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Scheme = PinkieControls.ButtonXP.Schemes.Blue
-        Me.btnAdd.Size = New System.Drawing.Size(90, 32)
+        Me.btnAdd.Size = New System.Drawing.Size(140, 32)
         Me.btnAdd.TabIndex = 6
-        Me.btnAdd.Text = "Add"
+        Me.btnAdd.Text = "Add Item"
         '
         'btnRemove
         '
@@ -247,13 +247,13 @@ Partial Class MedicineIssue
         Me.btnRemove.DefaultScheme = False
         Me.btnRemove.DialogResult = System.Windows.Forms.DialogResult.None
         Me.btnRemove.Font = New System.Drawing.Font("Verdana", 8.5!)
-        Me.btnRemove.Hint = "Remove selected items"
-        Me.btnRemove.Location = New System.Drawing.Point(665, 196)
+        Me.btnRemove.Hint = "Remove the highlighted item from list"
+        Me.btnRemove.Location = New System.Drawing.Point(615, 196)
         Me.btnRemove.Name = "btnRemove"
         Me.btnRemove.Scheme = PinkieControls.ButtonXP.Schemes.Blue
-        Me.btnRemove.Size = New System.Drawing.Size(90, 32)
+        Me.btnRemove.Size = New System.Drawing.Size(140, 32)
         Me.btnRemove.TabIndex = 7
-        Me.btnRemove.Text = "Remove"
+        Me.btnRemove.Text = "Remove Item"
         '
         'dgvTrxDetail
         '
@@ -263,14 +263,14 @@ Partial Class MedicineIssue
         Me.dgvTrxDetail.AllowUserToResizeRows = False
         Me.dgvTrxDetail.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgvTrxDetail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgvTrxDetail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dgvTrxDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.dgvTrxDetail.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColMedicineId, Me.ColStockId, Me.ColQty})
         Me.dgvTrxDetail.Location = New System.Drawing.Point(3, 254)
@@ -303,8 +303,8 @@ Partial Class MedicineIssue
         'ColQty
         '
         Me.ColQty.DataPropertyName = "Qty"
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColQty.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColQty.DefaultCellStyle = DataGridViewCellStyle4
         Me.ColQty.HeaderText = "Quantity"
         Me.ColQty.Name = "ColQty"
         Me.ColQty.ReadOnly = True

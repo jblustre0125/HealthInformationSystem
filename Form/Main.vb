@@ -1,17 +1,18 @@
 ﻿Imports BlackCoffeeLibrary
-Imports System.ComponentModel
+Imports HealthInformationSystem
 Imports System.Data.SqlClient
 Imports System.Deployment.Application
 Imports System.IO
-Imports System.Net.Mail
 
 Public Class Main
-    Private Shared IsSent As Boolean = False
-    Private arrSplitted() As String
     Private connection As New clsConnection
     Private dbHealth As New SqlDbMethod(connection.MyConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
+
+    Private settingsId As Integer = My.Settings.SettingsId
+
+    Private arrSplitted() As String
 
     Private departmentName As String = String.Empty
     Private devEmailAddress As String = String.Empty
@@ -23,45 +24,44 @@ Public Class Main
     Private positionName As String = String.Empty
     Private senderEmailAddress As String = String.Empty
     Private senderEmailPassword As String = String.Empty
-    Private settingsId As Integer = HealthInformationSystem.My.Settings.SettingsId
     Private teamName As String = String.Empty
-    Public Sub New(_employeeId As Integer, _employeeCode As String, _employeeName As String, _departmentName As String, _teamName As String, _positionName As String,
-                   _isAdmin As Boolean)
+
+    Public Sub New(employeeId As Integer, employeeCode As String, employeeName As String, departmentName As String, teamName As String, positionName As String, isAdmin As Boolean)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        employeeId = _employeeId
-        employeeCode = _employeeCode
-        employeeName = _employeeName
-        departmentName = _departmentName
-        teamName = _teamName
-        positionName = _positionName
-        isAdmin = _isAdmin
+        Me.employeeId = employeeId
+        Me.employeeCode = employeeCode
+        Me.employeeName = employeeName
+        Me.departmentName = departmentName
+        Me.teamName = teamName
+        Me.positionName = positionName
+        Me.isAdmin = isAdmin
 
-        UsernameToolStripMenuItem.Text = "  " & StrConv(employeeName, VbStrConv.ProperCase)
-        UserItemToolStripMenuItem.Text = positionName
+        UsernameToolStripMenuItem.Text = "  " & StrConv(Me.employeeName, VbStrConv.ProperCase)
+        UserItemToolStripMenuItem.Text = Me.positionName
 
-        If departmentName.Equals(teamName) Then
-            DepartmentToolStripStatusLabel.Text = departmentName
+        If Me.departmentName.Equals(Me.teamName) Then
+            DepartmentToolStripStatusLabel.Text = Me.departmentName
             SectionToolStripStatusLabel.Text = String.Empty
             SectionToolStripStatusLabel.BorderSides = ToolStripStatusLabelBorderSides.None
         Else
-            If String.IsNullOrWhiteSpace(teamName) Then
-                DepartmentToolStripStatusLabel.Text = departmentName
+            If String.IsNullOrWhiteSpace(Me.teamName) Then
+                DepartmentToolStripStatusLabel.Text = Me.departmentName
                 SectionToolStripStatusLabel.Text = String.Empty
                 SectionToolStripStatusLabel.BorderSides = ToolStripStatusLabelBorderSides.None
             Else
-                DepartmentToolStripStatusLabel.Text = departmentName
-                SectionToolStripStatusLabel.Text = teamName
+                DepartmentToolStripStatusLabel.Text = Me.departmentName
+                SectionToolStripStatusLabel.Text = Me.teamName
             End If
         End If
 
-        If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            dbMain.FormLoader(Me, New Medicine(employeeId))
+        If My.MySettings.Default.IsDebug = True Then
+            dbMain.FormLoader(Me, New Consultation(Me.employeeId), True)
         Else
-            dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
+            dbMain.FormLoader(Me, New Consultation(Me.employeeId), True)
         End If
 
         If ApplicationDeployment.IsNetworkDeployed Then
@@ -168,12 +168,10 @@ Public Class Main
         End Try
     End Sub
 
-    'file
     Private Sub ConsultationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConsultationToolStripMenuItem.Click
-        dbMain.FormLoader(Me, New Consultation(employeeId, isAdmin), True)
+        dbMain.FormLoader(Me, New Consultation(employeeId), True)
     End Sub
 
-    'report
     Private Sub EmployeeMonitoringToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConsultationLogsheetToolStripMenuItem.Click
         dbMain.FormLoader(Me, New ConsultationLogsheet, True)
     End Sub
@@ -186,19 +184,19 @@ Public Class Main
         Application.Exit()
     End Sub
 
-    Private Sub frmMain_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+    Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
         Application.Exit()
     End Sub
 
-    Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tmrMain.Start()
 
         'disable the resize or maximize button of the form if the form is maximized, then enable if the form is minimized
-        AddHandler Me.SizeChanged, AddressOf Main_SizeEventHandler
+        AddHandler Me.SizeChanged, AddressOf Form_SizeEventHandler
         Me.MaximizeBox = False
     End Sub
 
-    Private Sub frmMain_MdiChildActivate(sender As Object, e As EventArgs) Handles MyBase.MdiChildActivate
+    Private Sub Form_MdiChildActivate(sender As Object, e As EventArgs) Handles MyBase.MdiChildActivate
         Dim activeForm As Form = Me.ActiveMdiChild
 
         If Not activeForm Is Nothing Then
@@ -206,16 +204,6 @@ Public Class Main
             Me.Text = "Health Information System - " & arrSplitted(0) & ""
         Else
             Me.Text = "Health Information System"
-        End If
-    End Sub
-
-    'maximize the main form or MDI parent without hiding or overlapping the taskbar
-    Private Sub frmMain_SizeEventHandler(sender As Object, e As EventArgs)
-        If Me.WindowState = FormWindowState.Minimized Then
-            Me.MaximizeBox = True
-
-        ElseIf Me.WindowState = FormWindowState.Maximized Then
-            Me.MaximizeBox = False
         End If
     End Sub
 
@@ -228,7 +216,7 @@ Public Class Main
         Login.txtPassword.Clear()
     End Sub
 
-    Private Sub Main_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub Form_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Try
             If e.Control AndAlso e.KeyCode.Equals(Keys.F12) Then
                 ShowNotification()
@@ -238,7 +226,8 @@ Public Class Main
         End Try
     End Sub
 
-    Private Sub Main_SizeEventHandler(ByVal sender As Object, ByVal e As EventArgs)
+    'maximize the main form or MDI parent without hiding or overlapping the taskbar
+    Private Sub Form_SizeEventHandler(ByVal sender As Object, ByVal e As EventArgs)
         If Me.WindowState = FormWindowState.Minimized Then
             Me.MaximizeBox = True
 
@@ -246,6 +235,7 @@ Public Class Main
             Me.MaximizeBox = False
         End If
     End Sub
+
     Private Sub MedicineToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MedicineToolStripMenuItem.Click
         dbMain.FormLoader(Me, New Medicine(employeeId))
     End Sub
@@ -326,14 +316,13 @@ Public Class Main
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
 
-    Private Sub tmrMain_Tick(sender As Object, e As EventArgs) Handles tmrMain.Tick
+    Private Sub tmrForm_Tick(sender As Object, e As EventArgs) Handles tmrMain.Tick
         DatetimeToolStripMenuItem.Text = CDate(dbHealth.GetServerDate).ToString("dd MMMM yyyy")
-
         ShowNotification()
     End Sub
+
     Private Sub WindowMenuItemClicked(ByVal sender As Object, ByVal e As EventArgs)
         'Retrieve the clicked MenuItem from the sender object
         Dim menuItem As ToolStripMenuItem = TryCast(sender, ToolStripMenuItem)
@@ -353,6 +342,14 @@ Public Class Main
 
     Public Sub ClickMedicineLogs()
         dbMain.FormLoader(Me, New MedicineLog)
+    End Sub
+
+    Private Sub DoctorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DoctorToolStripMenuItem.Click
+        dbMain.FormLoader(Me, New Doctor(employeeId))
+    End Sub
+
+    Private Sub UserToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NurseToolStripMenuItem.Click
+        dbMain.FormLoader(Me, New Nurse(employeeId))
     End Sub
 
 End Class

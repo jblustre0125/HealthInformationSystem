@@ -8,13 +8,21 @@ Public Class Consultation
     Private dbHealth As New SqlDbMethod(connection.MyConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 
-    Private bsEmployeeMedicalRecord As New BindingSource
-    Private dtEmployeeMedicalRecord As New DataTable
-    Private bsRestAlarm As New BindingSource
-    Private dtRestAlarm As New DataTable
+    Private dicSearchCriteria As New Dictionary(Of String, Integer)
+    Private dicAlarmStatus As New Dictionary(Of String, Integer)
 
-    Private employeeId As Integer = 0
-    Private isAdmin As Boolean = False
+    Private imgList As New List(Of clsAttachment)
+
+    Private attachDirMedicalRecord As String = directories.AttDirMedRecord
+
+    Private bsConsultation As New BindingSource
+    Private bsRestAlarm As New BindingSource
+    Private bsScreening As New BindingSource
+    Private bsSickLeave As New BindingSource
+    Private dtConsultation As New DataTable
+    Private dtRestAlarm As New DataTable
+    Private dtScreening As New DataTable
+    Private dtSickLeave As New DataTable
 
     Private pageIndex As Integer
     Private pageSize As Integer
@@ -24,34 +32,35 @@ Public Class Consultation
     Private indexPosition As Integer = 0
     Private indexScroll As Integer = 0
 
-    Private dicSearchCriteria As New Dictionary(Of String, Integer)
-    Private dicAlarmStatus As New Dictionary(Of String, Integer)
-
-    Private attachDirMedicalRecord As String = directories.AttDirMedRecord
-
-    Private isFilterByAlarmStatus As Boolean = False
+    Private isFilterByAbsentDate As Boolean = False
     Private isFilterByAlarmDate As Boolean = False
-    Private isFilterByEmployeeNameRestNbc As Boolean = False
-    Private isFilterByEmployeeNameRestAgency As Boolean = False
-
-    Private isFilterByEmployeeNameNbc As Boolean = False
-    Private isFilterByEmployeeNameAgency As Boolean = False
-    Private isFilterByEmployeeCode As Boolean = False
+    Private isFilterByAlarmStatus As Boolean = False
     Private isFilterByDateCreated As Boolean = False
+    Private isFilterByDiagnosis As Boolean = False
+    Private isFilterByEmployeeCode As Boolean = False
+    Private isFilterByEmployeeName As Boolean = False
+    Private isFilterByEmployeeNameAgency As Boolean = False
+    Private isFilterByEmployeeNameNbc As Boolean = False
+    Private isFilterByEmployeeNameRestAgency As Boolean = False
+    Private isFilterByEmployeeNameRestNbc As Boolean = False
+    Private isFilterByLeaveDate As Boolean = False
+    Private isFilterByLeaveType As Boolean = False
+    Private isFilterByMedCertDate As Boolean = False
+    Private isFilterByReason As Boolean = False
+    Private isFilterByScreeningDate As Boolean = False
 
-    Private imgList As New List(Of clsAttachment)
+    Private employeeId As Integer = 0
 
-    Public Sub New(_employeeId As Integer, _isAdmin As Boolean)
+    Public Sub New(employeeId As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        employeeId = _employeeId
-        isAdmin = _isAdmin
+        Me.employeeId = employeeId
     End Sub
 
-    Private Sub ConsultationHeader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadSearchCriteria()
 
         pageIndex = 0
@@ -60,13 +69,17 @@ Public Class Consultation
 
         Me.dgvConsultation.Columns(5).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         Me.dgvConsultation.Columns(6).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Me.dgvRest.Columns(4).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Me.dgvRestAlarm.Columns(4).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Me.dgvScreening.Columns(4).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Me.dgvScreening.Columns(5).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Me.dgvSickLeave.Columns(10).AutoSizeMode = DataGridViewAutoSizeColumnsMode.Fill
 
         dbMain.EnableDoubleBuffered(dgvConsultation)
         dbMain.EnableDoubleBuffered(dgvMedicine)
-        dbMain.EnableDoubleBuffered(dgvRest)
-        dbMain.EnableDoubleBuffered(dgvScreening)
+        dbMain.EnableDoubleBuffered(dgvRestAlarm)
         dbMain.EnableDoubleBuffered(dgvApe)
+        dbMain.EnableDoubleBuffered(dgvScreening)
+        dbMain.EnableDoubleBuffered(dgvSickLeave)
         Me.ActiveControl = dgvConsultation
     End Sub
 
@@ -95,6 +108,24 @@ Public Class Consultation
                 cmbSearchCriteria.ValueMember = "Value"
                 cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
 
+            Case 2 'health screening
+                dicSearchCriteria.Add(" Absent Date", 1)
+                dicSearchCriteria.Add(" Screening Date", 2)
+                dicSearchCriteria.Add(" Medical Cert Date", 3)
+                dicSearchCriteria.Add(" Leave Type", 4)
+                dicSearchCriteria.Add(" Employee Name", 5)
+                dicSearchCriteria.Add(" Reason", 6)
+                dicSearchCriteria.Add(" Diagnosis", 7)
+                cmbSearchCriteria.DisplayMember = "Key"
+                cmbSearchCriteria.ValueMember = "Value"
+                cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
+
+            Case 3 'sick leave
+                dicSearchCriteria.Add(" Absent Date", 1)
+                dicSearchCriteria.Add(" Leave Type", 2)
+                cmbSearchCriteria.DisplayMember = "Key"
+                cmbSearchCriteria.ValueMember = "Value"
+                cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
         End Select
     End Sub
 
@@ -118,7 +149,7 @@ Public Class Consultation
                         prm(4) = New SqlParameter("@EndDate", SqlDbType.DateTime)
                         prm(4).Value = CDate(dtpEndDateCommon.Value)
 
-                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByDateCreated", CommandType.StoredProcedure, prm)
+                        dtConsultation = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByDateCreated", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
 
                     ElseIf isFilterByEmployeeCode = True Then
@@ -133,7 +164,7 @@ Public Class Consultation
                         prm(3) = New SqlParameter("@EmployeeCode", SqlDbType.NVarChar)
                         prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
 
-                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeCode", CommandType.StoredProcedure, prm)
+                        dtConsultation = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeCode", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
 
                     ElseIf isFilterByEmployeeNameNbc = True Then
@@ -148,7 +179,7 @@ Public Class Consultation
                         prm(3) = New SqlParameter("@EmployeeName", SqlDbType.NVarChar)
                         prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
 
-                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeName", CommandType.StoredProcedure, prm)
+                        dtConsultation = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeName", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
 
                     ElseIf isFilterByEmployeeNameAgency = True Then
@@ -163,7 +194,7 @@ Public Class Consultation
                         prm(3) = New SqlParameter("@EmployeeName", SqlDbType.NVarChar)
                         prm(3).Value = IIf(String.IsNullOrWhiteSpace(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
 
-                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeNameAgency", CommandType.StoredProcedure, prm)
+                        dtConsultation = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlistByEmployeeNameAgency", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
 
                     Else
@@ -176,14 +207,14 @@ Public Class Consultation
                         prm(2).Direction = ParameterDirection.Output
                         prm(2).Value = totalCount
 
-                        dtEmployeeMedicalRecord = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlist", CommandType.StoredProcedure, prm)
+                        dtConsultation = dbHealth.FillDataTable("RdEmployeeMedicalRecordMasterlist", CommandType.StoredProcedure, prm)
                         totalCount = prm(2).Value
                     End If
 
-                    Me.bsEmployeeMedicalRecord.DataSource = dtEmployeeMedicalRecord
-                    Me.bsEmployeeMedicalRecord.ResetBindings(True)
+                    Me.bsConsultation.DataSource = dtConsultation
+                    Me.bsConsultation.ResetBindings(True)
                     Me.dgvConsultation.AutoGenerateColumns = False
-                    Me.dgvConsultation.DataSource = Me.bsEmployeeMedicalRecord
+                    Me.dgvConsultation.DataSource = Me.bsConsultation
 
                 Case 1 'rest monitoring
                     If isFilterByAlarmStatus = True Then
@@ -274,9 +305,161 @@ Public Class Consultation
 
                     Me.bsRestAlarm.DataSource = dtRestAlarm
                     Me.bsRestAlarm.ResetBindings(True)
-                    Me.dgvRest.AutoGenerateColumns = False
-                    Me.dgvRest.DataSource = Me.bsRestAlarm
+                    Me.dgvRestAlarm.AutoGenerateColumns = False
+                    Me.dgvRestAlarm.DataSource = Me.bsRestAlarm
 
+                Case 2 'health screening
+                    If isFilterByAbsentDate = True Then
+                        Dim prm(4) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@AbsentDateFrom", SqlDbType.Date)
+                        prm(3).Value = dtpStartDateCommon.Value
+                        prm(4) = New SqlParameter("@AbsentDateTo", SqlDbType.Date)
+                        prm(4).Value = dtpEndDateCommon.Value
+
+                        dtScreening = dbHealth.FillDataTable("RdScreeningByAbsentDate", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByScreeningDate = True Then
+                        Dim prm(4) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@ScreenDateFrom", SqlDbType.Date)
+                        prm(3).Value = dtpStartDateCommon.Value
+                        prm(4) = New SqlParameter("@ScreenDateTo", SqlDbType.Date)
+                        prm(4).Value = dtpEndDateCommon.Value
+
+                        dtScreening = dbHealth.FillDataTable("RdScreeningByScreenDate", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByMedCertDate = True Then
+                        Dim prm(4) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@AbsentDateFrom", SqlDbType.Date)
+                        prm(3).Value = dtpStartDateCommon.Value
+                        prm(4) = New SqlParameter("@AbsentDateTo", SqlDbType.Date)
+                        prm(4).Value = dtpEndDateCommon.Value
+
+                        dtScreening = dbHealth.FillDataTable("RdScreeningByMedCertDate", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByLeaveType = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@LeaveTypeId", SqlDbType.Int)
+                        prm(3).Value = IIf(cmbCommon.SelectedValue = 0, Nothing, cmbCommon.SelectedValue)
+
+                        dtScreening = dbHealth.FillDataTable("RdScreeningByLeaveTypeId", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByEmployeeName = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@EmployeeName", SqlDbType.NVarChar)
+                        prm(3).Value = IIf(String.IsNullOrEmpty(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
+
+                        dtScreening = dbHealth.FillDataTable("RdScreeningByEmployeeName", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByReason = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@Reason", SqlDbType.NVarChar)
+                        prm(3).Value = IIf(String.IsNullOrEmpty(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
+
+                        dtScreening = dbHealth.FillDataTable("RdScreeningByReason", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    ElseIf isFilterByDiagnosis = True Then
+                        Dim prm(3) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@Diagnosis", SqlDbType.NVarChar)
+                        prm(3).Value = IIf(String.IsNullOrEmpty(txtCommon.Text.Trim), Nothing, txtCommon.Text.Trim)
+
+                        dtScreening = dbHealth.FillDataTable("RdScreeningByDiagnosis", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+
+                    Else
+                        Dim prm(2) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+
+                        dtScreening = dbHealth.FillDataTable("RdScreening", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+                    End If
+
+                    Me.bsScreening.DataSource = dtScreening
+                    Me.bsScreening.ResetBindings(True)
+                    Me.dgvScreening.AutoGenerateColumns = False
+                    Me.dgvScreening.DataSource = Me.bsScreening
+
+                Case 3 'sick leave
+                    If isFilterByLeaveDate = True Then
+
+                    Else
+                        Dim prm(2) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+
+                        dtSickLeave = dbHealth.FillDataTable("RdLeaveFilingClinic", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
+                    End If
+
+                    Me.bsSickLeave.DataSource = dtSickLeave
+                    Me.bsSickLeave.ResetBindings(True)
+                    Me.dgvSickLeave.AutoGenerateColumns = False
+                    Me.dgvSickLeave.DataSource = Me.bsSickLeave
             End Select
 
             If totalCount Mod pageSize = 0 Then
@@ -306,8 +489,7 @@ Public Class Consultation
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         dgvConsultation.Dispose()
         dgvMedicine.Dispose()
-        dgvRest.Dispose()
-        dgvScreening.Dispose()
+        dgvRestAlarm.Dispose()
         dgvApe.Dispose()
         Me.Close()
     End Sub
@@ -322,13 +504,19 @@ Public Class Consultation
                         End If
                     End Using
 
+                Case 2
+                    'Using frmDetail As New ConsultationScreening(employeeId)
+                    '    If frmDetail.ShowDialog(Me) = DialogResult.OK Then
+                    '        Reload()
+                    '    End If
+                    'End Using
             End Select
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
-    Private Sub Dashboard_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub Form_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Select Case e.KeyCode
             Case Keys.F2
                 e.Handled = True
@@ -424,6 +612,7 @@ Public Class Consultation
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
     Private Sub GetScrollingIndex()
         Try
             Select Case tcDashboard.SelectedIndex
@@ -432,9 +621,16 @@ Public Class Consultation
                     indexPosition = dgvConsultation.CurrentRow.Index
 
                 Case 1
-                    indexScroll = dgvRest.FirstDisplayedCell.RowIndex
-                    indexPosition = dgvRest.CurrentRow.Index
+                    indexScroll = dgvRestAlarm.FirstDisplayedCell.RowIndex
+                    indexPosition = dgvRestAlarm.CurrentRow.Index
 
+                Case 2
+                    indexScroll = dgvScreening.FirstDisplayedCell.RowIndex
+                    indexPosition = dgvScreening.CurrentRow.Index
+
+                Case 3
+                    indexScroll = dgvSickLeave.FirstDisplayedCell.RowIndex
+                    indexPosition = dgvSickLeave.CurrentRow.Index
             End Select
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -451,17 +647,34 @@ Public Class Consultation
                     Else
                         dgvConsultation.Rows(indexPosition - 1).Selected = True
                     End If
-                    Me.bsEmployeeMedicalRecord.Position = dgvConsultation.SelectedCells(0).RowIndex
+                    Me.bsConsultation.Position = dgvConsultation.SelectedCells(0).RowIndex
 
                 Case 1
-                    dgvRest.FirstDisplayedScrollingRowIndex = indexScroll
-                    If dgvRest.Rows.Count > indexPosition Then
-                        dgvRest.Rows(indexPosition).Selected = True
+                    dgvRestAlarm.FirstDisplayedScrollingRowIndex = indexScroll
+                    If dgvRestAlarm.Rows.Count > indexPosition Then
+                        dgvRestAlarm.Rows(indexPosition).Selected = True
                     Else
-                        dgvRest.Rows(indexPosition - 1).Selected = True
+                        dgvRestAlarm.Rows(indexPosition - 1).Selected = True
                     End If
-                    Me.bsRestAlarm.Position = dgvRest.SelectedCells(0).RowIndex
+                    Me.bsRestAlarm.Position = dgvRestAlarm.SelectedCells(0).RowIndex
 
+                Case 2
+                    dgvScreening.FirstDisplayedScrollingRowIndex = indexScroll
+                    If dgvScreening.Rows.Count > indexPosition Then
+                        dgvScreening.Rows(indexPosition).Selected = True
+                    Else
+                        dgvScreening.Rows(indexPosition - 1).Selected = True
+                    End If
+                    Me.bsScreening.Position = dgvScreening.SelectedCells(0).RowIndex
+
+                Case 3
+                    dgvSickLeave.FirstDisplayedScrollingRowIndex = indexScroll
+                    If dgvSickLeave.Rows.Count > indexPosition Then
+                        dgvSickLeave.Rows(indexPosition).Selected = True
+                    Else
+                        dgvSickLeave.Rows(indexPosition - 1).Selected = True
+                    End If
+                    Me.bsSickLeave.Position = dgvSickLeave.SelectedCells(0).RowIndex
             End Select
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -478,11 +691,22 @@ Public Class Consultation
                     If dgvConsultation IsNot Nothing AndAlso dgvConsultation.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf SetScrollingIndex))
 
                 Case 1
-                    If dgvRest IsNot Nothing AndAlso dgvRest.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf GetScrollingIndex))
+                    If dgvRestAlarm IsNot Nothing AndAlso dgvRestAlarm.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf GetScrollingIndex))
                     pageIndex = 0
                     LoadTransaction()
-                    If dgvRest IsNot Nothing AndAlso dgvRest.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf SetScrollingIndex))
+                    If dgvRestAlarm IsNot Nothing AndAlso dgvRestAlarm.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf SetScrollingIndex))
 
+                Case 2
+                    If dgvScreening IsNot Nothing AndAlso dgvScreening.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf GetScrollingIndex))
+                    pageIndex = 0
+                    LoadTransaction()
+                    If dgvScreening IsNot Nothing AndAlso dgvScreening.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf SetScrollingIndex))
+
+                Case 3
+                    If dgvSickLeave IsNot Nothing AndAlso dgvSickLeave.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf GetScrollingIndex))
+                    pageIndex = 0
+                    LoadTransaction()
+                    If dgvSickLeave IsNot Nothing AndAlso dgvSickLeave.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf SetScrollingIndex))
             End Select
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -490,35 +714,47 @@ Public Class Consultation
     End Sub
 
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
-        Select Case tcDashboard.SelectedIndex
-            Case 0
-                If Me.dgvConsultation.Rows.Count > 0 Then
-                    Dim recordId As Integer = CType(Me.bsEmployeeMedicalRecord.Current, DataRowView).Item("RecordId")
+        Try
+            Select Case tcDashboard.SelectedIndex
+                Case 0
+                    If Me.dgvConsultation.Rows.Count > 0 Then
+                        Dim recordId As Integer = CType(Me.bsConsultation.Current, DataRowView).Item("RecordId")
 
-                    Using frmDetail As New ConsultationDetail(employeeId, recordId)
-                        If frmDetail.ShowDialog(Me) = DialogResult.OK Then
-                            Reload()
-                        End If
-                    End Using
+                        Using frmDetail As New ConsultationDetail(employeeId, recordId)
+                            If frmDetail.ShowDialog(Me) = DialogResult.OK Then
+                                Reload()
+                            End If
+                        End Using
+                    End If
 
-                End If
+                Case 1
+                    If Me.dgvRestAlarm.Rows.Count > 0 Then
+                        Dim recordId As Integer = CType(Me.bsRestAlarm.Current, DataRowView).Item("RecordId")
 
-            Case 1
-                If Me.dgvRest.Rows.Count > 0 Then
-                    Dim recordId As Integer = CType(Me.bsRestAlarm.Current, DataRowView).Item("RecordId")
+                        Using frmDetail As New ConsultationDetail(employeeId, recordId)
+                            If frmDetail.ShowDialog(Me) = DialogResult.OK Then
+                                Reload()
+                            End If
+                        End Using
+                    End If
 
-                    Using frmDetail As New ConsultationDetail(employeeId, recordId)
-                        If frmDetail.ShowDialog(Me) = DialogResult.OK Then
-                            Reload()
-                        End If
-                    End Using
+                Case 2
+                    'If Me.dgvScreening.Rows.Count > 0 Then
+                    '    Dim recordId As Integer = CType(Me.bsScreening.Current, DataRowView).Item("RecordId")
 
-                End If
-
-        End Select
+                    '    Using frmDetail As New ConsultationScreening(employeeId, recordId)
+                    '        If frmDetail.ShowDialog(Me) = DialogResult.OK Then
+                    '            Reload()
+                    '        End If
+                    '    End Using
+                    'End If
+            End Select
+        Catch ex As Exception
+            MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
-    Private Sub dgvConsultation_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsultation.CellDoubleClick
+    Private Sub CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsultation.CellDoubleClick, dgvRestAlarm.CellDoubleClick, dgvScreening.CellDoubleClick
         btnEdit.PerformClick()
     End Sub
 
@@ -527,7 +763,7 @@ Public Class Consultation
             Select Case tcDashboard.SelectedIndex
                 Case 0
                     If Me.dgvConsultation.Rows.Count > 0 AndAlso dgvConsultation.SelectedRows.Count > 0 Then
-                        Dim recordId As Integer = CType(Me.bsEmployeeMedicalRecord.Current, DataRowView).Item("RecordId")
+                        Dim recordId As Integer = CType(Me.bsConsultation.Current, DataRowView).Item("RecordId")
                         Dim attachmentCount As Integer = 0
                         Dim trxId As Integer = 0
                         Dim employeeId As Integer = 0
@@ -673,7 +909,6 @@ Public Class Consultation
 
                             dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
                             dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
-
                     End Select
 
                 Case 1 'rest monitoring
@@ -697,9 +932,43 @@ Public Class Consultation
                             pnlSearchDate.Visible = False
                             pnlSearchCmb.Visible = False
                             pnlSearchTxt.Visible = True
-
                     End Select
 
+                Case 2 'health screening
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1, 2, 3
+                            pnlSearchDate.Visible = True
+                            pnlSearchCmb.Visible = False
+                            pnlSearchTxt.Visible = False
+
+                            dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                            dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+
+                        Case 4
+                            pnlSearchDate.Visible = False
+                            pnlSearchCmb.Visible = True
+                            pnlSearchTxt.Visible = False
+
+                            LoadLeaveType()
+
+                        Case 5, 6, 7
+                            pnlSearchDate.Visible = False
+                            pnlSearchCmb.Visible = False
+                            pnlSearchTxt.Visible = True
+
+                            txtCommon.Clear()
+                    End Select
+
+                Case 3 'sick leave
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            pnlSearchDate.Visible = True
+                            pnlSearchCmb.Visible = False
+                            pnlSearchTxt.Visible = False
+
+                            dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                            dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                    End Select
             End Select
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -771,7 +1040,93 @@ Public Class Consultation
                             isFilterByAlarmDate = False
                             isFilterByEmployeeNameRestNbc = False
                             isFilterByEmployeeNameRestAgency = True
+                    End Select
 
+                Case 2 'health screening
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
+                                MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                Return
+                            End If
+
+                            isFilterByAbsentDate = True
+                            isFilterByScreeningDate = False
+                            isFilterByMedCertDate = False
+                            isFilterByLeaveType = False
+                            isFilterByEmployeeName = False
+                            isFilterByReason = False
+                            isFilterByDiagnosis = False
+
+                        Case 2
+                            If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
+                                MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                Return
+                            End If
+
+                            isFilterByAbsentDate = False
+                            isFilterByScreeningDate = True
+                            isFilterByMedCertDate = False
+                            isFilterByLeaveType = False
+                            isFilterByEmployeeName = False
+                            isFilterByReason = False
+                            isFilterByDiagnosis = False
+
+                        Case 3
+                            If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
+                                MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                Return
+                            End If
+
+                            isFilterByAbsentDate = False
+                            isFilterByScreeningDate = False
+                            isFilterByMedCertDate = True
+                            isFilterByLeaveType = False
+                            isFilterByEmployeeName = False
+                            isFilterByReason = False
+                            isFilterByDiagnosis = False
+
+                        Case 4
+                            isFilterByAbsentDate = False
+                            isFilterByScreeningDate = False
+                            isFilterByMedCertDate = False
+                            isFilterByLeaveType = True
+                            isFilterByEmployeeName = False
+                            isFilterByReason = False
+                            isFilterByDiagnosis = False
+
+                        Case 5
+                            isFilterByAbsentDate = False
+                            isFilterByScreeningDate = False
+                            isFilterByMedCertDate = False
+                            isFilterByLeaveType = False
+                            isFilterByEmployeeName = True
+                            isFilterByReason = False
+                            isFilterByDiagnosis = False
+
+                        Case 6
+                            isFilterByAbsentDate = False
+                            isFilterByScreeningDate = False
+                            isFilterByMedCertDate = False
+                            isFilterByLeaveType = False
+                            isFilterByEmployeeName = False
+                            isFilterByReason = True
+                            isFilterByDiagnosis = False
+
+                        Case 7
+                            isFilterByAbsentDate = False
+                            isFilterByScreeningDate = False
+                            isFilterByMedCertDate = False
+                            isFilterByLeaveType = False
+                            isFilterByEmployeeName = False
+                            isFilterByReason = False
+                            isFilterByDiagnosis = True
+                    End Select
+
+                Case 3 'sick leave
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            isFilterByAbsentDate = True
                     End Select
             End Select
 
@@ -793,7 +1148,6 @@ Public Class Consultation
                         Case 4
                             dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
                             dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
-
                     End Select
 
                     isFilterByEmployeeNameNbc = False
@@ -812,13 +1166,42 @@ Public Class Consultation
 
                         Case 3, 4
                             txtCommon.Clear()
-
                     End Select
 
                     isFilterByAlarmStatus = False
                     isFilterByAlarmDate = False
                     isFilterByEmployeeNameRestNbc = False
                     isFilterByEmployeeNameRestAgency = False
+
+                Case 2 'health screening
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1, 2, 3
+                            dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                            dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+
+                        Case 4
+                            cmbCommon.SelectedValue = 1
+
+                        Case 5, 6, 7
+                            txtCommon.Clear()
+                    End Select
+
+                    isFilterByAbsentDate = False
+                    isFilterByScreeningDate = False
+                    isFilterByMedCertDate = False
+                    isFilterByLeaveType = False
+                    isFilterByEmployeeName = False
+                    isFilterByReason = False
+                    isFilterByDiagnosis = False
+
+                Case 3 'sick leave
+                    Select Case cmbSearchCriteria.SelectedValue
+                        Case 1
+                            dtpStartDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                            dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
+                    End Select
+
+                    isFilterByAbsentDate = False
             End Select
 
             pageIndex = 0
@@ -844,6 +1227,14 @@ Public Class Consultation
             cmbCommon.DisplayMember = "Key"
             cmbCommon.ValueMember = "Value"
             cmbCommon.DataSource = New BindingSource(dicAlarmStatus, Nothing)
+        Catch ex As Exception
+            MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub LoadLeaveType()
+        Try
+            dbHealth.FillCmbWithCaption("RdLeaveType", CommandType.StoredProcedure, "LeaveTypeId", "LeaveTypeName", cmbCommon, "< All >")
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try

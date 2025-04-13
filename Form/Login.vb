@@ -1,4 +1,5 @@
 ﻿Imports BlackCoffeeLibrary
+Imports HealthInformationSystem
 Imports System.Data.SqlClient
 Imports System.Deployment.Application
 
@@ -8,16 +9,18 @@ Public Class Login
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 
+    Private settingsId As Integer = My.Settings.SettingsId
+
     Private departmentName As String = String.Empty
     Private employeeCode As String = String.Empty
     Private employeeId As Integer = 0
     Private employeeName As String = String.Empty
-    Dim imgHide As Image = My.Resources.password_hide_blue
-    Dim imgShow As Image = My.Resources.password_show_blue
     Private isAdmin As Boolean = False
     Private positionName As String = String.Empty
-    Private settingsId As Integer = HealthInformationSystem.My.Settings.SettingsId
     Private teamName As String = String.Empty
+
+    Dim imgHide As Image = My.Resources.password_hide_blue
+    Dim imgShow As Image = My.Resources.password_show_blue
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         If Not String.IsNullOrWhiteSpace(txtEmployeeId.Text.Trim) Or Not String.IsNullOrWhiteSpace(txtPassword.Text.Trim) Then
@@ -95,29 +98,11 @@ Public Class Login
         End Try
     End Sub
 
-    Private Sub frmLogin_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+    Private Sub Form_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         ActiveControl = txtEmployeeId
     End Sub
 
-    Private Sub frmLogin_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            'doc omman
-            'txtEmployeeId.Text = "FMB-0451"
-            'txtPassword.Text = "1001"
-
-            'mam irene
-            'txtEmployeeId.Text = "1805-003"
-            'txtPassword.Text = "torejas"
-
-            'mam meds
-            txtEmployeeId.Text = "2006-021"
-            txtPassword.Text = "medelyn062320"
-
-            ''sys admin
-            'txtEmployeeId.Text = "0000"
-            'txtPassword.Text = "0000"
-        End If
-
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles Me.Load
         If ApplicationDeployment.IsNetworkDeployed Then
             lblVersion.Text = "ver. " & ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString
         Else
@@ -129,7 +114,13 @@ Public Class Login
         txtPassword.PasswordChar = "●"
 
         Me.ActiveControl = txtEmployeeId
+
+        If My.Settings.IsDebug Then
+            txtEmployeeId.Text = "2110-001"
+            txtPassword.Text = "resaba"
+        End If
     End Sub
+
     Private Function GetDefaultDepartmentName()
         Dim deptName As String = String.Empty
 

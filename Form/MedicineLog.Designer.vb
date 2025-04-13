@@ -24,10 +24,10 @@ Partial Class MedicineLog
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MedicineLog))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.cmbSearchCriteria = New System.Windows.Forms.ComboBox()
         Me.pnlSearchByText = New System.Windows.Forms.Panel()
         Me.txtCommon = New System.Windows.Forms.TextBox()
@@ -58,21 +58,12 @@ Partial Class MedicineLog
         Me.btnClose = New PinkieControls.ButtonXP()
         Me.pnlSearchByCmb2 = New System.Windows.Forms.Panel()
         Me.cmbCommon2 = New SergeUtils.EasyCompletionComboBox()
-        Me.cmsExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BelowOrderingPointToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.lblSortBy = New System.Windows.Forms.Label()
         Me.cmbSortCriteria = New System.Windows.Forms.ComboBox()
         Me.grpSortMode = New System.Windows.Forms.GroupBox()
         Me.rdDesc = New System.Windows.Forms.RadioButton()
         Me.rdAsc = New System.Windows.Forms.RadioButton()
         Me.dgvList = New System.Windows.Forms.DataGridView()
-        Me.lblTotal = New System.Windows.Forms.Label()
-        Me.txtTotal = New System.Windows.Forms.Label()
-        Me.grpTrxType = New System.Windows.Forms.GroupBox()
-        Me.rdIssue = New System.Windows.Forms.RadioButton()
-        Me.rdReceive = New System.Windows.Forms.RadioButton()
-        Me.rdAll = New System.Windows.Forms.RadioButton()
         Me.ColCreatedDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColTransactionCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColUserName = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -80,13 +71,18 @@ Partial Class MedicineLog
         Me.ColQty = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColTrxId = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColReferenceNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.lblTotal = New System.Windows.Forms.Label()
+        Me.txtTotal = New System.Windows.Forms.Label()
+        Me.grpTrxType = New System.Windows.Forms.GroupBox()
+        Me.rdIssue = New System.Windows.Forms.RadioButton()
+        Me.rdReceive = New System.Windows.Forms.RadioButton()
+        Me.rdAll = New System.Windows.Forms.RadioButton()
         Me.pnlSearchByText.SuspendLayout()
         Me.pnlSearchByCmb.SuspendLayout()
         Me.pnlSearchByDate.SuspendLayout()
         CType(Me.bindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.bindingNavigator.SuspendLayout()
         Me.pnlSearchByCmb2.SuspendLayout()
-        Me.cmsExport.SuspendLayout()
         Me.grpSortMode.SuspendLayout()
         CType(Me.dgvList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpTrxType.SuspendLayout()
@@ -408,24 +404,6 @@ Partial Class MedicineLog
         Me.cmbCommon2.Size = New System.Drawing.Size(316, 25)
         Me.cmbCommon2.TabIndex = 592
         '
-        'cmsExport
-        '
-        Me.cmsExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AllToolStripMenuItem, Me.BelowOrderingPointToolStripMenuItem})
-        Me.cmsExport.Name = "cmsConsole"
-        Me.cmsExport.Size = New System.Drawing.Size(188, 48)
-        '
-        'AllToolStripMenuItem
-        '
-        Me.AllToolStripMenuItem.Name = "AllToolStripMenuItem"
-        Me.AllToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-        Me.AllToolStripMenuItem.Text = "All"
-        '
-        'BelowOrderingPointToolStripMenuItem
-        '
-        Me.BelowOrderingPointToolStripMenuItem.Name = "BelowOrderingPointToolStripMenuItem"
-        Me.BelowOrderingPointToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-        Me.BelowOrderingPointToolStripMenuItem.Text = "Below Ordering Point"
-        '
         'lblSortBy
         '
         Me.lblSortBy.BackColor = System.Drawing.SystemColors.Control
@@ -498,13 +476,13 @@ Partial Class MedicineLog
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvList.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        Me.dgvList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle9.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        Me.dgvList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle9
         Me.dgvList.ColumnHeadersHeight = 25
         Me.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.dgvList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColCreatedDate, Me.ColTransactionCode, Me.ColUserName, Me.ColPartName, Me.ColQty, Me.ColTrxId, Me.ColReferenceNo})
@@ -517,6 +495,70 @@ Partial Class MedicineLog
         Me.dgvList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgvList.Size = New System.Drawing.Size(1134, 480)
         Me.dgvList.TabIndex = 553
+        '
+        'ColCreatedDate
+        '
+        Me.ColCreatedDate.DataPropertyName = "CreatedDate"
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle10.Format = "g"
+        DataGridViewCellStyle10.NullValue = Nothing
+        Me.ColCreatedDate.DefaultCellStyle = DataGridViewCellStyle10
+        Me.ColCreatedDate.HeaderText = "Date"
+        Me.ColCreatedDate.Name = "ColCreatedDate"
+        Me.ColCreatedDate.ReadOnly = True
+        Me.ColCreatedDate.Width = 120
+        '
+        'ColTransactionCode
+        '
+        Me.ColTransactionCode.DataPropertyName = "TrxTypeCode"
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColTransactionCode.DefaultCellStyle = DataGridViewCellStyle11
+        Me.ColTransactionCode.HeaderText = "Type"
+        Me.ColTransactionCode.Name = "ColTransactionCode"
+        Me.ColTransactionCode.ReadOnly = True
+        Me.ColTransactionCode.Width = 50
+        '
+        'ColUserName
+        '
+        Me.ColUserName.DataPropertyName = "EmployeeName"
+        Me.ColUserName.HeaderText = "Encoded By"
+        Me.ColUserName.Name = "ColUserName"
+        Me.ColUserName.ReadOnly = True
+        Me.ColUserName.Width = 180
+        '
+        'ColPartName
+        '
+        Me.ColPartName.DataPropertyName = "MedicineName"
+        Me.ColPartName.HeaderText = "Medicine"
+        Me.ColPartName.Name = "ColPartName"
+        Me.ColPartName.ReadOnly = True
+        Me.ColPartName.Width = 280
+        '
+        'ColQty
+        '
+        Me.ColQty.DataPropertyName = "Qty"
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColQty.DefaultCellStyle = DataGridViewCellStyle12
+        Me.ColQty.HeaderText = "Qty"
+        Me.ColQty.Name = "ColQty"
+        Me.ColQty.ReadOnly = True
+        Me.ColQty.Width = 50
+        '
+        'ColTrxId
+        '
+        Me.ColTrxId.DataPropertyName = "TrxId"
+        Me.ColTrxId.HeaderText = "TrxId"
+        Me.ColTrxId.Name = "ColTrxId"
+        Me.ColTrxId.ReadOnly = True
+        Me.ColTrxId.Visible = False
+        '
+        'ColReferenceNo
+        '
+        Me.ColReferenceNo.DataPropertyName = "Remarks"
+        Me.ColReferenceNo.HeaderText = "Remarks"
+        Me.ColReferenceNo.Name = "ColReferenceNo"
+        Me.ColReferenceNo.ReadOnly = True
+        Me.ColReferenceNo.Width = 90
         '
         'lblTotal
         '
@@ -600,70 +642,6 @@ Partial Class MedicineLog
         Me.rdAll.Text = "All"
         Me.rdAll.UseVisualStyleBackColor = True
         '
-        'ColCreatedDate
-        '
-        Me.ColCreatedDate.DataPropertyName = "CreatedDate"
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle2.Format = "g"
-        DataGridViewCellStyle2.NullValue = Nothing
-        Me.ColCreatedDate.DefaultCellStyle = DataGridViewCellStyle2
-        Me.ColCreatedDate.HeaderText = "Date"
-        Me.ColCreatedDate.Name = "ColCreatedDate"
-        Me.ColCreatedDate.ReadOnly = True
-        Me.ColCreatedDate.Width = 120
-        '
-        'ColTransactionCode
-        '
-        Me.ColTransactionCode.DataPropertyName = "TrxTypeCode"
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColTransactionCode.DefaultCellStyle = DataGridViewCellStyle3
-        Me.ColTransactionCode.HeaderText = "Type"
-        Me.ColTransactionCode.Name = "ColTransactionCode"
-        Me.ColTransactionCode.ReadOnly = True
-        Me.ColTransactionCode.Width = 50
-        '
-        'ColUserName
-        '
-        Me.ColUserName.DataPropertyName = "EmployeeName"
-        Me.ColUserName.HeaderText = "Encoded By"
-        Me.ColUserName.Name = "ColUserName"
-        Me.ColUserName.ReadOnly = True
-        Me.ColUserName.Width = 180
-        '
-        'ColPartName
-        '
-        Me.ColPartName.DataPropertyName = "MedicineName"
-        Me.ColPartName.HeaderText = "Medicine"
-        Me.ColPartName.Name = "ColPartName"
-        Me.ColPartName.ReadOnly = True
-        Me.ColPartName.Width = 280
-        '
-        'ColQty
-        '
-        Me.ColQty.DataPropertyName = "Qty"
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColQty.DefaultCellStyle = DataGridViewCellStyle4
-        Me.ColQty.HeaderText = "Qty"
-        Me.ColQty.Name = "ColQty"
-        Me.ColQty.ReadOnly = True
-        Me.ColQty.Width = 50
-        '
-        'ColTrxId
-        '
-        Me.ColTrxId.DataPropertyName = "TrxId"
-        Me.ColTrxId.HeaderText = "TrxId"
-        Me.ColTrxId.Name = "ColTrxId"
-        Me.ColTrxId.ReadOnly = True
-        Me.ColTrxId.Visible = False
-        '
-        'ColReferenceNo
-        '
-        Me.ColReferenceNo.DataPropertyName = "Remarks"
-        Me.ColReferenceNo.HeaderText = "Remarks"
-        Me.ColReferenceNo.Name = "ColReferenceNo"
-        Me.ColReferenceNo.ReadOnly = True
-        Me.ColReferenceNo.Width = 90
-        '
         'MedicineLog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
@@ -698,7 +676,7 @@ Partial Class MedicineLog
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Spare Parts Logs"
+        Me.Text = "Medicine Logs"
         Me.pnlSearchByText.ResumeLayout(False)
         Me.pnlSearchByText.PerformLayout()
         Me.pnlSearchByCmb.ResumeLayout(False)
@@ -708,7 +686,6 @@ Partial Class MedicineLog
         Me.bindingNavigator.ResumeLayout(False)
         Me.bindingNavigator.PerformLayout()
         Me.pnlSearchByCmb2.ResumeLayout(False)
-        Me.cmsExport.ResumeLayout(False)
         Me.grpSortMode.ResumeLayout(False)
         Me.grpSortMode.PerformLayout()
         CType(Me.dgvList, System.ComponentModel.ISupportInitialize).EndInit()
@@ -749,11 +726,8 @@ Partial Class MedicineLog
     Friend WithEvents btnClose As PinkieControls.ButtonXP
     Friend WithEvents pnlSearchByCmb2 As Panel
     Friend WithEvents cmbCommon2 As SergeUtils.EasyCompletionComboBox
-    Friend WithEvents cmsExport As ContextMenuStrip
-    Friend WithEvents AllToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents lblSortBy As Label
     Friend WithEvents cmbSortCriteria As ComboBox
-    Friend WithEvents BelowOrderingPointToolStripMenuItem As ToolStripMenuItem
     Public WithEvents grpSortMode As GroupBox
     Public WithEvents rdDesc As RadioButton
     Public WithEvents rdAsc As RadioButton

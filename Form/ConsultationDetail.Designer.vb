@@ -22,10 +22,10 @@ Partial Class ConsultationDetail
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultationDetail))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConsultationDetail))
         Me.lblLmp = New System.Windows.Forms.Label()
         Me.lblTemperature = New System.Windows.Forms.Label()
         Me.lblBloodPressure = New System.Windows.Forms.Label()
@@ -50,13 +50,12 @@ Partial Class ConsultationDetail
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.pbAttachment = New System.Windows.Forms.ProgressBar()
         Me.btnView = New PinkieControls.ButtonXP()
-        Me.txtAttachmentName = New System.Windows.Forms.Label()
+        Me.txtFilename = New System.Windows.Forms.Label()
         Me.btnNext = New PinkieControls.ButtonXP()
         Me.btnPrevious = New PinkieControls.ButtonXP()
         Me.btnRemove = New PinkieControls.ButtonXP()
         Me.btnBrowse = New PinkieControls.ButtonXP()
         Me.picImage = New System.Windows.Forms.PictureBox()
-        Me.AxAcroPDF = New AxAcroPDFLib.AxAcroPDF()
         Me.txtCreatedBy = New System.Windows.Forms.Label()
         Me.lblCreatedBy = New System.Windows.Forms.Label()
         Me.lblAttachmentCount = New System.Windows.Forms.Label()
@@ -77,39 +76,9 @@ Partial Class ConsultationDetail
         Me.bgWorker = New System.ComponentModel.BackgroundWorker()
         Me.lblEmployeeCode = New System.Windows.Forms.Label()
         Me.txtEmployeeCode = New System.Windows.Forms.TextBox()
-        Me.txtPosition = New System.Windows.Forms.Label()
-        Me.lblPosition = New System.Windows.Forms.Label()
-        Me.txtSection = New System.Windows.Forms.Label()
-        Me.lblSection = New System.Windows.Forms.Label()
-        Me.txtDepartment = New System.Windows.Forms.Label()
-        Me.lblDepartment = New System.Windows.Forms.Label()
         Me.txtEmployeeName = New System.Windows.Forms.Label()
         Me.lblEmployeeName = New System.Windows.Forms.Label()
-        Me.txtEmploymentStatus = New System.Windows.Forms.Label()
-        Me.lblEmploymentStatus = New System.Windows.Forms.Label()
-        Me.txtContactNumber = New System.Windows.Forms.Label()
-        Me.lblContactNumber = New System.Windows.Forms.Label()
-        Me.txtCivilStatus = New System.Windows.Forms.Label()
-        Me.lblCivilStatus = New System.Windows.Forms.Label()
-        Me.txtAge = New System.Windows.Forms.Label()
-        Me.lblAge = New System.Windows.Forms.Label()
-        Me.txtGender = New System.Windows.Forms.Label()
-        Me.lblGender = New System.Windows.Forms.Label()
-        Me.txtLocalAddress = New System.Windows.Forms.Label()
-        Me.lblLocalAddress = New System.Windows.Forms.Label()
-        Me.txtEmgContactAddress = New System.Windows.Forms.Label()
-        Me.lblEmgContactAddress = New System.Windows.Forms.Label()
-        Me.txtEmgContactNumber = New System.Windows.Forms.Label()
-        Me.lblEmgContactNumber = New System.Windows.Forms.Label()
-        Me.txtEmgContactName = New System.Windows.Forms.Label()
-        Me.lblEmgContactName = New System.Windows.Forms.Label()
-        Me.txtAllergies = New System.Windows.Forms.Label()
-        Me.lblAllergies = New System.Windows.Forms.Label()
-        Me.txtBloodType = New System.Windows.Forms.Label()
-        Me.lblBloodType = New System.Windows.Forms.Label()
         Me.lblAgencyName = New System.Windows.Forms.Label()
-        Me.lblEmer = New System.Windows.Forms.Label()
-        Me.lblPersonalInfo = New System.Windows.Forms.Label()
         Me.lblConsultation = New System.Windows.Forms.Label()
         Me.txtTimeIn = New System.Windows.Forms.MaskedTextBox()
         Me.lblTimeIn = New System.Windows.Forms.Label()
@@ -144,10 +113,55 @@ Partial Class ConsultationDetail
         Me.lblStock = New System.Windows.Forms.Label()
         Me.txtStock = New System.Windows.Forms.Label()
         Me.txtUnitName = New System.Windows.Forms.Label()
+        Me.pnlLeft = New System.Windows.Forms.Panel()
+        Me.AxAcroPDF = New AxAcroPDFLib.AxAcroPDF()
+        Me.lblDepartment = New System.Windows.Forms.Label()
+        Me.txtDepartment = New System.Windows.Forms.Label()
+        Me.lblSection = New System.Windows.Forms.Label()
+        Me.txtSection = New System.Windows.Forms.Label()
+        Me.lblPosition = New System.Windows.Forms.Label()
+        Me.txtPosition = New System.Windows.Forms.Label()
+        Me.lblEmploymentStatus = New System.Windows.Forms.Label()
+        Me.txtEmploymentStatus = New System.Windows.Forms.Label()
+        Me.lblGender = New System.Windows.Forms.Label()
+        Me.txtGender = New System.Windows.Forms.Label()
+        Me.lblAge = New System.Windows.Forms.Label()
+        Me.txtAge = New System.Windows.Forms.Label()
+        Me.lblCivilStatus = New System.Windows.Forms.Label()
+        Me.txtCivilStatus = New System.Windows.Forms.Label()
+        Me.lblContactNumber = New System.Windows.Forms.Label()
+        Me.txtContactNumber = New System.Windows.Forms.Label()
+        Me.lblLocalAddress = New System.Windows.Forms.Label()
+        Me.txtLocalAddress = New System.Windows.Forms.Label()
+        Me.lblBloodType = New System.Windows.Forms.Label()
+        Me.txtBloodType = New System.Windows.Forms.Label()
+        Me.lblAllergies = New System.Windows.Forms.Label()
+        Me.txtAllergies = New System.Windows.Forms.Label()
+        Me.lblPersonalInfo = New System.Windows.Forms.Label()
+        Me.lblEmgContactName = New System.Windows.Forms.Label()
+        Me.txtEmgContactName = New System.Windows.Forms.Label()
+        Me.lblEmgContactNumber = New System.Windows.Forms.Label()
+        Me.txtEmgContactNumber = New System.Windows.Forms.Label()
+        Me.lblEmgContactAddress = New System.Windows.Forms.Label()
+        Me.txtEmgContactAddress = New System.Windows.Forms.Label()
+        Me.lblEmer = New System.Windows.Forms.Label()
+        Me.lblMedHistory = New System.Windows.Forms.Label()
+        Me.lblSurgHistory = New System.Windows.Forms.Label()
+        Me.txtMedHistory = New System.Windows.Forms.Label()
+        Me.txtSurgHistory = New System.Windows.Forms.Label()
+        Me.lblObHistory = New System.Windows.Forms.Label()
+        Me.lblGp = New System.Windows.Forms.Label()
+        Me.lblG = New System.Windows.Forms.Label()
+        Me.txtObHistory = New System.Windows.Forms.Label()
+        Me.txtGp = New System.Windows.Forms.Label()
+        Me.txtG = New System.Windows.Forms.Label()
+        Me.txtMaintenance = New System.Windows.Forms.Label()
+        Me.lblMaintenance = New System.Windows.Forms.Label()
         Me.pnlAttachment.SuspendLayout()
         CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.AxAcroPDF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlLeft.SuspendLayout()
+        CType(Me.AxAcroPDF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblLmp
@@ -407,7 +421,7 @@ Partial Class ConsultationDetail
         Me.pnlAttachment.Controls.Add(Me.lblProgress)
         Me.pnlAttachment.Controls.Add(Me.pbAttachment)
         Me.pnlAttachment.Controls.Add(Me.btnView)
-        Me.pnlAttachment.Controls.Add(Me.txtAttachmentName)
+        Me.pnlAttachment.Controls.Add(Me.txtFilename)
         Me.pnlAttachment.Controls.Add(Me.btnNext)
         Me.pnlAttachment.Controls.Add(Me.btnPrevious)
         Me.pnlAttachment.Controls.Add(Me.btnRemove)
@@ -425,7 +439,7 @@ Partial Class ConsultationDetail
         Me.lblProgress.AutoSize = True
         Me.lblProgress.BackColor = System.Drawing.Color.Gainsboro
         Me.lblProgress.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblProgress.Location = New System.Drawing.Point(10, 292)
+        Me.lblProgress.Location = New System.Drawing.Point(11, 292)
         Me.lblProgress.Name = "lblProgress"
         Me.lblProgress.Size = New System.Drawing.Size(24, 15)
         Me.lblProgress.TabIndex = 575
@@ -435,7 +449,7 @@ Partial Class ConsultationDetail
         'pbAttachment
         '
         Me.pbAttachment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.pbAttachment.Location = New System.Drawing.Point(6, 288)
+        Me.pbAttachment.Location = New System.Drawing.Point(7, 288)
         Me.pbAttachment.Name = "pbAttachment"
         Me.pbAttachment.Size = New System.Drawing.Size(286, 23)
         Me.pbAttachment.TabIndex = 574
@@ -457,15 +471,15 @@ Partial Class ConsultationDetail
         Me.btnView.TabIndex = 572
         Me.btnView.TabStop = False
         '
-        'txtAttachmentName
+        'txtFilename
         '
-        Me.txtAttachmentName.AutoSize = True
-        Me.txtAttachmentName.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtAttachmentName.Location = New System.Drawing.Point(2, 3)
-        Me.txtAttachmentName.Name = "txtAttachmentName"
-        Me.txtAttachmentName.Size = New System.Drawing.Size(55, 15)
-        Me.txtAttachmentName.TabIndex = 571
-        Me.txtAttachmentName.Text = "Filename"
+        Me.txtFilename.AutoSize = True
+        Me.txtFilename.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtFilename.Location = New System.Drawing.Point(2, 3)
+        Me.txtFilename.Name = "txtFilename"
+        Me.txtFilename.Size = New System.Drawing.Size(55, 15)
+        Me.txtFilename.TabIndex = 571
+        Me.txtFilename.Text = "Filename"
         '
         'btnNext
         '
@@ -506,7 +520,7 @@ Partial Class ConsultationDetail
         Me.btnRemove.DefaultScheme = False
         Me.btnRemove.DialogResult = System.Windows.Forms.DialogResult.None
         Me.btnRemove.Font = New System.Drawing.Font("Verdana", 8.0!)
-        Me.btnRemove.Hint = "Remove"
+        Me.btnRemove.Hint = "Remove attachment"
         Me.btnRemove.Location = New System.Drawing.Point(219, 317)
         Me.btnRemove.Name = "btnRemove"
         Me.btnRemove.Scheme = PinkieControls.ButtonXP.Schemes.Blue
@@ -546,15 +560,6 @@ Partial Class ConsultationDetail
         Me.picImage.TabIndex = 576
         Me.picImage.TabStop = False
         '
-        'AxAcroPDF
-        '
-        Me.AxAcroPDF.Enabled = True
-        Me.AxAcroPDF.Location = New System.Drawing.Point(5, 21)
-        Me.AxAcroPDF.Name = "AxAcroPDF"
-        Me.AxAcroPDF.OcxState = CType(resources.GetObject("AxAcroPDF.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxAcroPDF.Size = New System.Drawing.Size(290, 292)
-        Me.AxAcroPDF.TabIndex = 577
-        '
         'txtCreatedBy
         '
         Me.txtCreatedBy.BackColor = System.Drawing.SystemColors.GradientActiveCaption
@@ -587,7 +592,7 @@ Partial Class ConsultationDetail
         Me.lblAttachmentCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblAttachmentCount.AutoSize = True
         Me.lblAttachmentCount.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblAttachmentCount.Location = New System.Drawing.Point(669, 652)
+        Me.lblAttachmentCount.Location = New System.Drawing.Point(700, 652)
         Me.lblAttachmentCount.Name = "lblAttachmentCount"
         Me.lblAttachmentCount.Size = New System.Drawing.Size(98, 15)
         Me.lblAttachmentCount.TabIndex = 572
@@ -806,87 +811,6 @@ Partial Class ConsultationDetail
         Me.txtEmployeeCode.TabIndex = 0
         Me.txtEmployeeCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'txtPosition
-        '
-        Me.txtPosition.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtPosition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtPosition.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtPosition.ForeColor = System.Drawing.Color.Black
-        Me.txtPosition.Location = New System.Drawing.Point(113, 78)
-        Me.txtPosition.Name = "txtPosition"
-        Me.txtPosition.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtPosition.Size = New System.Drawing.Size(215, 23)
-        Me.txtPosition.TabIndex = 596
-        Me.txtPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblPosition
-        '
-        Me.lblPosition.BackColor = System.Drawing.SystemColors.Control
-        Me.lblPosition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblPosition.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblPosition.ForeColor = System.Drawing.Color.Black
-        Me.lblPosition.Location = New System.Drawing.Point(4, 78)
-        Me.lblPosition.Name = "lblPosition"
-        Me.lblPosition.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblPosition.Size = New System.Drawing.Size(110, 23)
-        Me.lblPosition.TabIndex = 595
-        Me.lblPosition.Text = "Position"
-        Me.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtSection
-        '
-        Me.txtSection.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtSection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtSection.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtSection.ForeColor = System.Drawing.Color.Black
-        Me.txtSection.Location = New System.Drawing.Point(113, 53)
-        Me.txtSection.Name = "txtSection"
-        Me.txtSection.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtSection.Size = New System.Drawing.Size(215, 23)
-        Me.txtSection.TabIndex = 594
-        Me.txtSection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblSection
-        '
-        Me.lblSection.BackColor = System.Drawing.SystemColors.Control
-        Me.lblSection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblSection.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblSection.ForeColor = System.Drawing.Color.Black
-        Me.lblSection.Location = New System.Drawing.Point(4, 53)
-        Me.lblSection.Name = "lblSection"
-        Me.lblSection.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblSection.Size = New System.Drawing.Size(110, 23)
-        Me.lblSection.TabIndex = 593
-        Me.lblSection.Text = "Section"
-        Me.lblSection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtDepartment
-        '
-        Me.txtDepartment.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtDepartment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtDepartment.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtDepartment.ForeColor = System.Drawing.Color.Black
-        Me.txtDepartment.Location = New System.Drawing.Point(113, 28)
-        Me.txtDepartment.Name = "txtDepartment"
-        Me.txtDepartment.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtDepartment.Size = New System.Drawing.Size(215, 23)
-        Me.txtDepartment.TabIndex = 592
-        Me.txtDepartment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblDepartment
-        '
-        Me.lblDepartment.BackColor = System.Drawing.SystemColors.Control
-        Me.lblDepartment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblDepartment.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblDepartment.ForeColor = System.Drawing.Color.Black
-        Me.lblDepartment.Location = New System.Drawing.Point(4, 28)
-        Me.lblDepartment.Name = "lblDepartment"
-        Me.lblDepartment.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblDepartment.Size = New System.Drawing.Size(110, 23)
-        Me.lblDepartment.TabIndex = 591
-        Me.lblDepartment.Text = "Department"
-        Me.lblDepartment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'txtEmployeeName
         '
         Me.txtEmployeeName.BackColor = System.Drawing.SystemColors.GradientActiveCaption
@@ -914,297 +838,6 @@ Partial Class ConsultationDetail
         Me.lblEmployeeName.Text = "Employee Name"
         Me.lblEmployeeName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'txtEmploymentStatus
-        '
-        Me.txtEmploymentStatus.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtEmploymentStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtEmploymentStatus.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtEmploymentStatus.ForeColor = System.Drawing.Color.Black
-        Me.txtEmploymentStatus.Location = New System.Drawing.Point(113, 103)
-        Me.txtEmploymentStatus.Name = "txtEmploymentStatus"
-        Me.txtEmploymentStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtEmploymentStatus.Size = New System.Drawing.Size(215, 23)
-        Me.txtEmploymentStatus.TabIndex = 598
-        Me.txtEmploymentStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblEmploymentStatus
-        '
-        Me.lblEmploymentStatus.BackColor = System.Drawing.SystemColors.Control
-        Me.lblEmploymentStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblEmploymentStatus.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblEmploymentStatus.ForeColor = System.Drawing.Color.Black
-        Me.lblEmploymentStatus.Location = New System.Drawing.Point(4, 103)
-        Me.lblEmploymentStatus.Name = "lblEmploymentStatus"
-        Me.lblEmploymentStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblEmploymentStatus.Size = New System.Drawing.Size(110, 23)
-        Me.lblEmploymentStatus.TabIndex = 597
-        Me.lblEmploymentStatus.Text = "Emp. Status"
-        Me.lblEmploymentStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtContactNumber
-        '
-        Me.txtContactNumber.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtContactNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtContactNumber.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtContactNumber.ForeColor = System.Drawing.Color.Black
-        Me.txtContactNumber.Location = New System.Drawing.Point(113, 203)
-        Me.txtContactNumber.Name = "txtContactNumber"
-        Me.txtContactNumber.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtContactNumber.Size = New System.Drawing.Size(215, 23)
-        Me.txtContactNumber.TabIndex = 606
-        Me.txtContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblContactNumber
-        '
-        Me.lblContactNumber.BackColor = System.Drawing.SystemColors.Control
-        Me.lblContactNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblContactNumber.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblContactNumber.ForeColor = System.Drawing.Color.Black
-        Me.lblContactNumber.Location = New System.Drawing.Point(4, 203)
-        Me.lblContactNumber.Name = "lblContactNumber"
-        Me.lblContactNumber.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblContactNumber.Size = New System.Drawing.Size(110, 23)
-        Me.lblContactNumber.TabIndex = 605
-        Me.lblContactNumber.Text = "Contact Number"
-        Me.lblContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtCivilStatus
-        '
-        Me.txtCivilStatus.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtCivilStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtCivilStatus.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtCivilStatus.ForeColor = System.Drawing.Color.Black
-        Me.txtCivilStatus.Location = New System.Drawing.Point(113, 178)
-        Me.txtCivilStatus.Name = "txtCivilStatus"
-        Me.txtCivilStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtCivilStatus.Size = New System.Drawing.Size(215, 23)
-        Me.txtCivilStatus.TabIndex = 604
-        Me.txtCivilStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblCivilStatus
-        '
-        Me.lblCivilStatus.BackColor = System.Drawing.SystemColors.Control
-        Me.lblCivilStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblCivilStatus.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblCivilStatus.ForeColor = System.Drawing.Color.Black
-        Me.lblCivilStatus.Location = New System.Drawing.Point(4, 178)
-        Me.lblCivilStatus.Name = "lblCivilStatus"
-        Me.lblCivilStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblCivilStatus.Size = New System.Drawing.Size(110, 23)
-        Me.lblCivilStatus.TabIndex = 603
-        Me.lblCivilStatus.Text = "Civil Status"
-        Me.lblCivilStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtAge
-        '
-        Me.txtAge.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtAge.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtAge.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtAge.ForeColor = System.Drawing.Color.Black
-        Me.txtAge.Location = New System.Drawing.Point(113, 153)
-        Me.txtAge.Name = "txtAge"
-        Me.txtAge.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtAge.Size = New System.Drawing.Size(215, 23)
-        Me.txtAge.TabIndex = 602
-        Me.txtAge.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblAge
-        '
-        Me.lblAge.BackColor = System.Drawing.SystemColors.Control
-        Me.lblAge.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblAge.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblAge.ForeColor = System.Drawing.Color.Black
-        Me.lblAge.Location = New System.Drawing.Point(4, 153)
-        Me.lblAge.Name = "lblAge"
-        Me.lblAge.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblAge.Size = New System.Drawing.Size(110, 23)
-        Me.lblAge.TabIndex = 601
-        Me.lblAge.Text = "Age"
-        Me.lblAge.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtGender
-        '
-        Me.txtGender.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtGender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtGender.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtGender.ForeColor = System.Drawing.Color.Black
-        Me.txtGender.Location = New System.Drawing.Point(113, 128)
-        Me.txtGender.Name = "txtGender"
-        Me.txtGender.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtGender.Size = New System.Drawing.Size(215, 23)
-        Me.txtGender.TabIndex = 600
-        Me.txtGender.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblGender
-        '
-        Me.lblGender.BackColor = System.Drawing.SystemColors.Control
-        Me.lblGender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblGender.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblGender.ForeColor = System.Drawing.Color.Black
-        Me.lblGender.Location = New System.Drawing.Point(4, 128)
-        Me.lblGender.Name = "lblGender"
-        Me.lblGender.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblGender.Size = New System.Drawing.Size(110, 23)
-        Me.lblGender.TabIndex = 599
-        Me.lblGender.Text = "Gender"
-        Me.lblGender.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtLocalAddress
-        '
-        Me.txtLocalAddress.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtLocalAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtLocalAddress.Font = New System.Drawing.Font("Segoe UI", 8.0!)
-        Me.txtLocalAddress.ForeColor = System.Drawing.Color.Black
-        Me.txtLocalAddress.Location = New System.Drawing.Point(113, 228)
-        Me.txtLocalAddress.Name = "txtLocalAddress"
-        Me.txtLocalAddress.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
-        Me.txtLocalAddress.Size = New System.Drawing.Size(215, 48)
-        Me.txtLocalAddress.TabIndex = 608
-        '
-        'lblLocalAddress
-        '
-        Me.lblLocalAddress.BackColor = System.Drawing.SystemColors.Control
-        Me.lblLocalAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblLocalAddress.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblLocalAddress.ForeColor = System.Drawing.Color.Black
-        Me.lblLocalAddress.Location = New System.Drawing.Point(4, 228)
-        Me.lblLocalAddress.Name = "lblLocalAddress"
-        Me.lblLocalAddress.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
-        Me.lblLocalAddress.Size = New System.Drawing.Size(110, 48)
-        Me.lblLocalAddress.TabIndex = 607
-        Me.lblLocalAddress.Text = "Local Address"
-        '
-        'txtEmgContactAddress
-        '
-        Me.txtEmgContactAddress.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtEmgContactAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtEmgContactAddress.Font = New System.Drawing.Font("Segoe UI", 8.0!)
-        Me.txtEmgContactAddress.ForeColor = System.Drawing.Color.Black
-        Me.txtEmgContactAddress.Location = New System.Drawing.Point(113, 427)
-        Me.txtEmgContactAddress.Name = "txtEmgContactAddress"
-        Me.txtEmgContactAddress.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
-        Me.txtEmgContactAddress.Size = New System.Drawing.Size(215, 49)
-        Me.txtEmgContactAddress.TabIndex = 618
-        '
-        'lblEmgContactAddress
-        '
-        Me.lblEmgContactAddress.BackColor = System.Drawing.SystemColors.Control
-        Me.lblEmgContactAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblEmgContactAddress.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblEmgContactAddress.ForeColor = System.Drawing.Color.Black
-        Me.lblEmgContactAddress.Location = New System.Drawing.Point(4, 427)
-        Me.lblEmgContactAddress.Name = "lblEmgContactAddress"
-        Me.lblEmgContactAddress.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
-        Me.lblEmgContactAddress.Size = New System.Drawing.Size(110, 49)
-        Me.lblEmgContactAddress.TabIndex = 617
-        Me.lblEmgContactAddress.Text = "Address"
-        '
-        'txtEmgContactNumber
-        '
-        Me.txtEmgContactNumber.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtEmgContactNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtEmgContactNumber.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtEmgContactNumber.ForeColor = System.Drawing.Color.Black
-        Me.txtEmgContactNumber.Location = New System.Drawing.Point(113, 402)
-        Me.txtEmgContactNumber.Name = "txtEmgContactNumber"
-        Me.txtEmgContactNumber.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtEmgContactNumber.Size = New System.Drawing.Size(215, 23)
-        Me.txtEmgContactNumber.TabIndex = 616
-        Me.txtEmgContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblEmgContactNumber
-        '
-        Me.lblEmgContactNumber.BackColor = System.Drawing.SystemColors.Control
-        Me.lblEmgContactNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblEmgContactNumber.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblEmgContactNumber.ForeColor = System.Drawing.Color.Black
-        Me.lblEmgContactNumber.Location = New System.Drawing.Point(4, 402)
-        Me.lblEmgContactNumber.Name = "lblEmgContactNumber"
-        Me.lblEmgContactNumber.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblEmgContactNumber.Size = New System.Drawing.Size(110, 23)
-        Me.lblEmgContactNumber.TabIndex = 615
-        Me.lblEmgContactNumber.Text = "Contact Number"
-        Me.lblEmgContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtEmgContactName
-        '
-        Me.txtEmgContactName.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtEmgContactName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtEmgContactName.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtEmgContactName.ForeColor = System.Drawing.Color.Black
-        Me.txtEmgContactName.Location = New System.Drawing.Point(113, 377)
-        Me.txtEmgContactName.Name = "txtEmgContactName"
-        Me.txtEmgContactName.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtEmgContactName.Size = New System.Drawing.Size(215, 23)
-        Me.txtEmgContactName.TabIndex = 614
-        Me.txtEmgContactName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblEmgContactName
-        '
-        Me.lblEmgContactName.BackColor = System.Drawing.SystemColors.Control
-        Me.lblEmgContactName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblEmgContactName.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblEmgContactName.ForeColor = System.Drawing.Color.Black
-        Me.lblEmgContactName.Location = New System.Drawing.Point(4, 377)
-        Me.lblEmgContactName.Name = "lblEmgContactName"
-        Me.lblEmgContactName.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblEmgContactName.Size = New System.Drawing.Size(110, 23)
-        Me.lblEmgContactName.TabIndex = 613
-        Me.lblEmgContactName.Text = "Name"
-        Me.lblEmgContactName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtAllergies
-        '
-        Me.txtAllergies.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtAllergies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtAllergies.Font = New System.Drawing.Font("Segoe UI", 8.0!)
-        Me.txtAllergies.ForeColor = System.Drawing.Color.Black
-        Me.txtAllergies.Location = New System.Drawing.Point(113, 303)
-        Me.txtAllergies.Name = "txtAllergies"
-        Me.txtAllergies.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
-        Me.txtAllergies.Size = New System.Drawing.Size(215, 48)
-        Me.txtAllergies.TabIndex = 612
-        '
-        'lblAllergies
-        '
-        Me.lblAllergies.BackColor = System.Drawing.SystemColors.Control
-        Me.lblAllergies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblAllergies.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblAllergies.ForeColor = System.Drawing.Color.Black
-        Me.lblAllergies.Location = New System.Drawing.Point(4, 303)
-        Me.lblAllergies.Name = "lblAllergies"
-        Me.lblAllergies.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
-        Me.lblAllergies.Size = New System.Drawing.Size(110, 48)
-        Me.lblAllergies.TabIndex = 611
-        Me.lblAllergies.Text = "Allergies"
-        '
-        'txtBloodType
-        '
-        Me.txtBloodType.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.txtBloodType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBloodType.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.txtBloodType.ForeColor = System.Drawing.Color.Black
-        Me.txtBloodType.Location = New System.Drawing.Point(113, 278)
-        Me.txtBloodType.Name = "txtBloodType"
-        Me.txtBloodType.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.txtBloodType.Size = New System.Drawing.Size(215, 23)
-        Me.txtBloodType.TabIndex = 610
-        Me.txtBloodType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblBloodType
-        '
-        Me.lblBloodType.BackColor = System.Drawing.SystemColors.Control
-        Me.lblBloodType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblBloodType.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblBloodType.ForeColor = System.Drawing.Color.Black
-        Me.lblBloodType.Location = New System.Drawing.Point(4, 278)
-        Me.lblBloodType.Name = "lblBloodType"
-        Me.lblBloodType.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.lblBloodType.Size = New System.Drawing.Size(110, 23)
-        Me.lblBloodType.TabIndex = 609
-        Me.lblBloodType.Text = "Blood Type"
-        Me.lblBloodType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'lblAgencyName
         '
         Me.lblAgencyName.BackColor = System.Drawing.SystemColors.GradientActiveCaption
@@ -1217,32 +850,6 @@ Partial Class ConsultationDetail
         Me.lblAgencyName.Size = New System.Drawing.Size(127, 23)
         Me.lblAgencyName.TabIndex = 619
         Me.lblAgencyName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'lblEmer
-        '
-        Me.lblEmer.BackColor = System.Drawing.Color.DarkSlateGray
-        Me.lblEmer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblEmer.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblEmer.ForeColor = System.Drawing.Color.White
-        Me.lblEmer.Location = New System.Drawing.Point(4, 353)
-        Me.lblEmer.Name = "lblEmer"
-        Me.lblEmer.Size = New System.Drawing.Size(324, 22)
-        Me.lblEmer.TabIndex = 621
-        Me.lblEmer.Text = "Emergency Contact Reference"
-        Me.lblEmer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'lblPersonalInfo
-        '
-        Me.lblPersonalInfo.BackColor = System.Drawing.Color.DarkSlateGray
-        Me.lblPersonalInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblPersonalInfo.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPersonalInfo.ForeColor = System.Drawing.Color.White
-        Me.lblPersonalInfo.Location = New System.Drawing.Point(4, 4)
-        Me.lblPersonalInfo.Name = "lblPersonalInfo"
-        Me.lblPersonalInfo.Size = New System.Drawing.Size(324, 22)
-        Me.lblPersonalInfo.TabIndex = 623
-        Me.lblPersonalInfo.Text = "Personal Information"
-        Me.lblPersonalInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'lblConsultation
         '
@@ -1491,12 +1098,14 @@ Partial Class ConsultationDetail
         '
         'cmbMedicine
         '
+        Me.cmbMedicine.DisplayMember = "MedicineName"
         Me.cmbMedicine.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmbMedicine.FormattingEnabled = True
         Me.cmbMedicine.Location = New System.Drawing.Point(439, 453)
         Me.cmbMedicine.Name = "cmbMedicine"
         Me.cmbMedicine.Size = New System.Drawing.Size(230, 23)
         Me.cmbMedicine.TabIndex = 18
+        Me.cmbMedicine.ValueMember = "MedicineId"
         '
         'lblMedQty
         '
@@ -1527,14 +1136,14 @@ Partial Class ConsultationDetail
         Me.btnRemoveRow.DefaultScheme = False
         Me.btnRemoveRow.DialogResult = System.Windows.Forms.DialogResult.None
         Me.btnRemoveRow.Font = New System.Drawing.Font("Verdana", 8.0!)
-        Me.btnRemoveRow.Hint = "Remove"
-        Me.btnRemoveRow.Location = New System.Drawing.Point(883, 477)
+        Me.btnRemoveRow.Hint = "Remove highlighted medicine from the list"
+        Me.btnRemoveRow.Location = New System.Drawing.Point(832, 477)
         Me.btnRemoveRow.Name = "btnRemoveRow"
         Me.btnRemoveRow.Scheme = PinkieControls.ButtonXP.Schemes.Blue
-        Me.btnRemoveRow.Size = New System.Drawing.Size(90, 28)
+        Me.btnRemoveRow.Size = New System.Drawing.Size(140, 28)
         Me.btnRemoveRow.TabIndex = 645
         Me.btnRemoveRow.TabStop = False
-        Me.btnRemoveRow.Text = "Remove"
+        Me.btnRemoveRow.Text = "Remove Medicine"
         '
         'btnAddRow
         '
@@ -1542,21 +1151,21 @@ Partial Class ConsultationDetail
         Me.btnAddRow.DefaultScheme = False
         Me.btnAddRow.DialogResult = System.Windows.Forms.DialogResult.None
         Me.btnAddRow.Font = New System.Drawing.Font("Verdana", 8.0!)
-        Me.btnAddRow.Hint = "Browse files"
-        Me.btnAddRow.Location = New System.Drawing.Point(791, 477)
+        Me.btnAddRow.Hint = "Add selected medicine to the list"
+        Me.btnAddRow.Location = New System.Drawing.Point(672, 477)
         Me.btnAddRow.Name = "btnAddRow"
         Me.btnAddRow.Scheme = PinkieControls.ButtonXP.Schemes.Blue
-        Me.btnAddRow.Size = New System.Drawing.Size(90, 28)
+        Me.btnAddRow.Size = New System.Drawing.Size(157, 28)
         Me.btnAddRow.TabIndex = 644
         Me.btnAddRow.TabStop = False
-        Me.btnAddRow.Text = "Add"
+        Me.btnAddRow.Text = "Add Medicine"
         '
         'lblMedicineCount
         '
         Me.lblMedicineCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblMedicineCount.AutoSize = True
         Me.lblMedicineCount.Font = New System.Drawing.Font("Segoe UI", 8.5!)
-        Me.lblMedicineCount.Location = New System.Drawing.Point(327, 652)
+        Me.lblMedicineCount.Location = New System.Drawing.Point(346, 652)
         Me.lblMedicineCount.Name = "lblMedicineCount"
         Me.lblMedicineCount.Size = New System.Drawing.Size(84, 15)
         Me.lblMedicineCount.TabIndex = 647
@@ -1689,6 +1298,632 @@ Partial Class ConsultationDetail
         Me.txtUnitName.TabIndex = 655
         Me.txtUnitName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'pnlLeft
+        '
+        Me.pnlLeft.AutoScroll = True
+        Me.pnlLeft.Controls.Add(Me.txtMaintenance)
+        Me.pnlLeft.Controls.Add(Me.lblMaintenance)
+        Me.pnlLeft.Controls.Add(Me.txtG)
+        Me.pnlLeft.Controls.Add(Me.txtGp)
+        Me.pnlLeft.Controls.Add(Me.txtObHistory)
+        Me.pnlLeft.Controls.Add(Me.lblG)
+        Me.pnlLeft.Controls.Add(Me.lblGp)
+        Me.pnlLeft.Controls.Add(Me.lblObHistory)
+        Me.pnlLeft.Controls.Add(Me.txtSurgHistory)
+        Me.pnlLeft.Controls.Add(Me.txtMedHistory)
+        Me.pnlLeft.Controls.Add(Me.lblSurgHistory)
+        Me.pnlLeft.Controls.Add(Me.lblMedHistory)
+        Me.pnlLeft.Controls.Add(Me.lblEmer)
+        Me.pnlLeft.Controls.Add(Me.txtEmgContactAddress)
+        Me.pnlLeft.Controls.Add(Me.lblEmgContactAddress)
+        Me.pnlLeft.Controls.Add(Me.txtEmgContactNumber)
+        Me.pnlLeft.Controls.Add(Me.lblEmgContactNumber)
+        Me.pnlLeft.Controls.Add(Me.txtEmgContactName)
+        Me.pnlLeft.Controls.Add(Me.lblEmgContactName)
+        Me.pnlLeft.Controls.Add(Me.lblPersonalInfo)
+        Me.pnlLeft.Controls.Add(Me.txtAllergies)
+        Me.pnlLeft.Controls.Add(Me.lblAllergies)
+        Me.pnlLeft.Controls.Add(Me.txtBloodType)
+        Me.pnlLeft.Controls.Add(Me.lblBloodType)
+        Me.pnlLeft.Controls.Add(Me.txtLocalAddress)
+        Me.pnlLeft.Controls.Add(Me.lblLocalAddress)
+        Me.pnlLeft.Controls.Add(Me.txtContactNumber)
+        Me.pnlLeft.Controls.Add(Me.lblContactNumber)
+        Me.pnlLeft.Controls.Add(Me.txtCivilStatus)
+        Me.pnlLeft.Controls.Add(Me.lblCivilStatus)
+        Me.pnlLeft.Controls.Add(Me.txtAge)
+        Me.pnlLeft.Controls.Add(Me.lblAge)
+        Me.pnlLeft.Controls.Add(Me.txtGender)
+        Me.pnlLeft.Controls.Add(Me.lblGender)
+        Me.pnlLeft.Controls.Add(Me.txtEmploymentStatus)
+        Me.pnlLeft.Controls.Add(Me.lblEmploymentStatus)
+        Me.pnlLeft.Controls.Add(Me.txtPosition)
+        Me.pnlLeft.Controls.Add(Me.lblPosition)
+        Me.pnlLeft.Controls.Add(Me.txtSection)
+        Me.pnlLeft.Controls.Add(Me.lblSection)
+        Me.pnlLeft.Controls.Add(Me.txtDepartment)
+        Me.pnlLeft.Controls.Add(Me.lblDepartment)
+        Me.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left
+        Me.pnlLeft.Location = New System.Drawing.Point(0, 0)
+        Me.pnlLeft.Name = "pnlLeft"
+        Me.pnlLeft.Size = New System.Drawing.Size(330, 699)
+        Me.pnlLeft.TabIndex = 656
+        '
+        'AxAcroPDF
+        '
+        Me.AxAcroPDF.Enabled = True
+        Me.AxAcroPDF.Location = New System.Drawing.Point(5, 21)
+        Me.AxAcroPDF.Name = "AxAcroPDF"
+        Me.AxAcroPDF.OcxState = CType(resources.GetObject("AxAcroPDF.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.AxAcroPDF.Size = New System.Drawing.Size(290, 292)
+        Me.AxAcroPDF.TabIndex = 577
+        '
+        'lblDepartment
+        '
+        Me.lblDepartment.BackColor = System.Drawing.SystemColors.Control
+        Me.lblDepartment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblDepartment.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblDepartment.ForeColor = System.Drawing.Color.Black
+        Me.lblDepartment.Location = New System.Drawing.Point(2, 29)
+        Me.lblDepartment.Name = "lblDepartment"
+        Me.lblDepartment.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblDepartment.Size = New System.Drawing.Size(110, 23)
+        Me.lblDepartment.TabIndex = 669
+        Me.lblDepartment.Text = "Department"
+        Me.lblDepartment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtDepartment
+        '
+        Me.txtDepartment.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtDepartment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtDepartment.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtDepartment.ForeColor = System.Drawing.Color.Black
+        Me.txtDepartment.Location = New System.Drawing.Point(111, 29)
+        Me.txtDepartment.Name = "txtDepartment"
+        Me.txtDepartment.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtDepartment.Size = New System.Drawing.Size(200, 23)
+        Me.txtDepartment.TabIndex = 670
+        Me.txtDepartment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblSection
+        '
+        Me.lblSection.BackColor = System.Drawing.SystemColors.Control
+        Me.lblSection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblSection.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblSection.ForeColor = System.Drawing.Color.Black
+        Me.lblSection.Location = New System.Drawing.Point(2, 54)
+        Me.lblSection.Name = "lblSection"
+        Me.lblSection.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblSection.Size = New System.Drawing.Size(110, 23)
+        Me.lblSection.TabIndex = 671
+        Me.lblSection.Text = "Section"
+        Me.lblSection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtSection
+        '
+        Me.txtSection.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtSection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtSection.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtSection.ForeColor = System.Drawing.Color.Black
+        Me.txtSection.Location = New System.Drawing.Point(111, 54)
+        Me.txtSection.Name = "txtSection"
+        Me.txtSection.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtSection.Size = New System.Drawing.Size(200, 23)
+        Me.txtSection.TabIndex = 672
+        Me.txtSection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblPosition
+        '
+        Me.lblPosition.BackColor = System.Drawing.SystemColors.Control
+        Me.lblPosition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblPosition.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblPosition.ForeColor = System.Drawing.Color.Black
+        Me.lblPosition.Location = New System.Drawing.Point(2, 79)
+        Me.lblPosition.Name = "lblPosition"
+        Me.lblPosition.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblPosition.Size = New System.Drawing.Size(110, 23)
+        Me.lblPosition.TabIndex = 673
+        Me.lblPosition.Text = "Position"
+        Me.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtPosition
+        '
+        Me.txtPosition.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtPosition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtPosition.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtPosition.ForeColor = System.Drawing.Color.Black
+        Me.txtPosition.Location = New System.Drawing.Point(111, 79)
+        Me.txtPosition.Name = "txtPosition"
+        Me.txtPosition.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtPosition.Size = New System.Drawing.Size(200, 23)
+        Me.txtPosition.TabIndex = 674
+        Me.txtPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblEmploymentStatus
+        '
+        Me.lblEmploymentStatus.BackColor = System.Drawing.SystemColors.Control
+        Me.lblEmploymentStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblEmploymentStatus.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblEmploymentStatus.ForeColor = System.Drawing.Color.Black
+        Me.lblEmploymentStatus.Location = New System.Drawing.Point(2, 104)
+        Me.lblEmploymentStatus.Name = "lblEmploymentStatus"
+        Me.lblEmploymentStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblEmploymentStatus.Size = New System.Drawing.Size(110, 23)
+        Me.lblEmploymentStatus.TabIndex = 675
+        Me.lblEmploymentStatus.Text = "Emp. Status"
+        Me.lblEmploymentStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtEmploymentStatus
+        '
+        Me.txtEmploymentStatus.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtEmploymentStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtEmploymentStatus.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtEmploymentStatus.ForeColor = System.Drawing.Color.Black
+        Me.txtEmploymentStatus.Location = New System.Drawing.Point(111, 104)
+        Me.txtEmploymentStatus.Name = "txtEmploymentStatus"
+        Me.txtEmploymentStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtEmploymentStatus.Size = New System.Drawing.Size(200, 23)
+        Me.txtEmploymentStatus.TabIndex = 676
+        Me.txtEmploymentStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblGender
+        '
+        Me.lblGender.BackColor = System.Drawing.SystemColors.Control
+        Me.lblGender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblGender.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblGender.ForeColor = System.Drawing.Color.Black
+        Me.lblGender.Location = New System.Drawing.Point(2, 129)
+        Me.lblGender.Name = "lblGender"
+        Me.lblGender.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblGender.Size = New System.Drawing.Size(110, 23)
+        Me.lblGender.TabIndex = 677
+        Me.lblGender.Text = "Gender"
+        Me.lblGender.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtGender
+        '
+        Me.txtGender.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtGender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtGender.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtGender.ForeColor = System.Drawing.Color.Black
+        Me.txtGender.Location = New System.Drawing.Point(111, 129)
+        Me.txtGender.Name = "txtGender"
+        Me.txtGender.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtGender.Size = New System.Drawing.Size(200, 23)
+        Me.txtGender.TabIndex = 678
+        Me.txtGender.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblAge
+        '
+        Me.lblAge.BackColor = System.Drawing.SystemColors.Control
+        Me.lblAge.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblAge.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblAge.ForeColor = System.Drawing.Color.Black
+        Me.lblAge.Location = New System.Drawing.Point(2, 154)
+        Me.lblAge.Name = "lblAge"
+        Me.lblAge.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblAge.Size = New System.Drawing.Size(110, 23)
+        Me.lblAge.TabIndex = 679
+        Me.lblAge.Text = "Age"
+        Me.lblAge.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtAge
+        '
+        Me.txtAge.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtAge.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtAge.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtAge.ForeColor = System.Drawing.Color.Black
+        Me.txtAge.Location = New System.Drawing.Point(111, 154)
+        Me.txtAge.Name = "txtAge"
+        Me.txtAge.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtAge.Size = New System.Drawing.Size(200, 23)
+        Me.txtAge.TabIndex = 680
+        Me.txtAge.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblCivilStatus
+        '
+        Me.lblCivilStatus.BackColor = System.Drawing.SystemColors.Control
+        Me.lblCivilStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblCivilStatus.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblCivilStatus.ForeColor = System.Drawing.Color.Black
+        Me.lblCivilStatus.Location = New System.Drawing.Point(2, 179)
+        Me.lblCivilStatus.Name = "lblCivilStatus"
+        Me.lblCivilStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblCivilStatus.Size = New System.Drawing.Size(110, 23)
+        Me.lblCivilStatus.TabIndex = 681
+        Me.lblCivilStatus.Text = "Civil Status"
+        Me.lblCivilStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtCivilStatus
+        '
+        Me.txtCivilStatus.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtCivilStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtCivilStatus.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtCivilStatus.ForeColor = System.Drawing.Color.Black
+        Me.txtCivilStatus.Location = New System.Drawing.Point(111, 179)
+        Me.txtCivilStatus.Name = "txtCivilStatus"
+        Me.txtCivilStatus.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtCivilStatus.Size = New System.Drawing.Size(200, 23)
+        Me.txtCivilStatus.TabIndex = 682
+        Me.txtCivilStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblContactNumber
+        '
+        Me.lblContactNumber.BackColor = System.Drawing.SystemColors.Control
+        Me.lblContactNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblContactNumber.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblContactNumber.ForeColor = System.Drawing.Color.Black
+        Me.lblContactNumber.Location = New System.Drawing.Point(2, 204)
+        Me.lblContactNumber.Name = "lblContactNumber"
+        Me.lblContactNumber.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblContactNumber.Size = New System.Drawing.Size(110, 23)
+        Me.lblContactNumber.TabIndex = 683
+        Me.lblContactNumber.Text = "Contact Number"
+        Me.lblContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtContactNumber
+        '
+        Me.txtContactNumber.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtContactNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtContactNumber.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtContactNumber.ForeColor = System.Drawing.Color.Black
+        Me.txtContactNumber.Location = New System.Drawing.Point(111, 204)
+        Me.txtContactNumber.Name = "txtContactNumber"
+        Me.txtContactNumber.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtContactNumber.Size = New System.Drawing.Size(200, 23)
+        Me.txtContactNumber.TabIndex = 684
+        Me.txtContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblLocalAddress
+        '
+        Me.lblLocalAddress.BackColor = System.Drawing.SystemColors.Control
+        Me.lblLocalAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblLocalAddress.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblLocalAddress.ForeColor = System.Drawing.Color.Black
+        Me.lblLocalAddress.Location = New System.Drawing.Point(2, 229)
+        Me.lblLocalAddress.Name = "lblLocalAddress"
+        Me.lblLocalAddress.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblLocalAddress.Size = New System.Drawing.Size(110, 35)
+        Me.lblLocalAddress.TabIndex = 685
+        Me.lblLocalAddress.Text = "Local Address"
+        Me.lblLocalAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtLocalAddress
+        '
+        Me.txtLocalAddress.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtLocalAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtLocalAddress.Font = New System.Drawing.Font("Segoe UI", 8.0!)
+        Me.txtLocalAddress.ForeColor = System.Drawing.Color.Black
+        Me.txtLocalAddress.Location = New System.Drawing.Point(111, 229)
+        Me.txtLocalAddress.Name = "txtLocalAddress"
+        Me.txtLocalAddress.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
+        Me.txtLocalAddress.Size = New System.Drawing.Size(200, 35)
+        Me.txtLocalAddress.TabIndex = 686
+        Me.txtLocalAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblBloodType
+        '
+        Me.lblBloodType.BackColor = System.Drawing.SystemColors.Control
+        Me.lblBloodType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblBloodType.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblBloodType.ForeColor = System.Drawing.Color.Black
+        Me.lblBloodType.Location = New System.Drawing.Point(2, 266)
+        Me.lblBloodType.Name = "lblBloodType"
+        Me.lblBloodType.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblBloodType.Size = New System.Drawing.Size(110, 23)
+        Me.lblBloodType.TabIndex = 687
+        Me.lblBloodType.Text = "Blood Type"
+        Me.lblBloodType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtBloodType
+        '
+        Me.txtBloodType.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtBloodType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtBloodType.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtBloodType.ForeColor = System.Drawing.Color.Black
+        Me.txtBloodType.Location = New System.Drawing.Point(111, 266)
+        Me.txtBloodType.Name = "txtBloodType"
+        Me.txtBloodType.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtBloodType.Size = New System.Drawing.Size(200, 23)
+        Me.txtBloodType.TabIndex = 688
+        Me.txtBloodType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblAllergies
+        '
+        Me.lblAllergies.BackColor = System.Drawing.SystemColors.Control
+        Me.lblAllergies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblAllergies.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblAllergies.ForeColor = System.Drawing.Color.Black
+        Me.lblAllergies.Location = New System.Drawing.Point(2, 291)
+        Me.lblAllergies.Name = "lblAllergies"
+        Me.lblAllergies.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
+        Me.lblAllergies.Size = New System.Drawing.Size(110, 35)
+        Me.lblAllergies.TabIndex = 689
+        Me.lblAllergies.Text = "Allergies"
+        Me.lblAllergies.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtAllergies
+        '
+        Me.txtAllergies.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtAllergies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtAllergies.Font = New System.Drawing.Font("Segoe UI", 8.0!)
+        Me.txtAllergies.ForeColor = System.Drawing.Color.Black
+        Me.txtAllergies.Location = New System.Drawing.Point(111, 291)
+        Me.txtAllergies.Name = "txtAllergies"
+        Me.txtAllergies.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
+        Me.txtAllergies.Size = New System.Drawing.Size(200, 35)
+        Me.txtAllergies.TabIndex = 690
+        Me.txtAllergies.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblPersonalInfo
+        '
+        Me.lblPersonalInfo.BackColor = System.Drawing.Color.DarkSlateGray
+        Me.lblPersonalInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblPersonalInfo.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPersonalInfo.ForeColor = System.Drawing.Color.White
+        Me.lblPersonalInfo.Location = New System.Drawing.Point(2, 5)
+        Me.lblPersonalInfo.Name = "lblPersonalInfo"
+        Me.lblPersonalInfo.Size = New System.Drawing.Size(309, 22)
+        Me.lblPersonalInfo.TabIndex = 698
+        Me.lblPersonalInfo.Text = "Personal Information"
+        Me.lblPersonalInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'lblEmgContactName
+        '
+        Me.lblEmgContactName.BackColor = System.Drawing.SystemColors.Control
+        Me.lblEmgContactName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblEmgContactName.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblEmgContactName.ForeColor = System.Drawing.Color.Black
+        Me.lblEmgContactName.Location = New System.Drawing.Point(2, 632)
+        Me.lblEmgContactName.Name = "lblEmgContactName"
+        Me.lblEmgContactName.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblEmgContactName.Size = New System.Drawing.Size(110, 23)
+        Me.lblEmgContactName.TabIndex = 691
+        Me.lblEmgContactName.Text = "Name"
+        Me.lblEmgContactName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtEmgContactName
+        '
+        Me.txtEmgContactName.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtEmgContactName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtEmgContactName.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtEmgContactName.ForeColor = System.Drawing.Color.Black
+        Me.txtEmgContactName.Location = New System.Drawing.Point(111, 632)
+        Me.txtEmgContactName.Name = "txtEmgContactName"
+        Me.txtEmgContactName.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtEmgContactName.Size = New System.Drawing.Size(200, 23)
+        Me.txtEmgContactName.TabIndex = 692
+        Me.txtEmgContactName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblEmgContactNumber
+        '
+        Me.lblEmgContactNumber.BackColor = System.Drawing.SystemColors.Control
+        Me.lblEmgContactNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblEmgContactNumber.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblEmgContactNumber.ForeColor = System.Drawing.Color.Black
+        Me.lblEmgContactNumber.Location = New System.Drawing.Point(2, 657)
+        Me.lblEmgContactNumber.Name = "lblEmgContactNumber"
+        Me.lblEmgContactNumber.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblEmgContactNumber.Size = New System.Drawing.Size(110, 23)
+        Me.lblEmgContactNumber.TabIndex = 693
+        Me.lblEmgContactNumber.Text = "Contact Number"
+        Me.lblEmgContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtEmgContactNumber
+        '
+        Me.txtEmgContactNumber.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtEmgContactNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtEmgContactNumber.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtEmgContactNumber.ForeColor = System.Drawing.Color.Black
+        Me.txtEmgContactNumber.Location = New System.Drawing.Point(111, 657)
+        Me.txtEmgContactNumber.Name = "txtEmgContactNumber"
+        Me.txtEmgContactNumber.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtEmgContactNumber.Size = New System.Drawing.Size(200, 23)
+        Me.txtEmgContactNumber.TabIndex = 694
+        Me.txtEmgContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblEmgContactAddress
+        '
+        Me.lblEmgContactAddress.BackColor = System.Drawing.SystemColors.Control
+        Me.lblEmgContactAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblEmgContactAddress.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblEmgContactAddress.ForeColor = System.Drawing.Color.Black
+        Me.lblEmgContactAddress.Location = New System.Drawing.Point(2, 682)
+        Me.lblEmgContactAddress.Name = "lblEmgContactAddress"
+        Me.lblEmgContactAddress.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblEmgContactAddress.Size = New System.Drawing.Size(110, 49)
+        Me.lblEmgContactAddress.TabIndex = 695
+        Me.lblEmgContactAddress.Text = "Address"
+        Me.lblEmgContactAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtEmgContactAddress
+        '
+        Me.txtEmgContactAddress.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtEmgContactAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtEmgContactAddress.Font = New System.Drawing.Font("Segoe UI", 8.0!)
+        Me.txtEmgContactAddress.ForeColor = System.Drawing.Color.Black
+        Me.txtEmgContactAddress.Location = New System.Drawing.Point(111, 682)
+        Me.txtEmgContactAddress.Name = "txtEmgContactAddress"
+        Me.txtEmgContactAddress.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
+        Me.txtEmgContactAddress.Size = New System.Drawing.Size(200, 49)
+        Me.txtEmgContactAddress.TabIndex = 696
+        Me.txtEmgContactAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblEmer
+        '
+        Me.lblEmer.BackColor = System.Drawing.Color.DarkSlateGray
+        Me.lblEmer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblEmer.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblEmer.ForeColor = System.Drawing.Color.White
+        Me.lblEmer.Location = New System.Drawing.Point(2, 608)
+        Me.lblEmer.Name = "lblEmer"
+        Me.lblEmer.Size = New System.Drawing.Size(309, 22)
+        Me.lblEmer.TabIndex = 697
+        Me.lblEmer.Text = "Emergency Contact Reference"
+        Me.lblEmer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'lblMedHistory
+        '
+        Me.lblMedHistory.BackColor = System.Drawing.SystemColors.Control
+        Me.lblMedHistory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblMedHistory.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMedHistory.ForeColor = System.Drawing.Color.Black
+        Me.lblMedHistory.Location = New System.Drawing.Point(2, 328)
+        Me.lblMedHistory.Name = "lblMedHistory"
+        Me.lblMedHistory.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblMedHistory.Size = New System.Drawing.Size(110, 35)
+        Me.lblMedHistory.TabIndex = 699
+        Me.lblMedHistory.Text = "Past Medical History"
+        Me.lblMedHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblSurgHistory
+        '
+        Me.lblSurgHistory.BackColor = System.Drawing.SystemColors.Control
+        Me.lblSurgHistory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblSurgHistory.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSurgHistory.ForeColor = System.Drawing.Color.Black
+        Me.lblSurgHistory.Location = New System.Drawing.Point(2, 365)
+        Me.lblSurgHistory.Name = "lblSurgHistory"
+        Me.lblSurgHistory.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblSurgHistory.Size = New System.Drawing.Size(110, 35)
+        Me.lblSurgHistory.TabIndex = 700
+        Me.lblSurgHistory.Text = "Surgical History"
+        Me.lblSurgHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtMedHistory
+        '
+        Me.txtMedHistory.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtMedHistory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtMedHistory.Font = New System.Drawing.Font("Segoe UI", 8.0!)
+        Me.txtMedHistory.ForeColor = System.Drawing.Color.Black
+        Me.txtMedHistory.Location = New System.Drawing.Point(111, 328)
+        Me.txtMedHistory.Name = "txtMedHistory"
+        Me.txtMedHistory.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
+        Me.txtMedHistory.Size = New System.Drawing.Size(200, 35)
+        Me.txtMedHistory.TabIndex = 701
+        Me.txtMedHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtSurgHistory
+        '
+        Me.txtSurgHistory.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtSurgHistory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtSurgHistory.Font = New System.Drawing.Font("Segoe UI", 8.0!)
+        Me.txtSurgHistory.ForeColor = System.Drawing.Color.Black
+        Me.txtSurgHistory.Location = New System.Drawing.Point(111, 365)
+        Me.txtSurgHistory.Name = "txtSurgHistory"
+        Me.txtSurgHistory.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
+        Me.txtSurgHistory.Size = New System.Drawing.Size(200, 35)
+        Me.txtSurgHistory.TabIndex = 702
+        Me.txtSurgHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblObHistory
+        '
+        Me.lblObHistory.BackColor = System.Drawing.SystemColors.Control
+        Me.lblObHistory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblObHistory.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblObHistory.ForeColor = System.Drawing.Color.Black
+        Me.lblObHistory.Location = New System.Drawing.Point(2, 439)
+        Me.lblObHistory.Name = "lblObHistory"
+        Me.lblObHistory.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblObHistory.Size = New System.Drawing.Size(110, 117)
+        Me.lblObHistory.TabIndex = 703
+        Me.lblObHistory.Text = "OB History" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "- Menarche" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "- Interval" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "- Duration" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "- Amount" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "- Symptoms"
+        Me.lblObHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblGp
+        '
+        Me.lblGp.BackColor = System.Drawing.SystemColors.Control
+        Me.lblGp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblGp.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblGp.ForeColor = System.Drawing.Color.Black
+        Me.lblGp.Location = New System.Drawing.Point(2, 558)
+        Me.lblGp.Name = "lblGp"
+        Me.lblGp.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblGp.Size = New System.Drawing.Size(110, 23)
+        Me.lblGp.TabIndex = 704
+        Me.lblGp.Text = "G; P"
+        Me.lblGp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblG
+        '
+        Me.lblG.BackColor = System.Drawing.SystemColors.Control
+        Me.lblG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblG.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.lblG.ForeColor = System.Drawing.Color.Black
+        Me.lblG.Location = New System.Drawing.Point(2, 583)
+        Me.lblG.Name = "lblG"
+        Me.lblG.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblG.Size = New System.Drawing.Size(110, 23)
+        Me.lblG.TabIndex = 705
+        Me.lblG.Text = "G1; G2"
+        Me.lblG.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtObHistory
+        '
+        Me.txtObHistory.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtObHistory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtObHistory.Font = New System.Drawing.Font("Segoe UI", 8.0!)
+        Me.txtObHistory.ForeColor = System.Drawing.Color.Black
+        Me.txtObHistory.Location = New System.Drawing.Point(111, 439)
+        Me.txtObHistory.Name = "txtObHistory"
+        Me.txtObHistory.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
+        Me.txtObHistory.Size = New System.Drawing.Size(200, 117)
+        Me.txtObHistory.TabIndex = 706
+        Me.txtObHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtGp
+        '
+        Me.txtGp.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtGp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtGp.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtGp.ForeColor = System.Drawing.Color.Black
+        Me.txtGp.Location = New System.Drawing.Point(111, 558)
+        Me.txtGp.Name = "txtGp"
+        Me.txtGp.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtGp.Size = New System.Drawing.Size(200, 23)
+        Me.txtGp.TabIndex = 707
+        Me.txtGp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtG
+        '
+        Me.txtG.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtG.Font = New System.Drawing.Font("Segoe UI", 8.5!)
+        Me.txtG.ForeColor = System.Drawing.Color.Black
+        Me.txtG.Location = New System.Drawing.Point(111, 583)
+        Me.txtG.Name = "txtG"
+        Me.txtG.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.txtG.Size = New System.Drawing.Size(200, 23)
+        Me.txtG.TabIndex = 708
+        Me.txtG.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtMaintenance
+        '
+        Me.txtMaintenance.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.txtMaintenance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtMaintenance.Font = New System.Drawing.Font("Segoe UI", 8.0!)
+        Me.txtMaintenance.ForeColor = System.Drawing.Color.Black
+        Me.txtMaintenance.Location = New System.Drawing.Point(111, 402)
+        Me.txtMaintenance.Name = "txtMaintenance"
+        Me.txtMaintenance.Padding = New System.Windows.Forms.Padding(3, 3, 0, 0)
+        Me.txtMaintenance.Size = New System.Drawing.Size(200, 35)
+        Me.txtMaintenance.TabIndex = 710
+        Me.txtMaintenance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblMaintenance
+        '
+        Me.lblMaintenance.BackColor = System.Drawing.SystemColors.Control
+        Me.lblMaintenance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblMaintenance.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMaintenance.ForeColor = System.Drawing.Color.Black
+        Me.lblMaintenance.Location = New System.Drawing.Point(2, 402)
+        Me.lblMaintenance.Name = "lblMaintenance"
+        Me.lblMaintenance.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.lblMaintenance.Size = New System.Drawing.Size(110, 35)
+        Me.lblMaintenance.TabIndex = 709
+        Me.lblMaintenance.Text = "Maintenance"
+        Me.lblMaintenance.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
         'ConsultationDetail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1696,6 +1931,7 @@ Partial Class ConsultationDetail
         Me.BackColor = System.Drawing.Color.White
         Me.CancelButton = Me.btnCancel
         Me.ClientSize = New System.Drawing.Size(1334, 699)
+        Me.Controls.Add(Me.pnlLeft)
         Me.Controls.Add(Me.pnlAttachment)
         Me.Controls.Add(Me.txtStock)
         Me.Controls.Add(Me.lblStock)
@@ -1721,36 +1957,6 @@ Partial Class ConsultationDetail
         Me.Controls.Add(Me.txtTimeIn)
         Me.Controls.Add(Me.lblTimeIn)
         Me.Controls.Add(Me.lblConsultation)
-        Me.Controls.Add(Me.lblPersonalInfo)
-        Me.Controls.Add(Me.lblEmer)
-        Me.Controls.Add(Me.txtEmgContactAddress)
-        Me.Controls.Add(Me.lblEmgContactAddress)
-        Me.Controls.Add(Me.txtEmgContactNumber)
-        Me.Controls.Add(Me.lblEmgContactNumber)
-        Me.Controls.Add(Me.txtEmgContactName)
-        Me.Controls.Add(Me.lblEmgContactName)
-        Me.Controls.Add(Me.txtAllergies)
-        Me.Controls.Add(Me.lblAllergies)
-        Me.Controls.Add(Me.txtBloodType)
-        Me.Controls.Add(Me.lblBloodType)
-        Me.Controls.Add(Me.txtLocalAddress)
-        Me.Controls.Add(Me.lblLocalAddress)
-        Me.Controls.Add(Me.txtContactNumber)
-        Me.Controls.Add(Me.lblContactNumber)
-        Me.Controls.Add(Me.txtCivilStatus)
-        Me.Controls.Add(Me.lblCivilStatus)
-        Me.Controls.Add(Me.txtAge)
-        Me.Controls.Add(Me.lblAge)
-        Me.Controls.Add(Me.txtGender)
-        Me.Controls.Add(Me.lblGender)
-        Me.Controls.Add(Me.txtEmploymentStatus)
-        Me.Controls.Add(Me.lblEmploymentStatus)
-        Me.Controls.Add(Me.txtPosition)
-        Me.Controls.Add(Me.lblPosition)
-        Me.Controls.Add(Me.txtSection)
-        Me.Controls.Add(Me.lblSection)
-        Me.Controls.Add(Me.txtDepartment)
-        Me.Controls.Add(Me.lblDepartment)
         Me.Controls.Add(Me.lblEmployeeName)
         Me.Controls.Add(Me.lblEmployeeCode)
         Me.Controls.Add(Me.txtEmployeeCode)
@@ -1812,8 +2018,9 @@ Partial Class ConsultationDetail
         Me.pnlAttachment.ResumeLayout(False)
         Me.pnlAttachment.PerformLayout()
         CType(Me.picImage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.AxAcroPDF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgvDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlLeft.ResumeLayout(False)
+        CType(Me.AxAcroPDF, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1844,7 +2051,7 @@ Partial Class ConsultationDetail
     Friend WithEvents btnRemove As PinkieControls.ButtonXP
     Friend WithEvents txtCreatedBy As System.Windows.Forms.Label
     Friend WithEvents lblCreatedBy As System.Windows.Forms.Label
-    Friend WithEvents txtAttachmentName As System.Windows.Forms.Label
+    Friend WithEvents txtFilename As System.Windows.Forms.Label
     Friend WithEvents lblAttachmentCount As System.Windows.Forms.Label
     Friend WithEvents btnSave As PinkieControls.ButtonXP
     Friend WithEvents btnDelete As PinkieControls.ButtonXP
@@ -1870,39 +2077,9 @@ Partial Class ConsultationDetail
     Friend WithEvents lblProgress As Label
     Friend WithEvents lblEmployeeCode As Label
     Friend WithEvents txtEmployeeCode As TextBox
-    Friend WithEvents txtPosition As Label
-    Friend WithEvents lblPosition As Label
-    Friend WithEvents txtSection As Label
-    Friend WithEvents lblSection As Label
-    Friend WithEvents txtDepartment As Label
-    Friend WithEvents lblDepartment As Label
     Friend WithEvents txtEmployeeName As Label
     Friend WithEvents lblEmployeeName As Label
-    Friend WithEvents txtEmploymentStatus As Label
-    Friend WithEvents lblEmploymentStatus As Label
-    Friend WithEvents txtContactNumber As Label
-    Friend WithEvents lblContactNumber As Label
-    Friend WithEvents txtCivilStatus As Label
-    Friend WithEvents lblCivilStatus As Label
-    Friend WithEvents txtAge As Label
-    Friend WithEvents lblAge As Label
-    Friend WithEvents txtGender As Label
-    Friend WithEvents lblGender As Label
-    Friend WithEvents txtLocalAddress As Label
-    Friend WithEvents lblLocalAddress As Label
-    Friend WithEvents txtEmgContactAddress As Label
-    Friend WithEvents lblEmgContactAddress As Label
-    Friend WithEvents txtEmgContactNumber As Label
-    Friend WithEvents lblEmgContactNumber As Label
-    Friend WithEvents txtEmgContactName As Label
-    Friend WithEvents lblEmgContactName As Label
-    Friend WithEvents txtAllergies As Label
-    Friend WithEvents lblAllergies As Label
-    Friend WithEvents txtBloodType As Label
-    Friend WithEvents lblBloodType As Label
     Friend WithEvents lblAgencyName As Label
-    Friend WithEvents lblEmer As Label
-    Friend WithEvents lblPersonalInfo As Label
     Friend WithEvents lblConsultation As Label
     Friend WithEvents txtTimeIn As MaskedTextBox
     Friend WithEvents lblTimeIn As Label
@@ -1936,4 +2113,47 @@ Partial Class ConsultationDetail
     Friend WithEvents ColMedicineId As DataGridViewTextBoxColumn
     Friend WithEvents ColStockOut As DataGridViewTextBoxColumn
     Friend WithEvents ColEndingBalance As DataGridViewTextBoxColumn
+    Friend WithEvents pnlLeft As Panel
+    Friend WithEvents txtG As Label
+    Friend WithEvents txtGp As Label
+    Friend WithEvents txtObHistory As Label
+    Friend WithEvents lblG As Label
+    Friend WithEvents lblGp As Label
+    Friend WithEvents lblObHistory As Label
+    Friend WithEvents txtSurgHistory As Label
+    Friend WithEvents txtMedHistory As Label
+    Friend WithEvents lblSurgHistory As Label
+    Friend WithEvents lblMedHistory As Label
+    Friend WithEvents lblEmer As Label
+    Friend WithEvents txtEmgContactAddress As Label
+    Friend WithEvents lblEmgContactAddress As Label
+    Friend WithEvents txtEmgContactNumber As Label
+    Friend WithEvents lblEmgContactNumber As Label
+    Friend WithEvents txtEmgContactName As Label
+    Friend WithEvents lblEmgContactName As Label
+    Friend WithEvents lblPersonalInfo As Label
+    Friend WithEvents txtAllergies As Label
+    Friend WithEvents lblAllergies As Label
+    Friend WithEvents txtBloodType As Label
+    Friend WithEvents lblBloodType As Label
+    Friend WithEvents txtLocalAddress As Label
+    Friend WithEvents lblLocalAddress As Label
+    Friend WithEvents txtContactNumber As Label
+    Friend WithEvents lblContactNumber As Label
+    Friend WithEvents txtCivilStatus As Label
+    Friend WithEvents lblCivilStatus As Label
+    Friend WithEvents txtAge As Label
+    Friend WithEvents lblAge As Label
+    Friend WithEvents txtGender As Label
+    Friend WithEvents lblGender As Label
+    Friend WithEvents txtEmploymentStatus As Label
+    Friend WithEvents lblEmploymentStatus As Label
+    Friend WithEvents txtPosition As Label
+    Friend WithEvents lblPosition As Label
+    Friend WithEvents txtSection As Label
+    Friend WithEvents lblSection As Label
+    Friend WithEvents txtDepartment As Label
+    Friend WithEvents lblDepartment As Label
+    Friend WithEvents txtMaintenance As Label
+    Friend WithEvents lblMaintenance As Label
 End Class

@@ -1,121 +1,124 @@
 ﻿Imports BlackCoffeeLibrary
-Imports HealthInformationSystem
-Imports HealthInformationSystem.dsHealth
-Imports HealthInformationSystem.dsHealthTableAdapters
 Imports System.ComponentModel
 Imports System.Data.SqlClient
-Imports System.Deployment.Application
 Imports System.IO
-Imports System.Runtime.InteropServices
-Imports System.Windows.Forms
 
-Public Class Ape
+Public Class ApeDetail
     Private connection As New clsConnection
-    Private directories As New clsDirectory
+    Private directory As New clsDirectory
     Private dbHealth As New SqlDbMethod(connection.MyConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 
-    Private patientId As Integer = 0
-    Private doctorId As Integer = 0
-    Private recordId As Integer = 0
-
-    Private dsHealth As New dsHealth
-    Private adpEmpApe As New EmployeeApeTableAdapter
-    Private adpEmpApeAttach As New EmployeeApeAttachmentTableAdapter
-    Private dtEmpApe As New EmployeeApeDataTable
-    Private dtEmpApeAttach As New EmployeeApeAttachmentDataTable
-    Private bsEmpApe As New BindingSource
-    Private bsEmpApeAttach As New BindingSource
-
-    Private WithEvents createdDate As Binding
-    Private WithEvents modifiedDate As Binding
+    Private dtApe As New DataTable
+    Private dtAttachment As New DataTable
 
     Private lstAttachment As New List(Of clsAttachment)
-    Private lstAttachmentForDelete As New List(Of clsAttachment)
-    Private lstAttachmentForCopy As New List(Of clsAttachment)
+    Private lstAttachmentDelete As New List(Of clsAttachment)
+    Private lstAttachmentCopy As New List(Of clsAttachment)
     Private lstImageFiles As New List(Of String)(New String() {".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tif", ".tiff"})
     Private lstDocumentFiles As New List(Of String)(New String() {".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".txt"})
     Private lstPdfFiles As New List(Of String)(New String() {".pdf"})
     Private currentIndex As Integer
 
-    Private initialDirectory As String = directories.IniDirApeRecord
-    Private attachmentDirectory As String = directories.AttDirApeRecord
+    Private initialDirectory As String = directory.IniDirApeRecord
+    Private attachmentDirectory As String = directory.AttDirApeRecord
 
-    Public Sub New(_patientId As Integer, _doctorId As Integer, Optional _recordId As Integer = 0)
+    Private patientId As Integer = 0
+    Private attendantId As Integer = 0
+    Private recordId As Integer = 0
+
+    Private orgYearId As Integer = 0
+
+    Public Sub New(patientId As Integer, attendantId As Integer, Optional recordId As Integer = 0)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        patientId = _patientId
-        doctorId = _doctorId
-        recordId = _recordId
+        Me.patientId = patientId
+        Me.attendantId = attendantId
+        Me.recordId = recordId
 
         Me.TopMost = True
     End Sub
 
-    Private Sub frmEmpApeDetail_Load(sender As Object, e As EventArgs) Handles Me.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.TopMost = False
 
         If recordId = 0 Then
-            Me.Text = "New Record"
+            Me.Text = "New Record Entry"
+            txtCreatedDate.Text = String.Format("{0:MMMM dd, yyyy hh:mm tt}", dbHealth.GetServerDate)
+
+            Dim prmAttendant(0) As SqlParameter
+            prmAttendant(0) = New SqlParameter("@EmployeeId", SqlDbType.Int)
+            prmAttendant(0).Value = attendantId
+
+            txtCreatedBy.Text = StrConv(dbHealth.ExecuteScalar("SELECT TRIM(EmployeeName) FROM VwClinicAll WHERE EmployeeId = @EmployeeId", CommandType.Text, prmAttendant), VbStrConv.ProperCase)
+
             lblFilename.Text = String.Empty
-            txtCreatedDate.Text = String.Format("{0:MMMM dd yyyy hh:mm tt}", dbHealth.GetServerDate)
-
-            Dim prmEmployee(0) As SqlParameter
-            prmEmployee(0) = New SqlParameter("@EmployeeId", SqlDbType.Int)
-            prmEmployee(0).Value = doctorId
-            txtCreatedBy.Text = StrConv(dbHealth.ExecuteScalar("SELECT TRIM(EmployeeName) FROM VwClinicAll WHERE EmployeeId = @EmployeeId", CommandType.Text, prmEmployee), VbStrConv.ProperCase)
-
-            btnDelete.Enabled = False
-
-            lblFileCount.Text = String.Format("File Count : {0}", 0)
+            lblAttachmentCount.Text = String.Format("Attachment(s) : {0}", 0)
 
             txtYearId.Text = String.Format("{0:yyyy}", dbHealth.GetServerDate)
 
         Else
-            If String.IsNullOrEmpty(attachmentDirectory) Or Not Directory.Exists(attachmentDirectory) Then
+            If String.IsNullOrEmpty(attachmentDirectory) Or Not IO.Directory.Exists(attachmentDirectory) Then
                 MessageBox.Show("The attachment directory was not found.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
-            Me.Text = String.Format("Record ID : {0}", recordId)
+            Me.Text = String.Format("Record No. {0}", recordId)
             btnDelete.Enabled = True
 
-            Me.adpEmpApe.FillEmployeeApeByRecordId(Me.dsHealth.EmployeeApe, recordId)
-            Me.bsEmpApe.DataSource = Me.dsHealth
-            Me.bsEmpApe.DataMember = dtEmpApe.TableName
-            Me.bsEmpApe.Position = Me.bsEmpApe.Find("RecordId", recordId)
+            Dim prmApe(0) As SqlParameter
+            prmApe(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+            prmApe(0).Value = recordId
 
-            createdDate = New Binding("Text", Me.bsEmpApe.Current, "CreatedDate")
-            txtCreatedDate.DataBindings.Add(createdDate)
-            modifiedDate = New Binding("Text", Me.bsEmpApe.Current, "ModifiedDate")
-            txtModifiedDate.DataBindings.Add(modifiedDate)
+            dtApe = dbHealth.FillDataTable("RdEmployeeApeByRecordId", CommandType.StoredProcedure, prmApe)
 
-            txtCreatedBy.DataBindings.Add(New Binding("Text", Me.bsEmpApe.Current, "CreatedByName"))
-            txtModifiedBy.DataBindings.Add(New Binding("Text", Me.bsEmpApe.Current, "ModifiedByName"))
+            For Each row As DataRow In dtApe.Rows
+                txtCreatedBy.Text = row("CreatedByName")
+                txtCreatedDate.Text = String.Format("{0:MMMM dd, yyyy hh:mm tt}", row("CreatedDate"))
 
-            txtYearId.DataBindings.Add(New Binding("Text", Me.bsEmpApe.Current, "YearId"))
-            txtRemarks.DataBindings.Add(New Binding("Text", Me.bsEmpApe.Current, "Remarks"))
+                If Not row("ModifiedByName") Is DBNull.Value Then
+                    txtModifiedBy.Text = row("ModifiedByName")
+                End If
 
-            Dim attachmentCount As Integer = Me.adpEmpApeAttach.CntEmployeeApeAttachmentByRecordId(recordId)
+                If Not row("ModifiedDate") Is DBNull.Value Then
+                    txtModifiedDate.Text = String.Format("{0:MMMM dd, yyyy hh:mm tt}", row("ModifiedDate"))
+                End If
+
+                txtYearId.Text = row("YearId")
+                txtRemarks.Text = row("Remarks")
+
+                orgYearId = row("YearId")
+            Next
+
+            Dim prmCount(0) As SqlParameter
+            prmCount(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+            prmCount(0).Value = recordId
+
+            Dim attachmentCount As Integer = dbHealth.ExecuteScalar("CntEmployeeApeAttachmentByRecordId", CommandType.StoredProcedure, prmCount)
 
             If attachmentCount > 0 Then
-                dtEmpApeAttach = Me.adpEmpApeAttach.GetEmployeeApeAttachmentByRecordId(recordId)
+                Dim prmAttachment(0) As SqlParameter
+                prmAttachment(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+                prmAttachment(0).Value = recordId
 
-                For i As Integer = 0 To dtEmpApeAttach.Count - 1
-                    Dim oldAttachment As New clsAttachment(attachmentDirectory & "\" & dtEmpApeAttach.Rows(i).Item("Filename").ToString,
-                                                  dtEmpApeAttach.Rows(i).Item("Filename").ToString,
-                                                  Path.GetExtension(Path.Combine(attachmentDirectory, dtEmpApeAttach.Rows(i).Item("Filename").ToString)),
-                                                  dtEmpApeAttach.Rows(i).Item("AttachmentId"))
+                dtAttachment = dbHealth.FillDataTable("RdEmployeeApeAttachmentByRecordId", CommandType.StoredProcedure, prmAttachment)
+
+                For i As Integer = 0 To dtAttachment.Rows.Count - 1
+                    Dim oldAttachment As New clsAttachment(attachmentDirectory & "\" & dtAttachment.Rows(i).Item("Filename").ToString, dtAttachment.Rows(i).Item("Filename").ToString, Path.GetExtension(Path.Combine(attachmentDirectory, dtAttachment.Rows(i).Item("Filename").ToString)), dtAttachment.Rows(i).Item("AttachmentId"))
                     lstAttachment.Add(oldAttachment)
                     currentIndex = 0
                 Next
+
                 ShowAttachment()
+            Else
+                lblFilename.Text = ""
             End If
 
-            lblFileCount.Text = String.Format("File Count : {0}", lstAttachment.Count)
+            lblAttachmentCount.Text = String.Format("Attachment(s) : {0}", lstAttachment.Count)
         End If
 
         Me.ActiveControl = txtYearId
@@ -128,7 +131,7 @@ Public Class Ape
         End If
     End Sub
 
-    Private Sub frmEmpApeDetail_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+    Private Sub Form_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
             Case Keys.F8
                 btnDelete.PerformClick()
@@ -145,8 +148,18 @@ Public Class Ape
                 Return
             End If
 
+            If Not IO.Directory.Exists(attachmentDirectory) Then
+                IO.Directory.CreateDirectory(attachmentDirectory)
+            End If
+
             If recordId = 0 Then
-                Dim countYear As Integer = Me.adpEmpApe.CntEmployeeApeByYearId(txtYearId.Text.Trim, patientId)
+                Dim prmCount(1) As SqlParameter
+                prmCount(0) = New SqlParameter("@YearId", SqlDbType.Int)
+                prmCount(0).Value = txtYearId.Text.Trim
+                prmCount(1) = New SqlParameter("@EmployeeId", SqlDbType.Int)
+                prmCount(1).Value = patientId
+
+                Dim countYear As Integer = dbHealth.ExecuteScalar("CntEmployeeApeByYearId", CommandType.StoredProcedure, prmCount)
 
                 If countYear > 0 Then
                     MessageBox.Show("APE Record for year " & txtYearId.Text.Trim & " already exist.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -154,52 +167,52 @@ Public Class Ape
                     Return
                 End If
 
-                Dim newRecordRow As EmployeeApeRow = Me.dsHealth.EmployeeApe.NewEmployeeApeRow
+                Dim prmInsApe(5) As SqlParameter
+                prmInsApe(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+                prmInsApe(0).Direction = ParameterDirection.Output
+                prmInsApe(1) = New SqlParameter("@CreatedDate", SqlDbType.DateTime)
+                prmInsApe(1).Value = dbHealth.GetServerDate
+                prmInsApe(2) = New SqlParameter("@CreatedBy", SqlDbType.Int)
+                prmInsApe(2).Value = attendantId
+                prmInsApe(3) = New SqlParameter("@EmployeeId", SqlDbType.Int)
+                prmInsApe(3).Value = patientId
+                prmInsApe(4) = New SqlParameter("@YearId", SqlDbType.Int)
+                prmInsApe(4).Value = txtYearId.Text.Trim
+                prmInsApe(5) = New SqlParameter("@Remarks", SqlDbType.NVarChar)
+                prmInsApe(5).Value = IIf(String.IsNullOrEmpty(txtRemarks.Text.Trim), Nothing, txtRemarks.Text.Trim)
 
-                With newRecordRow
-                    .CreatedDate = dbHealth.GetServerDate
-                    .CreatedBy = doctorId
-                    .SetModifiedDateNull()
-                    .SetModifiedByNull()
-                    .EmployeeId = patientId
-                    .YearId = txtYearId.Text.Trim
-
-                    If String.IsNullOrEmpty(txtRemarks.Text.Trim) Then
-                        .SetRemarksNull()
-                    Else
-                        .Remarks = txtRemarks.Text.Trim
-                    End If
-                End With
-                Me.dsHealth.EmployeeApe.AddEmployeeApeRow(newRecordRow)
-                Me.adpEmpApe.Update(Me.dsHealth.EmployeeApe)
-
-                If Not Directory.Exists(attachmentDirectory) Then
-                    Directory.CreateDirectory(attachmentDirectory)
-                End If
+                dbHealth.ExecuteNonQuery("InsEmployeeApe", CommandType.StoredProcedure, prmInsApe)
 
                 If lstAttachment.Count > 0 Then
                     For i As Integer = 0 To lstAttachment.Count - 1
-                        Dim newAttachmentRow As EmployeeApeAttachmentRow = Me.dsHealth.EmployeeApeAttachment.NewEmployeeApeAttachmentRow
+                        Dim prmInsAttachment(2) As SqlParameter
+                        prmInsAttachment(0) = New SqlParameter("@AttachmentId", SqlDbType.Int)
+                        prmInsAttachment(0).Direction = ParameterDirection.Output
+                        prmInsAttachment(1) = New SqlParameter("@RecordId", SqlDbType.Int)
+                        prmInsAttachment(1).Value = prmInsApe(0).Value
+                        prmInsAttachment(2) = New SqlParameter("@FileName", SqlDbType.NVarChar)
+                        prmInsAttachment(2).Value = ""
 
-                        With newAttachmentRow
-                            .RecordId = newRecordRow.RecordId
-                            .Filename = ""
-                        End With
-                        Me.dsHealth.EmployeeApeAttachment.AddEmployeeApeAttachmentRow(newAttachmentRow)
-                        Me.adpEmpApeAttach.Update(Me.dsHealth.EmployeeApeAttachment)
+                        dbHealth.ExecuteNonQuery("InsEmployeeApeAttachment", CommandType.StoredProcedure, prmInsAttachment)
 
                         Dim ext As String = String.Empty
                         Dim newName As String = String.Empty
                         ext = Path.GetExtension(lstAttachment(i).FileName).ToLower
-                        newName = patientId & "-" & newRecordRow.RecordId & "-" & newAttachmentRow.AttachmentId & ext
+                        newName = patientId & "-" & prmInsApe(0).Value & "-" & prmInsAttachment(0).Value & ext
 
-                        Me.adpEmpApeAttach.UpdEmployeeApeAttachmentByAttachmentId(newAttachmentRow.AttachmentId, newName)
+                        Dim prmUpdAttachment(1) As SqlParameter
+                        prmUpdAttachment(0) = New SqlParameter("@AttachmentId", SqlDbType.Int)
+                        prmUpdAttachment(0).Value = prmInsAttachment(0).Value
+                        prmUpdAttachment(1) = New SqlParameter("Filename", SqlDbType.NVarChar)
+                        prmUpdAttachment(1).Value = newName
+
+                        dbHealth.ExecuteNonQuery("UpdEmployeeApeAttachment", CommandType.StoredProcedure, prmUpdAttachment)
 
                         progBar.Visible = True
                         lblProgress.Visible = True
 
                         Dim copyAttachment As New clsAttachment(lstAttachment(i).FileName, newName, lstAttachment(i).FileName)
-                        lstAttachmentForCopy.Add(copyAttachment)
+                        lstAttachmentCopy.Add(copyAttachment)
                     Next
                 End If
 
@@ -215,69 +228,86 @@ Public Class Ape
                 Me.ControlBox = False
 
                 bgWorker.RunWorkerAsync()
-                Me.dsHealth.AcceptChanges()
 
             Else
-                Dim countYear As Integer = Me.adpEmpApe.CntEmployeeApeByYearId(txtYearId.Text.Trim, patientId)
+                Dim prmCount(1) As SqlParameter
+                prmCount(0) = New SqlParameter("@YearId", SqlDbType.Int)
+                prmCount(0).Value = txtYearId.Text.Trim
+                prmCount(1) = New SqlParameter("@EmployeeId", SqlDbType.Int)
+                prmCount(1).Value = patientId
 
-                If countYear > 0 AndAlso CType(Me.bsEmpApe.Current, DataRowView).Item("YearId") <> txtYearId.Text.Trim Then
+                Dim countYear As Integer = dbHealth.ExecuteScalar("CntEmployeeApeByYearId", CommandType.StoredProcedure, prmCount)
+
+                If countYear > 0 AndAlso orgYearId <> txtYearId.Text.Trim Then
                     MessageBox.Show("APE Record for year " & txtYearId.Text.Trim & " already exist.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Me.ActiveControl = txtYearId
                     Return
                 End If
 
-                Dim rowApe As EmployeeApeRow = Me.dsHealth.EmployeeApe.FindByRecordId(recordId)
+                Dim prmUpd(4) As SqlParameter
+                prmUpd(0) = New SqlParameter("@YearId", SqlDbType.Int)
+                prmUpd(0).Value = txtYearId.Text
+                prmUpd(1) = New SqlParameter("@ModifiedBy", SqlDbType.Int)
+                prmUpd(1).Value = attendantId
+                prmUpd(2) = New SqlParameter("@ModifiedDate", SqlDbType.DateTime)
+                prmUpd(2).Value = dbHealth.GetServerDate
+                prmUpd(3) = New SqlParameter("@Remarks", SqlDbType.NVarChar)
+                prmUpd(3).Value = IIf(String.IsNullOrEmpty(txtRemarks.Text.Trim), Nothing, txtRemarks.Text.Trim)
+                prmUpd(4) = New SqlParameter("@RecordId", SqlDbType.Int)
+                prmUpd(4).Value = recordId
 
-                With rowApe
-                    .YearId = txtYearId.Text.Trim
-                    .ModifiedDate = dbHealth.GetServerDate
-                    .ModifiedBy = doctorId
-
-                    If String.IsNullOrEmpty(txtRemarks.Text.Trim) Then
-                        .SetRemarksNull()
-                    Else
-                        .Remarks = txtRemarks.Text.Trim
-                    End If
-                End With
-
-                If lstAttachmentForDelete.Count > 0 Then
-                    For i As Integer = 0 To lstAttachmentForDelete.Count - 1
+                If lstAttachmentDelete.Count > 0 Then
+                    For i As Integer = 0 To lstAttachmentDelete.Count - 1
                         Dim ext As String = String.Empty
                         Dim newName As String = String.Empty
-                        ext = Path.GetExtension(lstAttachmentForDelete(i).FileName).ToLower
-                        newName = patientId & "-" & recordId & "-" & lstAttachmentForDelete(i).AttachmentId & ext
+                        ext = Path.GetExtension(lstAttachmentDelete(i).FileName).ToLower
+                        newName = patientId & "-" & recordId & "-" & lstAttachmentDelete(i).AttachmentId & ext
                         File.Delete(attachmentDirectory & "\" & newName)
-                        Me.adpEmpApeAttach.DelEmployeeApeAttachmentByAttachmentId(lstAttachmentForDelete(i).AttachmentId)
+
+                        Dim prmDel(0) As SqlParameter
+                        prmDel(0) = New SqlParameter("@AttachmentId", SqlDbType.Int)
+                        prmDel(0).Value = lstAttachmentDelete(i).AttachmentId
+
+                        dbHealth.ExecuteNonQuery("DelEmployeeApeAttachment", CommandType.StoredProcedure, prmDel)
                     Next
                 End If
 
                 If lstAttachment.Count > 0 Then
                     For i As Integer = 0 To lstAttachment.Count - 1
                         If lstAttachment(i).AttachmentId = 0 Then
-                            Dim newAttachmentRow As EmployeeApeAttachmentRow = Me.dsHealth.EmployeeApeAttachment.NewEmployeeApeAttachmentRow
+                            Dim prmIns(2) As SqlParameter
+                            prmIns(0) = New SqlParameter("@AttachmentId", SqlDbType.Int)
+                            prmIns(0).Direction = ParameterDirection.Output
+                            prmIns(1) = New SqlParameter("@RecordId", SqlDbType.Int)
+                            prmIns(1).Value = recordId
+                            prmIns(2) = New SqlParameter("@FileName", SqlDbType.NVarChar)
+                            prmIns(2).Value = ""
 
-                            With newAttachmentRow
-                                .RecordId = recordId
-                                .Filename = ""
-                            End With
-                            Me.dsHealth.EmployeeApeAttachment.AddEmployeeApeAttachmentRow(newAttachmentRow)
-                            Me.adpEmpApeAttach.Update(Me.dsHealth.EmployeeApeAttachment)
+                            dbHealth.ExecuteNonQuery("InsEmployeeApeAttachment", CommandType.StoredProcedure, prmIns)
 
                             Dim ext As String = String.Empty
                             Dim newName As String = String.Empty
                             ext = Path.GetExtension(lstAttachment(i).FileName).ToLower
-                            newName = patientId & "-" & recordId & "-" & newAttachmentRow.AttachmentId & ext
+                            newName = patientId & "-" & recordId & "-" & prmIns(0).Value & ext
 
-                            Me.adpEmpApeAttach.UpdEmployeeApeAttachmentByAttachmentId(newAttachmentRow.AttachmentId, newName)
+                            Dim prmUpdNew(1) As SqlParameter
+                            prmUpdNew(0) = New SqlParameter("@AttachmentId", SqlDbType.Int)
+                            prmUpdNew(0).Value = prmIns(0).Value
+                            prmUpdNew(1) = New SqlParameter("Filename", SqlDbType.NVarChar)
+                            prmUpdNew(1).Value = newName
+
+                            dbHealth.ExecuteNonQuery("UpdEmployeeApeAttachment", CommandType.StoredProcedure, prmUpd)
 
                             progBar.Visible = True
                             lblProgress.Visible = True
 
                             Dim copyAttachment As New clsAttachment(lstAttachment(i).FileName, newName, lstAttachment(i).FileName)
-                            lstAttachmentForCopy.Add(copyAttachment)
+                            lstAttachmentCopy.Add(copyAttachment)
                         End If
                     Next
                 End If
+
+                dbHealth.ExecuteNonQuery("UpdEmployeeApe", CommandType.StoredProcedure, prmUpd)
 
                 btnPrevious.Enabled = False
                 btnNext.Enabled = False
@@ -290,10 +320,6 @@ Public Class Ape
                 btnClose.Enabled = False
 
                 bgWorker.RunWorkerAsync()
-
-                Me.bsEmpApe.EndEdit()
-                Me.adpEmpApe.Update(Me.dsHealth.EmployeeApe)
-                Me.dsHealth.AcceptChanges()
             End If
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -313,32 +339,35 @@ Public Class Ape
             If recordId = 0 Then Exit Sub
 
             If MessageBox.Show("Are you sure you want to delete this record?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) =
-                System.Windows.Forms.DialogResult.Yes Then
+               DialogResult.Yes Then
 
-                If lstAttachmentForDelete.Count > 0 Then
-                    For _i As Integer = 0 To lstAttachmentForDelete.Count - 1
-                        Dim _ext As String = String.Empty
-                        Dim _newName As String = String.Empty
-                        _ext = Path.GetExtension(lstAttachmentForDelete(_i).FileName).ToLower
-                        _newName = patientId & "-" & recordId & "-" & lstAttachmentForDelete(_i).AttachmentId & _ext
-                        File.Delete(attachmentDirectory & "\" & _newName)
+                If lstAttachmentDelete.Count > 0 Then
+                    For i As Integer = 0 To lstAttachmentDelete.Count - 1
+                        Dim ext As String = String.Empty
+                        Dim newName As String = String.Empty
+                        ext = Path.GetExtension(lstAttachmentDelete(i).FileName).ToLower
+                        newName = patientId & "-" & recordId & "-" & lstAttachmentDelete(i).AttachmentId & ext
+                        File.Delete(attachmentDirectory & "\" & newName)
                     Next
                 End If
 
                 If lstAttachment.Count > 0 Then
-                    For _i As Integer = 0 To lstAttachment.Count - 1
-                        Dim _ext As String = String.Empty
-                        Dim _newName As String = String.Empty
-                        _ext = Path.GetExtension(lstAttachment(_i).FileName).ToLower
-                        _newName = patientId & "-" & recordId & "-" & lstAttachment(_i).AttachmentId & _ext
-                        File.Delete(attachmentDirectory & "\" & _newName)
+                    For i As Integer = 0 To lstAttachment.Count - 1
+                        Dim ext As String = String.Empty
+                        Dim newName As String = String.Empty
+                        ext = Path.GetExtension(lstAttachment(i).FileName).ToLower
+                        newName = patientId & "-" & recordId & "-" & lstAttachment(i).AttachmentId & ext
+                        File.Delete(attachmentDirectory & "\" & newName)
                     Next
                 End If
 
-                Me.bsEmpApe.RemoveCurrent()
-                Me.adpEmpApe.Update(Me.dsHealth.EmployeeApe)
-                Me.dsHealth.AcceptChanges()
-                Me.DialogResult = System.Windows.Forms.DialogResult.OK
+                Dim prm(0) As SqlParameter
+                prm(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+                prm(0).Value = recordId
+
+                dbHealth.ExecuteNonQuery("DelEmployeeApeRecordId", CommandType.StoredProcedure, prm)
+
+                Me.DialogResult = DialogResult.OK
             End If
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -367,7 +396,17 @@ Public Class Ape
 
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
         Try
-            Process.Start(lstAttachment(currentIndex).FileName)
+            If lstAttachment.Count < 1 Then
+                picImage.Image = Nothing
+                lblFilename.Text = String.Empty
+                Exit Sub
+            Else
+                If lstAttachment.Count > 0 Then
+                    If File.Exists(lstAttachment(currentIndex).FileName) Then
+                        Process.Start(lstAttachment(currentIndex).FileName)
+                    End If
+                End If
+            End If
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -404,14 +443,14 @@ Public Class Ape
                                                                lstAttachment(currentIndex).SafeName,
                                                                Path.GetExtension(lstAttachment(currentIndex).SafeName),
                                                                lstAttachment(currentIndex).AttachmentId)
-                        lstAttachmentForDelete.Add(forDeleteItem)
+                        lstAttachmentDelete.Add(forDeleteItem)
                         lstAttachment.RemoveAt(currentIndex)
                     End If
                 End If
             End If
 
             NextImage(-1)
-            lblFileCount.Text = String.Format("File Count : {0}", lstAttachment.Count)
+            lblAttachmentCount.Text = String.Format("Attachment(s) : {0}", lstAttachment.Count)
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -427,26 +466,10 @@ Public Class Ape
             ShowAttachment()
 
             ofdApeDetail.InitialDirectory = Path.GetDirectoryName(lstAttachment(currentIndex).FileName)
-            lblFileCount.Text = String.Format("File Count : {0}", lstAttachment.Count)
+            lblAttachmentCount.Text = String.Format("Attachment(s) : {0}", lstAttachment.Count)
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-    End Sub
-
-    Private Sub createdDate_Format(sender As Object, e As ConvertEventArgs) Handles createdDate.Format
-        If Not e.Value Is DBNull.Value Then
-            e.Value = Format(e.Value, "MMMM dd, yyyy hh:mm:ss tt")
-        Else
-            e.Value = dbHealth.GetServerDate.ToString("MMMM dd, yyyy hh:mm:ss tt")
-        End If
-    End Sub
-
-    Private Sub modifiedDate_Format(sender As Object, e As ConvertEventArgs) Handles modifiedDate.Format
-        If Not e.Value Is DBNull.Value Then
-            e.Value = Format(e.Value, "MMMM dd, yyyy hh:mm:ss tt")
-        Else
-            e.Value = ""
-        End If
     End Sub
 
     Private Sub txtYearId_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtYearId.Validating
@@ -474,33 +497,46 @@ Public Class Ape
                 picImage.Visible = True
                 axAcroPdf.Visible = False
 
-                Using img As Image = Image.FromFile(lstAttachment(currentIndex).FileName)
-                    picImage.Image = New Bitmap(img)
-                End Using
+                If File.Exists(lstAttachment(currentIndex).FileName) Then
+                    Using img As Image = Image.FromFile(lstAttachment(currentIndex).FileName)
+                        picImage.Image = New Bitmap(img)
+                    End Using
+                Else
+                    MessageBox.Show("Attachment is missing. Please contact IT.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
 
             ElseIf lstDocumentFiles.Contains(lstAttachment(currentIndex).ExtensionName.ToString.Trim.ToLower) Then
                 picImage.Visible = True
                 axAcroPdf.Visible = False
 
-                Select Case lstAttachment(currentIndex).ExtensionName.ToString.Trim.ToLower
-                    Case ".doc", ".docx"
-                        picImage.Image = My.Resources.file_type_doc_512px
+                If File.Exists(lstAttachment(currentIndex).FileName) Then
+                    Select Case lstAttachment(currentIndex).ExtensionName.ToString.Trim.ToLower
+                        Case ".doc", ".docx"
+                            picImage.Image = My.Resources.file_type_doc_512px
 
-                    Case ".xls", ".xlsx"
-                        picImage.Image = My.Resources.file_type_xls_512px
+                        Case ".xls", ".xlsx"
+                            picImage.Image = My.Resources.file_type_xls_512px
 
-                    Case ".ppt", ".pptx"
-                        picImage.Image = My.Resources.file_type_ppt_512px
+                        Case ".ppt", ".pptx"
+                            picImage.Image = My.Resources.file_type_ppt_512px
 
-                    Case ".txt"
-                        picImage.Image = My.Resources.file_type_txt_512px
-                End Select
+                        Case ".txt"
+                            picImage.Image = My.Resources.file_type_txt_512px
+                    End Select
+                Else
+                    MessageBox.Show("Attachment is missing. Please contact IT.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
 
             ElseIf lstPdfFiles.Contains(lstAttachment(currentIndex).ExtensionName.ToString.Trim.ToLower) Then
                 picImage.Visible = False
                 axAcroPdf.Visible = True
-                axAcroPdf.src = lstAttachment(currentIndex).FileName + "#toolbar=0"
-                axAcroPdf.setShowToolbar(False)
+
+                If File.Exists(lstAttachment(currentIndex).FileName) Then
+                    axAcroPdf.src = lstAttachment(currentIndex).FileName + "#toolbar=0"
+                    axAcroPdf.setShowToolbar(False)
+                Else
+                    MessageBox.Show("Attachment is missing. Please contact IT.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
 
             Else
                 picImage.Visible = True
@@ -508,7 +544,12 @@ Public Class Ape
                 picImage.Image = My.Resources.file_type_unknown_512px
             End If
 
-            lblFilename.Text = lstAttachment(currentIndex).SafeName
+            If File.Exists(lstAttachment(currentIndex).FileName) Then
+                lblFilename.Text = lstAttachment(currentIndex).SafeName
+            Else
+                lblFilename.Text = ""
+            End If
+
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -533,13 +574,13 @@ Public Class Ape
     End Sub
 
     Private Sub bgWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgWorker.DoWork
-        If lstAttachmentForCopy.Count > 0 Then
+        If lstAttachmentCopy.Count > 0 Then
             Dim streamRead As System.IO.FileStream
             Dim streamWrite As System.IO.FileStream
 
-            For i As Integer = 0 To lstAttachmentForCopy.Count - 1
-                streamRead = New System.IO.FileStream(lstAttachmentForCopy(i).FileName, System.IO.FileMode.Open)
-                streamWrite = New System.IO.FileStream(attachmentDirectory & "\" & lstAttachmentForCopy(i).SafeName, IO.FileMode.Create, IO.FileAccess.Write, IO.FileShare.None)
+            For i As Integer = 0 To lstAttachmentCopy.Count - 1
+                streamRead = New System.IO.FileStream(lstAttachmentCopy(i).FileName, System.IO.FileMode.Open)
+                streamWrite = New System.IO.FileStream(attachmentDirectory & "\" & lstAttachmentCopy(i).SafeName, IO.FileMode.Create, IO.FileAccess.Write, IO.FileShare.None)
 
                 Dim lngLen As Long = streamRead.Length - 1
                 Dim byteBuffer(4096) As Byte
@@ -597,4 +638,5 @@ Public Class Ape
             Me.DialogResult = DialogResult.OK
         End If
     End Sub
+
 End Class

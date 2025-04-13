@@ -11,13 +11,8 @@ Namespace My
 
         Private Sub MySettings_SettingsLoaded(sender As Object, e As SettingsLoadedEventArgs) Handles Me.SettingsLoaded
             If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-                If Environment.MachineName.ToString.Trim = "NBCP-DT-032" Then
-                    Me.Item("HealthConnectionString") = "Data Source=NBCP-DT-032\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"
-                    Me.Item("JeonsoftConnectionString") = "Data Source=NBCP-DT-032\SQLEXPRESS;Initial Catalog=NBCTECHDB;Persist Security Info=True;User ID=sa;Password=Nbc12#"
-                Else
-                    Me.Item("HealthConnectionString") = "Data Source=NBCP-LT-043\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"
-                    Me.Item("JeonsoftConnectionString") = "Data Source=NBCP-LT-043\SQLEXPRESS;Initial Catalog=NBCTECHDB;Persist Security Info=True;User ID=sa;Password=Nbc12#"
-                End If
+                Me.Item("HealthConnectionString") = "Data Source=NBCP-LT-144\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"
+                Me.Item("JeonsoftConnectionString") = "Data Source=NBCP-LT-144\SQLEXPRESS;Initial Catalog=NBCTECHDB;Persist Security Info=True;User ID=sa;Password=Nbc12#"
             Else
                 If CheckIfRunning("openvpn") Then
                     Me.Item("HealthConnectionString") = "Data Source=192.168.20.230;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"

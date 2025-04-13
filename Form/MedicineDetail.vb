@@ -272,7 +272,7 @@ Public Class MedicineDetail
         End Try
     End Sub
 
-    Private Sub MntMchSchedDetail_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub Form_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode.Equals(Keys.F8) Then
             e.Handled = True
             btnDelete.PerformClick()
@@ -282,7 +282,7 @@ Public Class MedicineDetail
         End If
     End Sub
 
-    Private Sub MedicineDetail_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             If medicineId = 0 Then
                 Me.Text = "New Medicine Entry"

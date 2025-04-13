@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Medicine
+Partial Class Doctor
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,13 +23,9 @@ Partial Class Medicine
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Medicine))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Doctor))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.cmbSearchCriteria = New System.Windows.Forms.ComboBox()
         Me.pnlSearchByText = New System.Windows.Forms.Panel()
         Me.txtCommon = New System.Windows.Forms.TextBox()
@@ -61,24 +57,11 @@ Partial Class Medicine
         Me.btnClose = New PinkieControls.ButtonXP()
         Me.pnlSearchByCmb2 = New System.Windows.Forms.Panel()
         Me.cmbCommon2 = New SergeUtils.EasyCompletionComboBox()
-        Me.btnViewLogs = New PinkieControls.ButtonXP()
-        Me.btnReceiveStock = New PinkieControls.ButtonXP()
-        Me.btnExport = New PinkieControls.ButtonXP()
-        Me.cmsExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ZeroStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BelowOrderingPointToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BelowMinStockToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.btnIssueStock = New PinkieControls.ButtonXP()
         Me.dgvList = New System.Windows.Forms.DataGridView()
-        Me.ColStockId = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColMedicineName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColCategoryName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColUnitCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColMaxStock = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColMinStock = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColOrderingPoint = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColActualStock = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColEmployeeId = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColEmployeeCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColEmployeeName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColPositionName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColIsActive = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.pnlSearchByText.SuspendLayout()
         Me.pnlSearchByCmb.SuspendLayout()
@@ -86,7 +69,6 @@ Partial Class Medicine
         CType(Me.bindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.bindingNavigator.SuspendLayout()
         Me.pnlSearchByCmb2.SuspendLayout()
-        Me.cmsExport.SuspendLayout()
         CType(Me.dgvList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -277,7 +259,6 @@ Partial Class Medicine
         '
         Me.txtPageNumber.AccessibleName = "Position"
         Me.txtPageNumber.AutoSize = False
-        Me.txtPageNumber.Font = New System.Drawing.Font("Segoe UI", 9.0!)
         Me.txtPageNumber.Name = "txtPageNumber"
         Me.txtPageNumber.Size = New System.Drawing.Size(30, 23)
         Me.txtPageNumber.Text = "0"
@@ -423,104 +404,6 @@ Partial Class Medicine
         Me.cmbCommon2.Size = New System.Drawing.Size(316, 25)
         Me.cmbCommon2.TabIndex = 592
         '
-        'btnViewLogs
-        '
-        Me.btnViewLogs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnViewLogs.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.btnViewLogs.CausesValidation = False
-        Me.btnViewLogs.DefaultScheme = True
-        Me.btnViewLogs.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnViewLogs.Font = New System.Drawing.Font("Verdana", 8.5!)
-        Me.btnViewLogs.Hint = "View transaction history"
-        Me.btnViewLogs.Location = New System.Drawing.Point(895, 2)
-        Me.btnViewLogs.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnViewLogs.Name = "btnViewLogs"
-        Me.btnViewLogs.Scheme = PinkieControls.ButtonXP.Schemes.Blue
-        Me.btnViewLogs.Size = New System.Drawing.Size(85, 29)
-        Me.btnViewLogs.TabIndex = 560
-        Me.btnViewLogs.Text = "View Logs"
-        '
-        'btnReceiveStock
-        '
-        Me.btnReceiveStock.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnReceiveStock.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.btnReceiveStock.CausesValidation = False
-        Me.btnReceiveStock.DefaultScheme = True
-        Me.btnReceiveStock.DialogResult = System.Windows.Forms.DialogResult.None
-        Me.btnReceiveStock.Font = New System.Drawing.Font("Verdana", 8.5!)
-        Me.btnReceiveStock.Hint = "Modify record"
-        Me.btnReceiveStock.Location = New System.Drawing.Point(506, 526)
-        Me.btnReceiveStock.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnReceiveStock.Name = "btnReceiveStock"
-        Me.btnReceiveStock.Scheme = PinkieControls.ButtonXP.Schemes.Blue
-        Me.btnReceiveStock.Size = New System.Drawing.Size(98, 32)
-        Me.btnReceiveStock.TabIndex = 559
-        Me.btnReceiveStock.Text = "Receive Stock"
-        '
-        'btnExport
-        '
-        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.btnExport.CausesValidation = False
-        Me.btnExport.DefaultScheme = True
-        Me.btnExport.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnExport.Font = New System.Drawing.Font("Verdana", 8.5!)
-        Me.btnExport.Hint = "Export to excel"
-        Me.btnExport.Location = New System.Drawing.Point(806, 2)
-        Me.btnExport.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Scheme = PinkieControls.ButtonXP.Schemes.Blue
-        Me.btnExport.Size = New System.Drawing.Size(85, 29)
-        Me.btnExport.TabIndex = 561
-        Me.btnExport.Text = "Export"
-        '
-        'cmsExport
-        '
-        Me.cmsExport.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AllToolStripMenuItem, Me.ZeroStockToolStripMenuItem, Me.BelowOrderingPointToolStripMenuItem, Me.BelowMinStockToolStripMenuItem})
-        Me.cmsExport.Name = "cmsConsole"
-        Me.cmsExport.Size = New System.Drawing.Size(188, 92)
-        '
-        'AllToolStripMenuItem
-        '
-        Me.AllToolStripMenuItem.Name = "AllToolStripMenuItem"
-        Me.AllToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-        Me.AllToolStripMenuItem.Text = "All"
-        '
-        'ZeroStockToolStripMenuItem
-        '
-        Me.ZeroStockToolStripMenuItem.Name = "ZeroStockToolStripMenuItem"
-        Me.ZeroStockToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-        Me.ZeroStockToolStripMenuItem.Text = "Zero Stock"
-        '
-        'BelowOrderingPointToolStripMenuItem
-        '
-        Me.BelowOrderingPointToolStripMenuItem.Name = "BelowOrderingPointToolStripMenuItem"
-        Me.BelowOrderingPointToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-        Me.BelowOrderingPointToolStripMenuItem.Text = "Below Ordering Point"
-        '
-        'BelowMinStockToolStripMenuItem
-        '
-        Me.BelowMinStockToolStripMenuItem.Name = "BelowMinStockToolStripMenuItem"
-        Me.BelowMinStockToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-        Me.BelowMinStockToolStripMenuItem.Text = "Below Min Stock"
-        '
-        'btnIssueStock
-        '
-        Me.btnIssueStock.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnIssueStock.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.btnIssueStock.CausesValidation = False
-        Me.btnIssueStock.DefaultScheme = True
-        Me.btnIssueStock.DialogResult = System.Windows.Forms.DialogResult.None
-        Me.btnIssueStock.Font = New System.Drawing.Font("Verdana", 8.5!)
-        Me.btnIssueStock.Hint = "Modify record"
-        Me.btnIssueStock.Location = New System.Drawing.Point(404, 526)
-        Me.btnIssueStock.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnIssueStock.Name = "btnIssueStock"
-        Me.btnIssueStock.Scheme = PinkieControls.ButtonXP.Schemes.Blue
-        Me.btnIssueStock.Size = New System.Drawing.Size(98, 32)
-        Me.btnIssueStock.TabIndex = 565
-        Me.btnIssueStock.Text = "Issue Stock"
-        '
         'dgvList
         '
         Me.dgvList.AllowUserToAddRows = False
@@ -539,7 +422,7 @@ Partial Class Medicine
         Me.dgvList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvList.ColumnHeadersHeight = 25
         Me.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.dgvList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColStockId, Me.ColMedicineName, Me.ColCategoryName, Me.ColUnitCode, Me.ColMaxStock, Me.ColMinStock, Me.ColOrderingPoint, Me.ColActualStock, Me.ColIsActive})
+        Me.dgvList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColEmployeeId, Me.ColEmployeeCode, Me.ColEmployeeName, Me.ColPositionName, Me.ColIsActive})
         Me.dgvList.Location = New System.Drawing.Point(0, 33)
         Me.dgvList.MultiSelect = False
         Me.dgvList.Name = "dgvList"
@@ -550,79 +433,40 @@ Partial Class Medicine
         Me.dgvList.Size = New System.Drawing.Size(984, 490)
         Me.dgvList.TabIndex = 553
         '
-        'ColStockId
+        'ColEmployeeId
         '
-        Me.ColStockId.DataPropertyName = "StockId"
-        Me.ColStockId.Frozen = True
-        Me.ColStockId.HeaderText = "StockId"
-        Me.ColStockId.Name = "ColStockId"
-        Me.ColStockId.ReadOnly = True
-        Me.ColStockId.Visible = False
+        Me.ColEmployeeId.DataPropertyName = "EmployeeId"
+        Me.ColEmployeeId.Frozen = True
+        Me.ColEmployeeId.HeaderText = "EmployeeId"
+        Me.ColEmployeeId.Name = "ColEmployeeId"
+        Me.ColEmployeeId.ReadOnly = True
+        Me.ColEmployeeId.Visible = False
         '
-        'ColMedicineName
+        'ColEmployeeCode
         '
-        Me.ColMedicineName.DataPropertyName = "MedicineName"
+        Me.ColEmployeeCode.DataPropertyName = "EmployeeCode"
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.ColMedicineName.DefaultCellStyle = DataGridViewCellStyle2
-        Me.ColMedicineName.HeaderText = "Medicine"
-        Me.ColMedicineName.Name = "ColMedicineName"
-        Me.ColMedicineName.ReadOnly = True
-        Me.ColMedicineName.Width = 300
+        Me.ColEmployeeCode.DefaultCellStyle = DataGridViewCellStyle2
+        Me.ColEmployeeCode.HeaderText = "Badge No"
+        Me.ColEmployeeCode.Name = "ColEmployeeCode"
+        Me.ColEmployeeCode.ReadOnly = True
+        Me.ColEmployeeCode.Width = 120
         '
-        'ColCategoryName
+        'ColEmployeeName
         '
-        Me.ColCategoryName.DataPropertyName = "CategoryName"
-        Me.ColCategoryName.HeaderText = "Category"
-        Me.ColCategoryName.Name = "ColCategoryName"
-        Me.ColCategoryName.ReadOnly = True
-        Me.ColCategoryName.Width = 110
+        Me.ColEmployeeName.DataPropertyName = "EmployeeName"
+        Me.ColEmployeeName.HeaderText = "Name"
+        Me.ColEmployeeName.Name = "ColEmployeeName"
+        Me.ColEmployeeName.ReadOnly = True
+        Me.ColEmployeeName.Width = 120
         '
-        'ColUnitCode
+        'ColPositionName
         '
-        Me.ColUnitCode.DataPropertyName = "UnitCode"
-        Me.ColUnitCode.HeaderText = "UOM"
-        Me.ColUnitCode.Name = "ColUnitCode"
-        Me.ColUnitCode.ReadOnly = True
-        '
-        'ColMaxStock
-        '
-        Me.ColMaxStock.DataPropertyName = "MaxStock"
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColMaxStock.DefaultCellStyle = DataGridViewCellStyle3
-        Me.ColMaxStock.HeaderText = "Max Stock"
-        Me.ColMaxStock.Name = "ColMaxStock"
-        Me.ColMaxStock.ReadOnly = True
-        Me.ColMaxStock.Width = 70
-        '
-        'ColMinStock
-        '
-        Me.ColMinStock.DataPropertyName = "MinStock"
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColMinStock.DefaultCellStyle = DataGridViewCellStyle4
-        Me.ColMinStock.HeaderText = "Min Stock"
-        Me.ColMinStock.Name = "ColMinStock"
-        Me.ColMinStock.ReadOnly = True
-        Me.ColMinStock.Width = 70
-        '
-        'ColOrderingPoint
-        '
-        Me.ColOrderingPoint.DataPropertyName = "OrderingPoint"
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColOrderingPoint.DefaultCellStyle = DataGridViewCellStyle5
-        Me.ColOrderingPoint.HeaderText = "Ord Point"
-        Me.ColOrderingPoint.Name = "ColOrderingPoint"
-        Me.ColOrderingPoint.ReadOnly = True
-        Me.ColOrderingPoint.Width = 65
-        '
-        'ColActualStock
-        '
-        Me.ColActualStock.DataPropertyName = "ActualStock"
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColActualStock.DefaultCellStyle = DataGridViewCellStyle6
-        Me.ColActualStock.HeaderText = "Stock"
-        Me.ColActualStock.Name = "ColActualStock"
-        Me.ColActualStock.ReadOnly = True
-        Me.ColActualStock.Width = 65
+        Me.ColPositionName.DataPropertyName = "PositionName"
+        Me.ColPositionName.HeaderText = "Position"
+        Me.ColPositionName.Name = "ColPositionName"
+        Me.ColPositionName.ReadOnly = True
+        Me.ColPositionName.Width = 200
         '
         'ColIsActive
         '
@@ -631,9 +475,10 @@ Partial Class Medicine
         Me.ColIsActive.Name = "ColIsActive"
         Me.ColIsActive.ReadOnly = True
         Me.ColIsActive.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.ColIsActive.Width = 50
+        Me.ColIsActive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.ColIsActive.Width = 60
         '
-        'Medicine
+        'Doctor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
@@ -643,10 +488,6 @@ Partial Class Medicine
         Me.Controls.Add(Me.btnReset)
         Me.Controls.Add(Me.btnSearch)
         Me.Controls.Add(Me.cmbSearchCriteria)
-        Me.Controls.Add(Me.btnIssueStock)
-        Me.Controls.Add(Me.btnExport)
-        Me.Controls.Add(Me.btnViewLogs)
-        Me.Controls.Add(Me.btnReceiveStock)
         Me.Controls.Add(Me.pnlSearchByCmb2)
         Me.Controls.Add(Me.pnlSearchByText)
         Me.Controls.Add(Me.pnlSearchByCmb)
@@ -662,12 +503,12 @@ Partial Class Medicine
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "Medicine"
+        Me.Name = "Doctor"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Medicine Masterlist"
+        Me.Text = "Doctor Masterlist"
         Me.pnlSearchByText.ResumeLayout(False)
         Me.pnlSearchByText.PerformLayout()
         Me.pnlSearchByCmb.ResumeLayout(False)
@@ -677,7 +518,6 @@ Partial Class Medicine
         Me.bindingNavigator.ResumeLayout(False)
         Me.bindingNavigator.PerformLayout()
         Me.pnlSearchByCmb2.ResumeLayout(False)
-        Me.cmsExport.ResumeLayout(False)
         CType(Me.dgvList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -715,23 +555,10 @@ Partial Class Medicine
     Friend WithEvents btnClose As PinkieControls.ButtonXP
     Friend WithEvents pnlSearchByCmb2 As Panel
     Friend WithEvents cmbCommon2 As SergeUtils.EasyCompletionComboBox
-    Friend WithEvents btnViewLogs As PinkieControls.ButtonXP
-    Friend WithEvents btnReceiveStock As PinkieControls.ButtonXP
-    Friend WithEvents btnExport As PinkieControls.ButtonXP
-    Friend WithEvents cmsExport As ContextMenuStrip
-    Friend WithEvents AllToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BelowOrderingPointToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents btnIssueStock As PinkieControls.ButtonXP
     Friend WithEvents dgvList As DataGridView
-    Friend WithEvents BelowMinStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ZeroStockToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ColStockId As DataGridViewTextBoxColumn
-    Friend WithEvents ColMedicineName As DataGridViewTextBoxColumn
-    Friend WithEvents ColCategoryName As DataGridViewTextBoxColumn
-    Friend WithEvents ColUnitCode As DataGridViewTextBoxColumn
-    Friend WithEvents ColMaxStock As DataGridViewTextBoxColumn
-    Friend WithEvents ColMinStock As DataGridViewTextBoxColumn
-    Friend WithEvents ColOrderingPoint As DataGridViewTextBoxColumn
-    Friend WithEvents ColActualStock As DataGridViewTextBoxColumn
+    Friend WithEvents ColEmployeeId As DataGridViewTextBoxColumn
+    Friend WithEvents ColEmployeeCode As DataGridViewTextBoxColumn
+    Friend WithEvents ColEmployeeName As DataGridViewTextBoxColumn
+    Friend WithEvents ColPositionName As DataGridViewTextBoxColumn
     Friend WithEvents ColIsActive As DataGridViewCheckBoxColumn
 End Class

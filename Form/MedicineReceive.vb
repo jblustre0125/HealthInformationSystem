@@ -1,62 +1,62 @@
-﻿Imports System.ComponentModel
+﻿Imports BlackCoffeeLibrary
+Imports System.ComponentModel
 Imports System.Data.SqlClient
 Imports System.IO
-Imports BlackCoffeeLibrary
 
 Public Class MedicineReceive
-    Private bsTrxDetail As New BindingSource
-    Private dtTrxHeader As New DataTable
-    Private dtTrxDetail As New DataTable
-    Private adpTrxDetail As New SqlDataAdapter
-    Private bite As Byte()
-    Private bsMedicine As New BindingSource
-    Private dbConnection As New clsConnection
+    Private connection As New clsConnection
     Private dbMain As New BlackCoffeeLibrary.Main
-    Private dbMethod As New SqlDbMethod(dbConnection.MyConnection)
-    Private dicPartSelection As New Dictionary(Of String, Integer)
+    Private dbMethod As New SqlDbMethod(connection.MyConnection)
+
+    Private adpTrxDetail As New SqlDataAdapter
+    Private bsMedicine As New BindingSource
+    Private bsTrxDetail As New BindingSource
     Private dtMedicine As New DataTable
-    Private isActive As Boolean = False
-    Private mStream As New MemoryStream
-    Private trxId As Integer = 0
-    Private userId As Integer = 0
+    Private dtTrxDetail As New DataTable
+    Private dtTrxHeader As New DataTable
+
     Private stockId As Integer = 0
+
+    Private attendantId As Integer = 0
+    Private trxId As Integer = 0
+
     'the word `byte` is not a valid identifier
-    Public Sub New(Optional _userId As Integer = 0, Optional _trxId As Integer = 0)
+    Public Sub New(Optional attendantId As Integer = 0, Optional trxId As Integer = 0)
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        userId = _userId
-        trxId = _trxId
+        Me.attendantId = attendantId
+        Me.trxId = trxId
 
         dbMain.EnableDoubleBuffered(dgvTrxDetail)
 
-        dbMethod.FillCmbWithCaption("RdClinicNbc", CommandType.StoredProcedure, "EmployeeId", "EmployeeName", cmbReceiver, "")
+        dbMethod.FillCmbWithCaption("RdClinicAll", CommandType.StoredProcedure, "EmployeeId", "EmployeeName", cmbReceiver, "")
 
-        If trxId = 0 Then
+        If Me.trxId = 0 Then
             dtTrxDetail = CreateTrxMedicineDetail()
 
             Me.bsTrxDetail.DataSource = dtTrxDetail
             dgvTrxDetail.AutoGenerateColumns = False
             dgvTrxDetail.DataSource = Me.bsTrxDetail
 
-            cmbReceiver.SelectedValue = userId
+            cmbReceiver.SelectedValue = Me.attendantId
             ActiveControl = cmbMedicine
 
         Else
             Dim prmHeader(0) As SqlParameter
             prmHeader(0) = New SqlParameter("TrxId", SqlDbType.Int)
-            prmHeader(0).Value = trxId
+            prmHeader(0).Value = Me.trxId
 
             dtTrxHeader = dbMethod.FillDataTable("RdMedicineTrxHeaderByTrxId", CommandType.StoredProcedure, prmHeader)
 
             Dim prmDetail(0) As SqlParameter
             prmDetail(0) = New SqlParameter("TrxId", SqlDbType.Int)
-            prmDetail(0).Value = trxId
+            prmDetail(0).Value = Me.trxId
 
             dtTrxDetail = dbMethod.FillDataTable("RdMedicineTrxDetailByTrxId", CommandType.StoredProcedure, prmDetail)
 
-            Me.Text = "Transaction No. " & trxId
+            Me.Text = "Transaction No : " & Me.trxId
 
             For Each row As DataRow In dtTrxHeader.Rows
                 dtpDateReceived.Value = row("CreatedDate")
@@ -99,13 +99,13 @@ Public Class MedicineReceive
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         Try
             If cmbMedicine.SelectedValue = 0 Then
-                MessageBox.Show("Please select an item.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Please select an item to receive.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 cmbMedicine.Focus()
                 Exit Sub
             End If
 
             If String.IsNullOrWhiteSpace(txtQty.Text) OrElse CInt(txtQty.Text.Trim) = 0 Then
-                MessageBox.Show("Please input quantity to receive.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Please enter quantity to receive.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 txtQty.Focus()
                 Exit Sub
             End If
@@ -209,7 +209,7 @@ Public Class MedicineReceive
             prmMedicalHeader(0) = New SqlParameter("@TrxId", SqlDbType.Int)
             prmMedicalHeader(0).Direction = ParameterDirection.Output
             prmMedicalHeader(1) = New SqlParameter("@CreatedBy", SqlDbType.Int)
-            prmMedicalHeader(1).Value = userId
+            prmMedicalHeader(1).Value = attendantId
             prmMedicalHeader(2) = New SqlParameter("@CreatedDate", SqlDbType.DateTime2)
             prmMedicalHeader(2).Value = dbMethod.GetServerDate
             prmMedicalHeader(3) = New SqlParameter("@RecordId", SqlDbType.Int)
@@ -256,16 +256,6 @@ Public Class MedicineReceive
         End Try
     End Sub
 
-    Private Sub cmbTechnician_Enter(sender As Object, e As EventArgs) Handles cmbReceiver.Enter
-        lblReceiver.ForeColor = Color.White
-        lblReceiver.BackColor = Color.DarkSlateGray
-    End Sub
-
-    Private Sub cmbTechnician_Leave(sender As Object, e As EventArgs) Handles cmbReceiver.Leave
-        lblReceiver.ForeColor = Color.Black
-        lblReceiver.BackColor = SystemColors.Control
-    End Sub
-
     Private Sub cmbTechnician_Validated(sender As Object, e As EventArgs)
         Try
             If cmbReceiver.SelectedValue = 0 Then
@@ -275,6 +265,7 @@ Public Class MedicineReceive
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
     Private Sub cmbTechnician_Validating(sender As Object, e As CancelEventArgs)
         Try
             e.Cancel = sender.FindStringExact(sender.text) < 0 AndAlso String.IsNullOrEmpty(cmbReceiver.Text)
@@ -286,7 +277,7 @@ Public Class MedicineReceive
 
     Private Function CreateTrxMedicineDetail() As DataTable
         Dim dtMntTrxPartDetail As New DataTable
-        Dim con As New SqlConnection(dbConnection.MyConnection)
+        Dim con As New SqlConnection(connection.MyConnection)
 
         Try
             Dim query As String = String.Empty
@@ -327,14 +318,14 @@ Public Class MedicineReceive
         e.Cancel = False
     End Sub
 
-    Private Sub MntTrxActvityLog_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+    Private Sub Form_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode.Equals(Keys.F10) Then
             e.Handled = True
             btnSave.PerformClick()
         End If
     End Sub
 
-    Private Sub MedicineReceive_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If trxId = 0 Then
             Dim prmRd(0) As SqlParameter
             prmRd(0) = New SqlParameter("@IsActive", SqlDbType.Bit)
@@ -381,7 +372,7 @@ Public Class MedicineReceive
         End Try
     End Sub
 
-    Private Sub MntTrxPartReceive_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+    Private Sub Form_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         Try
             If trxId <> 0 Then
                 cmbReceiver.SelectionLength = 0

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Ape
+Partial Class ApeDetail
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,7 +22,7 @@ Partial Class Ape
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Ape))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ApeDetail))
         Me.lblCreatedDate = New System.Windows.Forms.Label()
         Me.txtCreatedDate = New System.Windows.Forms.Label()
         Me.lblYearId = New System.Windows.Forms.Label()
@@ -40,19 +40,19 @@ Partial Class Ape
         Me.btnPrevious = New PinkieControls.ButtonXP()
         Me.btnRemove = New PinkieControls.ButtonXP()
         Me.btnBrowse = New PinkieControls.ButtonXP()
-        Me.axAcroPdf = New AxAcroPDFLib.AxAcroPDF()
         Me.btnCancel = New PinkieControls.ButtonXP()
         Me.btnClose = New PinkieControls.ButtonXP()
         Me.btnDelete = New PinkieControls.ButtonXP()
         Me.btnSave = New PinkieControls.ButtonXP()
         Me.txtYearId = New System.Windows.Forms.TextBox()
-        Me.lblFileCount = New System.Windows.Forms.Label()
+        Me.lblAttachmentCount = New System.Windows.Forms.Label()
         Me.ofdApeDetail = New System.Windows.Forms.OpenFileDialog()
         Me.txtModifiedBy = New System.Windows.Forms.Label()
         Me.lblModifiedBy = New System.Windows.Forms.Label()
         Me.txtModifiedDate = New System.Windows.Forms.Label()
         Me.lblModifiedDate = New System.Windows.Forms.Label()
         Me.bgWorker = New System.ComponentModel.BackgroundWorker()
+        Me.axAcroPdf = New AxAcroPDFLib.AxAcroPDF()
         Me.pnlImage.SuspendLayout()
         CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.axAcroPdf, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,7 +82,6 @@ Partial Class Ape
         Me.txtCreatedDate.ForeColor = System.Drawing.Color.Black
         Me.txtCreatedDate.Location = New System.Drawing.Point(486, 30)
         Me.txtCreatedDate.Name = "txtCreatedDate"
-        Me.txtCreatedDate.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.txtCreatedDate.Size = New System.Drawing.Size(259, 24)
         Me.txtCreatedDate.TabIndex = 541
         Me.txtCreatedDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -111,7 +110,6 @@ Partial Class Ape
         Me.txtCreatedBy.ForeColor = System.Drawing.Color.Black
         Me.txtCreatedBy.Location = New System.Drawing.Point(486, 4)
         Me.txtCreatedBy.Name = "txtCreatedBy"
-        Me.txtCreatedBy.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.txtCreatedBy.Size = New System.Drawing.Size(259, 24)
         Me.txtCreatedBy.TabIndex = 545
         Me.txtCreatedBy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -302,15 +300,6 @@ Partial Class Ape
         Me.btnBrowse.TabStop = False
         Me.btnBrowse.Text = "Browse"
         '
-        'axAcroPdf
-        '
-        Me.axAcroPdf.Enabled = True
-        Me.axAcroPdf.Location = New System.Drawing.Point(4, 18)
-        Me.axAcroPdf.Name = "axAcroPdf"
-        Me.axAcroPdf.OcxState = CType(resources.GetObject("axAcroPdf.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.axAcroPdf.Size = New System.Drawing.Size(349, 311)
-        Me.axAcroPdf.TabIndex = 585
-        '
         'btnCancel
         '
         Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -385,16 +374,16 @@ Partial Class Ape
         Me.txtYearId.Size = New System.Drawing.Size(259, 24)
         Me.txtYearId.TabIndex = 0
         '
-        'lblFileCount
+        'lblAttachmentCount
         '
-        Me.lblFileCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblFileCount.AutoSize = True
-        Me.lblFileCount.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.lblFileCount.Location = New System.Drawing.Point(1, 397)
-        Me.lblFileCount.Name = "lblFileCount"
-        Me.lblFileCount.Size = New System.Drawing.Size(67, 15)
-        Me.lblFileCount.TabIndex = 580
-        Me.lblFileCount.Text = "File Count :"
+        Me.lblAttachmentCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblAttachmentCount.AutoSize = True
+        Me.lblAttachmentCount.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.lblAttachmentCount.Location = New System.Drawing.Point(1, 397)
+        Me.lblAttachmentCount.Name = "lblAttachmentCount"
+        Me.lblAttachmentCount.Size = New System.Drawing.Size(89, 15)
+        Me.lblAttachmentCount.TabIndex = 580
+        Me.lblAttachmentCount.Text = "Attachment(s) :"
         '
         'ofdApeDetail
         '
@@ -413,7 +402,6 @@ Partial Class Ape
         Me.txtModifiedBy.ForeColor = System.Drawing.Color.Black
         Me.txtModifiedBy.Location = New System.Drawing.Point(486, 56)
         Me.txtModifiedBy.Name = "txtModifiedBy"
-        Me.txtModifiedBy.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.txtModifiedBy.Size = New System.Drawing.Size(259, 24)
         Me.txtModifiedBy.TabIndex = 584
         Me.txtModifiedBy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -442,7 +430,6 @@ Partial Class Ape
         Me.txtModifiedDate.ForeColor = System.Drawing.Color.Black
         Me.txtModifiedDate.Location = New System.Drawing.Point(486, 82)
         Me.txtModifiedDate.Name = "txtModifiedDate"
-        Me.txtModifiedDate.Padding = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.txtModifiedDate.Size = New System.Drawing.Size(259, 24)
         Me.txtModifiedDate.TabIndex = 582
         Me.txtModifiedDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -466,7 +453,16 @@ Partial Class Ape
         '
         Me.bgWorker.WorkerReportsProgress = True
         '
-        'frmEmpApeDetail
+        'axAcroPdf
+        '
+        Me.axAcroPdf.Enabled = True
+        Me.axAcroPdf.Location = New System.Drawing.Point(4, 18)
+        Me.axAcroPdf.Name = "axAcroPdf"
+        Me.axAcroPdf.OcxState = CType(resources.GetObject("axAcroPdf.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.axAcroPdf.Size = New System.Drawing.Size(349, 311)
+        Me.axAcroPdf.TabIndex = 585
+        '
+        'Ape
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
@@ -479,7 +475,7 @@ Partial Class Ape
         Me.Controls.Add(Me.lblModifiedBy)
         Me.Controls.Add(Me.txtModifiedDate)
         Me.Controls.Add(Me.lblModifiedDate)
-        Me.Controls.Add(Me.lblFileCount)
+        Me.Controls.Add(Me.lblAttachmentCount)
         Me.Controls.Add(Me.txtYearId)
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnClose)
@@ -497,7 +493,7 @@ Partial Class Ape
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "frmEmpApeDetail"
+        Me.Name = "Ape"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
@@ -529,7 +525,7 @@ Partial Class Ape
     Friend WithEvents btnDelete As PinkieControls.ButtonXP
     Friend WithEvents btnSave As PinkieControls.ButtonXP
     Friend WithEvents txtYearId As System.Windows.Forms.TextBox
-    Friend WithEvents lblFileCount As System.Windows.Forms.Label
+    Friend WithEvents lblAttachmentCount As System.Windows.Forms.Label
     Friend WithEvents ofdApeDetail As System.Windows.Forms.OpenFileDialog
     Friend WithEvents btnView As PinkieControls.ButtonXP
     Friend WithEvents txtModifiedBy As Label

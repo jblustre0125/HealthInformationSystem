@@ -1,18 +1,23 @@
-﻿Imports System.Data.SqlClient
-Imports BlackCoffeeLibrary
+﻿Imports BlackCoffeeLibrary
 Imports ClosedXML.Excel
+Imports System.Data.SqlClient
+Imports System.IO
 
 Public Class Medicine
-    Public bsMedicine As New BindingSource
-
     Private connection As New clsConnection
-
     Private dbMain As New BlackCoffeeLibrary.Main
     Private dbMethod As New SqlDbMethod(connection.MyConnection)
 
     Private dicSearchCriteria As New Dictionary(Of String, Integer)
     Private dicStockStatus As New Dictionary(Of String, Integer)
     Private dtMedicine As New DataTable
+
+    Public bsMedicine As New BindingSource
+
+    Private pageCount As Integer
+    Private pageIndex As Integer
+    Private pageSize As Integer
+    Private totalCount As Integer
 
     Private indexPosition As Integer = 0
     Private indexScroll As Integer = 0
@@ -21,13 +26,10 @@ Public Class Medicine
     Private isFilterByMedicineName As Boolean = False
     Private isFilterByStockStatus As Boolean = False
     Private isFilterByUnit As Boolean = False
-    Private pageCount As Integer
-    Private pageIndex As Integer
-    Private pageSize As Integer
-    Private totalCount As Integer
-    Private userId As Integer = 0
 
-    Public Sub New(_userId As Integer)
+    Private attendantId As Integer = 0
+
+    Public Sub New(attendantId As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -35,7 +37,7 @@ Public Class Medicine
         ' Add any initialization after the InitializeComponent() call.
         dbMain.EnableDoubleBuffered(dgvList)
 
-        userId = _userId
+        Me.attendantId = attendantId
     End Sub
 
     Public Sub Reload()
@@ -48,13 +50,13 @@ Public Class Medicine
         Try
             Dim dt As New DataTable
 
-            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock", CommandType.Text)
+            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock ORDER BY MedicineName ASC", CommandType.Text)
 
             Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
             Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Medicine Inventory.xlsx")
 
-            If Not System.IO.Directory.Exists(folderPath) Then
-                System.IO.Directory.CreateDirectory(folderPath)
+            If Not Directory.Exists(folderPath) Then
+                Directory.CreateDirectory(folderPath)
             End If
 
             Using wb As New XLWorkbook()
@@ -72,13 +74,13 @@ Public Class Medicine
         Try
             Dim dt As New DataTable
 
-            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock WHERE ActualStock <= MinStock", CommandType.Text)
+            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock WHERE ActualStock <= MinStock ORDER BY MedicineName ASC", CommandType.Text)
 
             Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
             Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Medicine Inventory.xlsx")
 
-            If Not System.IO.Directory.Exists(folderPath) Then
-                System.IO.Directory.CreateDirectory(folderPath)
+            If Not Directory.Exists(folderPath) Then
+                Directory.CreateDirectory(folderPath)
             End If
 
             Using wb As New XLWorkbook()
@@ -96,13 +98,13 @@ Public Class Medicine
         Try
             Dim dt As New DataTable
 
-            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock WHERE ActualStock <= OrderingPoint", CommandType.Text)
+            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMedicineStock WHERE ActualStock <= OrderingPoint ORDER BY MedicineName ASC", CommandType.Text)
 
             Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
             Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Medicine Inventory.xlsx")
 
-            If Not System.IO.Directory.Exists(folderPath) Then
-                System.IO.Directory.CreateDirectory(folderPath)
+            If Not Directory.Exists(folderPath) Then
+                Directory.CreateDirectory(folderPath)
             End If
 
             Using wb As New XLWorkbook()
@@ -115,6 +117,7 @@ Public Class Medicine
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
     Private Sub BindingNavigatorMoveFirstItem_Click(sender As Object, e As EventArgs) Handles BindingNavigatorMoveFirstItem.Click
         pageIndex = 0
         LoadMedicine()
@@ -145,7 +148,7 @@ Public Class Medicine
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         Try
-            Using frm As New MedicineDetail(userId)
+            Using frm As New MedicineDetail(attendantId)
                 If frm.ShowDialog(Me) = DialogResult.OK Then
                     Reload()
                 End If
@@ -196,7 +199,7 @@ Public Class Medicine
             If Me.dgvList.Rows.Count > 0 Then
                 Dim medicineId As Integer = CType(Me.bsMedicine.Current, DataRowView).Item("MedicineId")
 
-                Using frm As New MedicineDetail(userId, medicineId)
+                Using frm As New MedicineDetail(attendantId, medicineId)
                     If frm.ShowDialog(Me) = DialogResult.OK Then
                         Reload()
                     End If
@@ -222,7 +225,7 @@ Public Class Medicine
 
     Private Sub btnIssueStock_Click(sender As Object, e As EventArgs) Handles btnIssueStock.Click
         Try
-            Using frm As New MedicineIssue(userId)
+            Using frm As New MedicineIssue(attendantId)
                 If frm.ShowDialog(Me) = DialogResult.OK Then
                     Reload()
                 End If
@@ -234,7 +237,7 @@ Public Class Medicine
 
     Private Sub btnReceiveStock_Click(sender As Object, e As EventArgs) Handles btnReceiveStock.Click
         Try
-            Using frm As New MedicineReceive(userId)
+            Using frm As New MedicineReceive(attendantId)
                 If frm.ShowDialog(Me) = DialogResult.OK Then
                     Reload()
                 End If
@@ -586,11 +589,12 @@ Public Class Medicine
     Private Sub LoadUnit()
         dbMethod.FillCmbWithCaption("RdMedicineUnit", CommandType.StoredProcedure, "UnitId", "UnitName", cmbCommon, "< All >")
     End Sub
-    Private Sub MntSpare_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+
+    Private Sub Form_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         dgvList.Dispose()
     End Sub
 
-    Private Sub MntSpare_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub Form_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode.Equals(Keys.F2) Then
             e.Handled = True
             btnAdd.PerformClick()
@@ -606,7 +610,7 @@ Public Class Medicine
         End If
     End Sub
 
-    Private Sub MntSpare_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadSearchCriteria()
 
         pageIndex = 0
@@ -618,6 +622,7 @@ Public Class Medicine
 
         Me.ActiveControl = dgvList
     End Sub
+
     Private Sub SetScrollingIndex()
         dgvList.FirstDisplayedScrollingRowIndex = indexScroll
         If dgvList.Rows.Count > indexPosition Then
@@ -648,8 +653,8 @@ Public Class Medicine
             Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
             Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Medicine Inventory.xlsx")
 
-            If Not System.IO.Directory.Exists(folderPath) Then
-                System.IO.Directory.CreateDirectory(folderPath)
+            If Not Directory.Exists(folderPath) Then
+                Directory.CreateDirectory(folderPath)
             End If
 
             Using wb As New XLWorkbook()

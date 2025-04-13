@@ -28,7 +28,7 @@
     <ProductName>Health Information System</ProductName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>40</ApplicationRevision>
+    <ApplicationRevision>46</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -114,7 +114,9 @@
     <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PinkieControls, Version=1.0.1362.15156, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\DLL\PinkieControls.dll</HintPath>
@@ -185,15 +187,34 @@
     <Compile Include="Class\clsAttachment.vb" />
     <Compile Include="Class\FormAnimator.vb" />
     <Compile Include="Class\NativeMethods.vb" />
-    <Compile Include="Dataset\dsHealth.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dsHealth.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Dataset\dsReport.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>dsReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ConsultationScreening.Designer.vb">
+      <DependentUpon>ConsultationScreening.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ConsultationScreening.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\NurseDetail.Designer.vb">
+      <DependentUpon>NurseDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\NurseDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Nurse.Designer.vb">
+      <DependentUpon>Nurse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Nurse.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Doctor.Designer.vb">
+      <DependentUpon>Doctor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Doctor.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\Medicine.Designer.vb">
       <DependentUpon>Medicine.vb</DependentUpon>
@@ -207,10 +228,10 @@
     <Compile Include="Form\AgencyDetail.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\Ape.Designer.vb">
-      <DependentUpon>Ape.vb</DependentUpon>
+    <Compile Include="Form\ApeDetail.Designer.vb">
+      <DependentUpon>ApeDetail.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form\Ape.vb">
+    <Compile Include="Form\ApeDetail.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\Consultation.Designer.vb">
@@ -241,6 +262,12 @@
       <DependentUpon>Main.vb</DependentUpon>
     </Compile>
     <Compile Include="Form\Main.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DoctorDetail.Designer.vb">
+      <DependentUpon>DoctorDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DoctorDetail.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\MedicineIssue.Designer.vb">
@@ -322,14 +349,26 @@
     <Content Include="Sounds\sonata.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Form\ConsultationScreening.resx">
+      <DependentUpon>ConsultationScreening.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\NurseDetail.resx">
+      <DependentUpon>NurseDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Nurse.resx">
+      <DependentUpon>Nurse.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Doctor.resx">
+      <DependentUpon>Doctor.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\Medicine.resx">
       <DependentUpon>Medicine.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\AgencyDetail.resx">
       <DependentUpon>AgencyDetail.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\Ape.resx">
-      <DependentUpon>Ape.vb</DependentUpon>
+    <EmbeddedResource Include="Form\ApeDetail.resx">
+      <DependentUpon>ApeDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\Consultation.resx">
       <DependentUpon>Consultation.vb</DependentUpon>
@@ -345,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DoctorDetail.resx">
+      <DependentUpon>DoctorDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\MedicineIssue.resx">
       <DependentUpon>MedicineIssue.vb</DependentUpon>
@@ -375,17 +417,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dataset\dsHealth.xsc">
-      <DependentUpon>dsHealth.xsd</DependentUpon>
-    </None>
-    <None Include="Dataset\dsHealth.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>dsHealth.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="Dataset\dsHealth.xss">
-      <DependentUpon>dsHealth.xsd</DependentUpon>
-    </None>
     <None Include="Dataset\dsReport.xsc">
       <DependentUpon>dsReport.xsd</DependentUpon>
     </None>
@@ -1145,7 +1176,7 @@
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="VBIDE">
       <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
@@ -1157,48 +1188,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <PublishFile Include="Microsoft.ReportViewer.Common">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Microsoft.ReportViewer.DataVisualization">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Microsoft.ReportViewer.ProcessingObjectModel">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-    <PublishFile Include="Microsoft.SqlServer.Types">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>Assembly</FileType>
-    </PublishFile>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,18 +1,25 @@
-﻿Imports System.Data.SqlClient
-Imports System.IO
-Imports BlackCoffeeLibrary
+﻿Imports BlackCoffeeLibrary
 Imports ClosedXML.Excel
 Imports DocumentFormat.OpenXml.Drawing
+Imports System.Data.SqlClient
+Imports System.IO
 
 Public Class MedicineLog
-    Public bsTransactionPartDetail As New BindingSource
     Private connection As New clsConnection
-
     Private dbMain As New BlackCoffeeLibrary.Main
     Private dbMethod As New SqlDbMethod(connection.MyConnection)
+
     Private dicSearchCriteria As New Dictionary(Of String, Integer)
     Private dicSortCriteria As New Dictionary(Of String, String)
-    Private dtSparePart As New DataTable
+    Private dtMedicineLog As New DataTable
+
+    Public bsTransactionDetail As New BindingSource
+
+    Private pageCount As Integer
+    Private pageIndex As Integer
+    Private pageSize As Integer
+    Private totalCount As Integer
+    Private totalQty As Integer
 
     Private indexPosition As Integer = 0
     Private indexScroll As Integer = 0
@@ -22,11 +29,6 @@ Public Class MedicineLog
     Private isFilterByEncoder As Boolean = False
     Private isFilterByRemarks As Boolean = False
 
-    Private pageCount As Integer
-    Private pageIndex As Integer
-    Private pageSize As Integer
-    Private totalCount As Integer
-    Private totalQty As Integer
     'the word `byte` is not a valid identifier
     Public Sub New()
 
@@ -42,30 +44,6 @@ Public Class MedicineLog
         pageIndex = 0
         LoadLogs()
         If dgvList IsNot Nothing AndAlso dgvList.CurrentRow IsNot Nothing Then Me.Invoke(New Action(AddressOf SetScrollingIndex))
-    End Sub
-
-    Private Sub AllToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AllToolStripMenuItem.Click
-        Try
-            Dim dt As New DataTable
-
-            dt = dbMethod.FillDataTable("SELECT * FROM dbo.VwMntSparePart", CommandType.Text)
-
-            Dim folderPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\"
-            Dim fileName As String = folderPath & Convert.ToString(CDate(dbMethod.GetServerDate).Date.ToString("yyyyMMdd") & " Spare Parts Inventory.xlsx")
-
-            If Not System.IO.Directory.Exists(folderPath) Then
-                System.IO.Directory.CreateDirectory(folderPath)
-            End If
-
-            Using wb As New XLWorkbook()
-                wb.Worksheets.Add(dt, "Sheet1")
-                wb.SaveAs(fileName)
-            End Using
-
-            Process.Start(fileName)
-        Catch ex As Exception
-            MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
     End Sub
 
     Private Sub BindingNavigatorMoveFirstItem_Click(sender As Object, e As EventArgs) Handles BindingNavigatorMoveFirstItem.Click
@@ -104,21 +82,49 @@ Public Class MedicineLog
         Try
             Dim dt As DataTable = New DataTable()
             Dim dtReport As DataTable = New DataTable()
+            Dim query As String = String.Empty
 
-            Dim query As String = "SELECT CreatedDate, TrxTypeCode, EmployeeName, MedicineName, Qty, Remarks FROM dbo.VwMedicineTrxLogs WHERE "
+            Select Case cmbSearchCriteria.SelectedValue
+                Case 2
+                    query = "SELECT CreatedDate, TrxTypeCode, EmployeeName, MedicineName, Qty, Remarks FROM dbo.VwMedicineTrxLogs WHERE "
+                Case 1, 3
+                    If cmbCommon2.SelectedValue = 0 Then
+                        query = "SELECT CreatedDate, TrxTypeCode, EmployeeName, MedicineName, Qty, Remarks FROM dbo.VwMedicineTrxLogs "
+                    Else
+                        query = "SELECT CreatedDate, TrxTypeCode, EmployeeName, MedicineName, Qty, Remarks FROM dbo.VwMedicineTrxLogs WHERE "
+                    End If
+                Case 4
+                    If String.IsNullOrEmpty(txtCommon.Text.Trim) Then
+                        query = "SELECT CreatedDate, TrxTypeCode, EmployeeName, MedicineName, Qty, Remarks FROM dbo.VwMedicineTrxLogs "
+                    Else
+                        query = "SELECT CreatedDate, TrxTypeCode, EmployeeName, MedicineName, Qty, Remarks FROM dbo.VwMedicineTrxLogs WHERE "
+                    End If
+            End Select
 
             Select Case cmbSearchCriteria.SelectedValue
                 Case 1
-                    query += " MedicineId = '" & cmbCommon2.SelectedValue & "'"
+                    If cmbCommon2.SelectedValue = 0 Then
+                        query += " "
+                    Else
+                        query += " MedicineId = '" & cmbCommon2.SelectedValue & "'"
+                    End If
 
                 Case 2
                     query += " CAST(CreatedDate AS DATE) BETWEEN '" & dtpStartDate.Value.Date & "' AND '" & dtpEndDate.Value.Date & "'"
 
                 Case 3
-                    query += " EmployeeId = '" & cmbCommon2.SelectedValue & "'"
+                    If cmbCommon2.SelectedValue = 0 Then
+                        query += " "
+                    Else
+                        query += " EmployeeId = '" & cmbCommon2.SelectedValue & "'"
+                    End If
 
                 Case 4
-                    query += " Remarks LIKE '%" & txtCommon.Text.Trim & "%'"
+                    If String.IsNullOrEmpty(txtCommon.Text.Trim) Then
+                        query += " "
+                    Else
+                        query += " Remarks LIKE '%" & txtCommon.Text.Trim & "%'"
+                    End If
             End Select
 
             Select Case GetTrxType()
@@ -256,15 +262,15 @@ Public Class MedicineLog
                 Dim trxId As Integer = 0
                 Dim encoderId As Integer = 0
 
-                If Not CType(Me.bsTransactionPartDetail.Current, DataRowView).Item("RecordId") Is DBNull.Value Then
-                    recordId = CType(Me.bsTransactionPartDetail.Current, DataRowView).Item("RecordId")
-                    encoderId = CType(Me.bsTransactionPartDetail.Current, DataRowView).Item("CreatedBy")
+                If Not CType(Me.bsTransactionDetail.Current, DataRowView).Item("RecordId") Is DBNull.Value Then
+                    recordId = CType(Me.bsTransactionDetail.Current, DataRowView).Item("RecordId")
+                    encoderId = CType(Me.bsTransactionDetail.Current, DataRowView).Item("CreatedBy")
                 Else
-                    trxId = CType(Me.bsTransactionPartDetail.Current, DataRowView).Item("TrxId")
+                    trxId = CType(Me.bsTransactionDetail.Current, DataRowView).Item("TrxId")
                 End If
 
                 If recordId = 0 Then
-                    If CType(Me.bsTransactionPartDetail.Current, DataRowView).Item("TrxTypeId") = 1 Then
+                    If CType(Me.bsTransactionDetail.Current, DataRowView).Item("TrxTypeId") = 1 Then
                         Using frmReceive As New MedicineReceive(0, trxId)
                             frmReceive.ShowDialog()
                         End Using
@@ -516,7 +522,7 @@ Public Class MedicineLog
                 prmPart(8) = New SqlParameter("@EndDate", SqlDbType.Date)
                 prmPart(8).Value = CDate(dtpEndDate.Value)
 
-                dtSparePart = dbMethod.FillDataTable("RdMedicineTrxLogsByDate", CommandType.StoredProcedure, prmPart)
+                dtMedicineLog = dbMethod.FillDataTable("RdMedicineTrxLogsByDate", CommandType.StoredProcedure, prmPart)
                 totalCount = prmPart(2).Value
                 totalQty = prmPart(3).Value
 
@@ -541,7 +547,7 @@ Public Class MedicineLog
                 prmPart(7) = New SqlParameter("@MedicineId", SqlDbType.Int)
                 prmPart(7).Value = cmbCommon2.SelectedValue
 
-                dtSparePart = dbMethod.FillDataTable("RdMedicineTrxLogsByMedicineId", CommandType.StoredProcedure, prmPart)
+                dtMedicineLog = dbMethod.FillDataTable("RdMedicineTrxLogsByMedicineId", CommandType.StoredProcedure, prmPart)
                 totalCount = prmPart(2).Value
                 totalQty = prmPart(3).Value
 
@@ -566,7 +572,7 @@ Public Class MedicineLog
                 prmPart(7) = New SqlParameter("@Remarks", SqlDbType.VarChar)
                 prmPart(7).Value = txtCommon.Text.Trim
 
-                dtSparePart = dbMethod.FillDataTable("RdMedicineTrxLogsByRemarks", CommandType.StoredProcedure, prmPart)
+                dtMedicineLog = dbMethod.FillDataTable("RdMedicineTrxLogsByRemarks", CommandType.StoredProcedure, prmPart)
                 totalCount = prmPart(2).Value
                 totalQty = prmPart(3).Value
 
@@ -591,7 +597,7 @@ Public Class MedicineLog
                 prmPart(7) = New SqlParameter("@CreatedBy", SqlDbType.Int)
                 prmPart(7).Value = cmbCommon2.SelectedValue
 
-                dtSparePart = dbMethod.FillDataTable("RdMedicineTrxLogsByCreatedBy", CommandType.StoredProcedure, prmPart)
+                dtMedicineLog = dbMethod.FillDataTable("RdMedicineTrxLogsByCreatedBy", CommandType.StoredProcedure, prmPart)
                 totalCount = prmPart(2).Value
                 totalQty = prmPart(3).Value
 
@@ -614,15 +620,15 @@ Public Class MedicineLog
                 prmPart(6) = New SqlParameter("@SortType", SqlDbType.VarChar)
                 prmPart(6).Value = GetSortMode()
 
-                dtSparePart = dbMethod.FillDataTable("RdMedicineTrxLogs", CommandType.StoredProcedure, prmPart)
+                dtMedicineLog = dbMethod.FillDataTable("RdMedicineTrxLogs", CommandType.StoredProcedure, prmPart)
                 totalCount = prmPart(2).Value
                 totalQty = prmPart(3).Value
             End If
 
-            bsTransactionPartDetail.DataSource = dtSparePart
-            bsTransactionPartDetail.ResetBindings(True)
+            bsTransactionDetail.DataSource = dtMedicineLog
+            bsTransactionDetail.ResetBindings(True)
             dgvList.AutoGenerateColumns = False
-            dgvList.DataSource = bsTransactionPartDetail
+            dgvList.DataSource = bsTransactionDetail
 
             Me.Text = String.Empty
             If CInt(totalCount) = 0 Or CInt(totalCount) = 1 Then
@@ -699,11 +705,11 @@ Public Class MedicineLog
         dbMethod.FillCmbWithCaption("RdMedicineStock", CommandType.StoredProcedure, "MedicineId", "MedicineName", cmbCommon2, "< All >")
     End Sub
 
-    Private Sub MntSpare_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+    Private Sub Form_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         dgvList.Dispose()
     End Sub
 
-    Private Sub MntSpare_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub Form_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode.Equals(Keys.F3) Then
             e.Handled = True
             btnView.PerformClick()
@@ -713,7 +719,7 @@ Public Class MedicineLog
         End If
     End Sub
 
-    Private Sub MntSparePartLog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadSearchCriteria()
         LoadSortCriteria()
 
@@ -745,7 +751,7 @@ Public Class MedicineLog
         Else
             dgvList.Rows(indexPosition - 1).Selected = True
         End If
-        Me.bsTransactionPartDetail.Position = dgvList.SelectedCells(0).RowIndex
+        Me.bsTransactionDetail.Position = dgvList.SelectedCells(0).RowIndex
     End Sub
 
     Private Sub SortChanged(sender As Object, e As EventArgs)
@@ -755,6 +761,7 @@ Public Class MedicineLog
     Private Sub TrxTypeChanged(sender As Object, e As EventArgs)
         Reload()
     End Sub
+
     Private Sub txtPageNumber_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPageNumber.KeyPress
         If ((Asc(e.KeyChar) >= 48 AndAlso Asc(e.KeyChar) <= 57) OrElse Asc(e.KeyChar) = 8 OrElse Asc(e.KeyChar) = 13 OrElse Asc(e.KeyChar) = 127) Then
             e.Handled = False
@@ -765,4 +772,5 @@ Public Class MedicineLog
             e.Handled = True
         End If
     End Sub
+
 End Class

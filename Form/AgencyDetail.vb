@@ -1,7 +1,5 @@
 ﻿Imports BlackCoffeeLibrary
 Imports HealthInformationSystem
-Imports HealthInformationSystem.dsHealth
-Imports HealthInformationSystem.dsHealthTableAdapters
 Imports System.ComponentModel
 Imports System.Data.SqlClient
 Imports System.Deployment.Application
@@ -21,11 +19,6 @@ Public Class AgencyDetail
     Private employeeCode As String = String.Empty
     Private isFromParentForm As Boolean = False
 
-    Private dsHealth As New dsHealth
-    Private adpEmpApe As New EmployeeApeTableAdapter
-    Private adpEmpApeAttach As New EmployeeApeAttachmentTableAdapter
-    Private dtEmpApe As New EmployeeApeDataTable
-    Private dtEmpApeAttach As New EmployeeApeAttachmentDataTable
     Private bsEmpApe As New BindingSource
     Private bsEmpApeAttach As New BindingSource
 

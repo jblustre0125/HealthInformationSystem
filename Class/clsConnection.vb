@@ -2,11 +2,7 @@
 
     Public Function MyConnection() As String
         If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            If Environment.MachineName.ToString.Trim = "NBCP-DT-032" Then
-                Return "Data Source=NBCP-DT-032\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"
-            Else
-                Return "Data Source=NBCP-LT-144\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"
-            End If
+            Return "Data Source=NBCP-LT-144\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"
         Else
             If CheckIfRunning("openvpn") = True Then
                 Return "Data Source=192.168.20.230;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"
@@ -18,11 +14,7 @@
 
     Public Function JeonsoftConnection() As String
         If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            If Environment.MachineName.ToString.Trim = "NBCP-DT-032" Then
-                Return "Data Source=NBCP-DT-032\SQLEXPRESS;Initial Catalog=NBCTECHDB;Persist Security Info=True;User ID=sa;Password=Nbc12#"
-            Else
-                Return "Data Source=NBCP-LT-144\SQLEXPRESS;Initial Catalog=NBCTECHDB;Persist Security Info=True;User ID=sa;Password=Nbc12#"
-            End If
+            Return "Data Source=NBCP-LT-144\SQLEXPRESS;Initial Catalog=NBCTECHDB;Persist Security Info=True;User ID=sa;Password=Nbc12#"
         Else
             If CheckIfRunning("openvpn") = True Then
                 Return "Data Source=L192.168.20.230;Initial Catalog=NBCTECHDB;Persist Security Info=True;User ID=sa;Password=Nbc12#"

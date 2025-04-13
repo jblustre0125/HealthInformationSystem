@@ -111,8 +111,8 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=LENOVO-AX3RONG2\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Securi"& _ 
-            "ty Info=True;User ID=sa;Password=Nbc12#")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.20.230;Initial Catalog=LeaveFiling;Persist Security Info=True"& _ 
+            ";User ID=sa;Password=Nbc12#")>  _
         Public ReadOnly Property HealthConnectionString() As String
             Get
                 Return CType(Me("HealthConnectionString"),String)
@@ -122,8 +122,8 @@ Namespace My
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=LENOVO-AX3RONG2\SQLEXPRESS;Initial Catalog=NBCTECHDB;Persist Security"& _ 
-            " Info=True;User ID=sa;Password=Nbc12#")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.20.230;Initial Catalog=NBCTECHDB;Persist Security Info=True;U"& _ 
+            "ser ID=sa;Password=Nbc12#")>  _
         Public ReadOnly Property JeonsoftConnectionString() As String
             Get
                 Return CType(Me("JeonsoftConnectionString"),String)

@@ -1,15 +1,22 @@
 ﻿Imports BlackCoffeeLibrary
-Imports HealthInformationSystem.dsHealth
-Imports HealthInformationSystem.dsHealthTableAdapters
+Imports HealthInformationSystem
 Imports System.Data.SqlClient
 Imports System.IO
 
 Public Class EmployeeRecord
     Private connection As New clsConnection
-    Private directories As New clsDirectory
+    Private directory As New clsDirectory
     Private dbHealth As New SqlDbMethod(connection.MyConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
+
+    Private imgList As New List(Of clsAttachment)
+
+    Private attachDirApe As String = directory.AttDirApeRecord
+
+    Private bsEmployeeApe As New BindingSource
+    Private dtEmployeeApe As New DataTable
+    Private dtEmployeeRecord As New DataTable
 
     Private pageSize As Integer
     Private pageIndex As Integer
@@ -18,36 +25,18 @@ Public Class EmployeeRecord
     Private indexScroll As Integer = 0
     Private indexPosition As Integer = 0
 
-    Private dsHealth As New dsHealth
-    Private adpEmpMedRec As New EmployeeMedicalRecordTableAdapter
-    Private adpEmpMedAttach As New EmployeeMedicalAttachmentTableAdapter
-    Private adpEmpApe As New EmployeeApeTableAdapter
-    Private adpEmpApeAttach As New EmployeeApeAttachmentTableAdapter
-    Private dtEmpMedRec As New EmployeeMedicalRecordDataTable
-    Private dtEmpMedAttach As New EmployeeMedicalAttachmentDataTable
-    Private dtEmpApe As New EmployeeApeDataTable
-    Private dtEmpApeAttach As New EmployeeApeAttachmentDataTable
-    Private bsEmpMedRec As New BindingSource
-    Private bsEmployeeApe As New BindingSource
-
-    Private imgList As New List(Of clsAttachment)
     Private attendantId As Integer = 0
 
-    Private iniDirMedicalRecord As String = directories.IniDirMedRecord
-    Private attachDirMedicalRecord As String = directories.AttDirMedRecord
-    Private iniDirApe As String = directories.IniDirApeRecord
-    Private attachDirApe As String = directories.AttDirApeRecord
-
-    Public Sub New(_attendantId As Integer)
+    Public Sub New(attendantId As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        attendantId = _attendantId
+        Me.attendantId = attendantId
     End Sub
 
-    Private Sub frmEmployeeRecord_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dbJeonsoft.FillCmbWithCaption("SELECT Id, (TRIM(EmployeeCode) + '  ' + (FirstName + ' ' + ISNULL(SUBSTRING(CASE WHEN LEN(TRIM(MiddleName)) = 0 " &
                                       "THEN NULL WHEN TRIM(MiddleName) = '-' THEN NULL ELSE TRIM(MiddleName) END, 1, 1) + '. ' , '') + LastName)) AS Name " &
                                       "FROM dbo.tblEmployees WHERE Active = 1 And EmployeeCode IS NOT NULL", CommandType.Text, "Id", "Name", cmbName, "")
@@ -55,17 +44,16 @@ Public Class EmployeeRecord
         pageIndex = 0
         pageSize = 100
 
+        If My.Settings.IsDebug Then
+            cmbName.SelectedValue = 806
+        End If
+
         Me.dgvApe.Columns(4).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
 
         dbMain.EnableDoubleBuffered(dgvApe)
-
-        If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
-            cmbName.SelectedValue = 806
-            tabCtrl.SelectedTab = tpApe
-        End If
     End Sub
 
-    Private Sub frmEmployeeRecord_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+    Private Sub Form_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
             Case Keys.F2
                 e.Handled = True
@@ -123,21 +111,166 @@ Public Class EmployeeRecord
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Try
-            Dim prmUpdate(6) As SqlParameter
+            Dim prmUpdate(21) As SqlParameter
             prmUpdate(0) = New SqlParameter("@EmployeeId", SqlDbType.Int)
             prmUpdate(0).Value = cmbName.SelectedValue
-            prmUpdate(1) = New SqlParameter("@ContactNumber", SqlDbType.NVarChar)
-            prmUpdate(1).Value = txtContactNumber.Text.ToString.Trim
-            prmUpdate(2) = New SqlParameter("@BloodType", SqlDbType.NVarChar)
-            prmUpdate(2).Value = txtBloodType.Text.ToString.Trim
-            prmUpdate(3) = New SqlParameter("@EmergencyContactName", SqlDbType.NVarChar)
-            prmUpdate(3).Value = txtEmerContactName.Text.ToString.Trim
-            prmUpdate(4) = New SqlParameter("@EmergencyContactNumber", SqlDbType.NVarChar)
-            prmUpdate(4).Value = txtEmerContactNumber.Text.ToString.Trim
-            prmUpdate(5) = New SqlParameter("@EmergencyContactAddress", SqlDbType.NVarChar)
-            prmUpdate(5).Value = txtEmerContactAddress.Text.ToString.Trim
-            prmUpdate(6) = New SqlParameter("@Allergies", SqlDbType.NVarChar)
-            prmUpdate(6).Value = txtAllergies.Text.ToString.Trim
+
+            If String.IsNullOrEmpty(txtContactNumber.Text.Trim) Then
+                prmUpdate(1) = New SqlParameter("@ContactNumber", SqlDbType.NVarChar)
+                prmUpdate(1).Value = Nothing
+            Else
+                prmUpdate(1) = New SqlParameter("@ContactNumber", SqlDbType.NVarChar)
+                prmUpdate(1).Value = txtContactNumber.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtBloodType.Text.Trim) Then
+                prmUpdate(2) = New SqlParameter("@BloodType", SqlDbType.NVarChar)
+                prmUpdate(2).Value = Nothing
+            Else
+                prmUpdate(2) = New SqlParameter("@BloodType", SqlDbType.NVarChar)
+                prmUpdate(2).Value = txtBloodType.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtEmerContactName.Text.Trim) Then
+                prmUpdate(3) = New SqlParameter("@EmergencyContactName", SqlDbType.NVarChar)
+                prmUpdate(3).Value = Nothing
+            Else
+                prmUpdate(3) = New SqlParameter("@EmergencyContactName", SqlDbType.NVarChar)
+                prmUpdate(3).Value = txtEmerContactName.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtEmerContactNumber.Text.Trim) Then
+                prmUpdate(4) = New SqlParameter("@EmergencyContactNumber", SqlDbType.NVarChar)
+                prmUpdate(4).Value = Nothing
+            Else
+                prmUpdate(4) = New SqlParameter("@EmergencyContactNumber", SqlDbType.NVarChar)
+                prmUpdate(4).Value = txtEmerContactNumber.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtEmerContactAddress.Text.Trim) Then
+                prmUpdate(5) = New SqlParameter("@EmergencyContactAddress", SqlDbType.NVarChar)
+                prmUpdate(5).Value = Nothing
+            Else
+                prmUpdate(5) = New SqlParameter("@EmergencyContactAddress", SqlDbType.NVarChar)
+                prmUpdate(5).Value = txtEmerContactAddress.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtAllergies.Text.Trim) Then
+                prmUpdate(6) = New SqlParameter("@Allergies", SqlDbType.NVarChar)
+                prmUpdate(6).Value = Nothing
+            Else
+                prmUpdate(6) = New SqlParameter("@Allergies", SqlDbType.NVarChar)
+                prmUpdate(6).Value = txtAllergies.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtMedHistory.Text.Trim) Then
+                prmUpdate(7) = New SqlParameter("@PastMedicalHistory", SqlDbType.NVarChar)
+                prmUpdate(7).Value = Nothing
+            Else
+                prmUpdate(7) = New SqlParameter("@PastMedicalHistory", SqlDbType.NVarChar)
+                prmUpdate(7).Value = txtMedHistory.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtSurgHistory.Text.Trim) Then
+                prmUpdate(8) = New SqlParameter("@SurgicalHistory", SqlDbType.NVarChar)
+                prmUpdate(8).Value = Nothing
+            Else
+                prmUpdate(8) = New SqlParameter("@SurgicalHistory", SqlDbType.NVarChar)
+                prmUpdate(8).Value = txtSurgHistory.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtMenarche.Text.Trim) Then
+                prmUpdate(9) = New SqlParameter("@ObMenarche", SqlDbType.NVarChar)
+                prmUpdate(9).Value = Nothing
+            Else
+                prmUpdate(9) = New SqlParameter("@ObMenarche", SqlDbType.NVarChar)
+                prmUpdate(9).Value = txtMenarche.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtInterval.Text.Trim) Then
+                prmUpdate(10) = New SqlParameter("@ObInterval", SqlDbType.NVarChar)
+                prmUpdate(10).Value = Nothing
+            Else
+                prmUpdate(10) = New SqlParameter("@ObInterval", SqlDbType.NVarChar)
+                prmUpdate(10).Value = txtInterval.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtDuration.Text.Trim) Then
+                prmUpdate(11) = New SqlParameter("@ObDuration", SqlDbType.NVarChar)
+                prmUpdate(11).Value = Nothing
+            Else
+                prmUpdate(11) = New SqlParameter("@ObDuration", SqlDbType.NVarChar)
+                prmUpdate(11).Value = txtDuration.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtAmount.Text.Trim) Then
+                prmUpdate(12) = New SqlParameter("@ObAmount", SqlDbType.NVarChar)
+                prmUpdate(12).Value = Nothing
+            Else
+                prmUpdate(12) = New SqlParameter("@ObAmount", SqlDbType.NVarChar)
+                prmUpdate(12).Value = txtAmount.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtSymptoms.Text.Trim) Then
+                prmUpdate(13) = New SqlParameter("@ObSymptoms", SqlDbType.NVarChar)
+                prmUpdate(13).Value = Nothing
+            Else
+                prmUpdate(13) = New SqlParameter("@ObSymptoms", SqlDbType.NVarChar)
+                prmUpdate(13).Value = txtSymptoms.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtG.Text.Trim) Then
+                prmUpdate(14) = New SqlParameter("@G", SqlDbType.NVarChar)
+                prmUpdate(14).Value = Nothing
+            Else
+                prmUpdate(14) = New SqlParameter("@G", SqlDbType.NVarChar)
+                prmUpdate(14).Value = txtG.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtP.Text.Trim) Then
+                prmUpdate(15) = New SqlParameter("@P", SqlDbType.NVarChar)
+                prmUpdate(15).Value = Nothing
+            Else
+                prmUpdate(15) = New SqlParameter("@P", SqlDbType.NVarChar)
+                prmUpdate(15).Value = txtP.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtGp.Text.Trim) Then
+                prmUpdate(16) = New SqlParameter("@PNumber", SqlDbType.NVarChar)
+                prmUpdate(16).Value = Nothing
+            Else
+                prmUpdate(16) = New SqlParameter("@PNumber", SqlDbType.NVarChar)
+                prmUpdate(16).Value = txtGp.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtG1.Text.Trim) Then
+                prmUpdate(17) = New SqlParameter("@G1", SqlDbType.NVarChar)
+                prmUpdate(17).Value = Nothing
+            Else
+                prmUpdate(17) = New SqlParameter("@G1", SqlDbType.NVarChar)
+                prmUpdate(17).Value = txtG1.Text.ToString.Trim
+            End If
+
+            If String.IsNullOrEmpty(txtG2.Text.Trim) Then
+                prmUpdate(18) = New SqlParameter("@G2", SqlDbType.NVarChar)
+                prmUpdate(18).Value = Nothing
+            Else
+                prmUpdate(18) = New SqlParameter("@G2", SqlDbType.NVarChar)
+                prmUpdate(18).Value = txtG2.Text.ToString.Trim
+            End If
+
+            prmUpdate(19) = New SqlParameter("@ModifiedBy", SqlDbType.Int)
+            prmUpdate(19).Value = attendantId
+            prmUpdate(20) = New SqlParameter("@ModifiedDate", SqlDbType.DateTime)
+            prmUpdate(20).Value = dbHealth.GetServerDate
+
+            If String.IsNullOrEmpty(txtMaintenance.Text.Trim) Then
+                prmUpdate(21) = New SqlParameter("@Maintenance", SqlDbType.NVarChar)
+                prmUpdate(21).Value = Nothing
+            Else
+                prmUpdate(21) = New SqlParameter("@Maintenance", SqlDbType.NVarChar)
+                prmUpdate(21).Value = txtMaintenance.Text.ToString.Trim
+            End If
 
             dbHealth.ExecuteNonQuery("UpdEmployeeByEmployeeId", CommandType.StoredProcedure, prmUpdate)
 
@@ -161,7 +294,7 @@ Public Class EmployeeRecord
 
             Select Case tabCtrl.SelectedIndex
                 Case 0
-                    Using frmDetail As New Ape(cmbName.SelectedValue, attendantId)
+                    Using frmDetail As New ApeDetail(cmbName.SelectedValue, attendantId)
                         If frmDetail.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
                             RefreshList()
                         End If
@@ -175,12 +308,15 @@ Public Class EmployeeRecord
     Private Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         Try
             If cmbName.SelectedValue = 0 Then Exit Sub
+
             Select Case tabCtrl.SelectedIndex
                 Case 0
                     If dgvApe.SelectedRows.Count > 0 Then
-                        Dim _recordId As Integer = CType(Me.bsEmployeeApe.Current, DataRowView).Item("RecordId")
-                        Using frmDetail As New Ape(cmbName.SelectedValue, attendantId, _recordId)
+                        Dim recordId As Integer = CType(Me.bsEmployeeApe.Current, DataRowView).Item("RecordId")
+
+                        Using frmDetail As New ApeDetail(cmbName.SelectedValue, attendantId, recordId)
                             frmDetail.ShowDialog(Me)
+
                             If frmDetail.DialogResult = System.Windows.Forms.DialogResult.OK Then
                                 RefreshList()
                             End If
@@ -201,17 +337,30 @@ Public Class EmployeeRecord
             Select Case tabCtrl.SelectedIndex
                 Case 0
                     If dgvApe.SelectedRows.Count > 0 AndAlso dgvApe.SelectedRows.Count > 0 Then
-                        Dim recordId As Integer = CType(Me.bsEmpMedRec.Current, DataRowView).Item("RecordId")
-                        Dim patientId As Integer = CType(Me.bsEmpMedRec.Current, DataRowView).Item("EmployeeId")
+                        Dim recordId As Integer = CType(Me.bsEmployeeApe.Current, DataRowView).Item("RecordId")
+                        Dim patientId As Integer = CType(Me.bsEmployeeApe.Current, DataRowView).Item("EmployeeId")
 
-                        If MessageBox.Show(question, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.Yes Then
-                            Dim attachmentCount As Integer = Me.adpEmpApeAttach.CntEmployeeApeAttachmentByRecordId(recordId)
+                        If MessageBox.Show(question, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) =
+                            System.Windows.Forms.DialogResult.Yes Then
+
+                            Dim prmCount(0) As SqlParameter
+                            prmCount(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+                            prmCount(0).Value = recordId
+
+                            Dim attachmentCount As Integer = dbHealth.ExecuteScalar("CntEmployeeApeAttachmentByRecordId", CommandType.StoredProcedure, prmCount)
+
                             If attachmentCount > 0 Then
-                                dtEmpApeAttach = Me.adpEmpApeAttach.GetEmployeeApeAttachmentByRecordId(recordId)
-                                For i As Integer = 0 To dtEmpApeAttach.Count - 1
-                                    Dim oldPic As New clsAttachment(attachDirApe & "\" & dtEmpApeAttach.Rows(i).Item("Filename").ToString,
-                                                 dtEmpApeAttach.Rows(i).Item("Filename").ToString, Path.GetExtension(dtEmpApeAttach.Rows(i).Item("Filename")).ToLower,
-                                                 dtEmpApeAttach.Rows(i).Item("AttachmentId"))
+                                Dim prm(0) As SqlParameter
+                                prm(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+                                prm(0).Value = recordId
+
+                                dtEmployeeRecord = dbHealth.FillDataTable("RdEmployeeApeAttachmentByRecordId", CommandType.StoredProcedure, prm)
+
+                                For i As Integer = 0 To dtEmployeeRecord.Rows.Count - 1
+                                    Dim oldPic As New clsAttachment(attachDirApe & "\" & dtEmployeeRecord.Rows(i).Item("Filename").ToString,
+                                                                    dtEmployeeRecord.Rows(i).Item("Filename").ToString,
+                                                                    Path.GetExtension(dtEmployeeRecord.Rows(i).Item("Filename")).ToLower,
+                                                                    dtEmployeeRecord.Rows(i).Item("AttachmentId"))
                                     imgList.Add(oldPic)
                                 Next
 
@@ -226,14 +375,16 @@ Public Class EmployeeRecord
                                 End If
                             End If
 
-                            Me.bsEmployeeApe.RemoveCurrent()
+                            Dim prmDel(0) As SqlParameter
+                            prmDel(0) = New SqlParameter("@RecordId", SqlDbType.Int)
+                            prmDel(0).Value = recordId
+
+                            dbHealth.ExecuteNonQuery("DelEmployeeApeRecordId", CommandType.StoredProcedure, prmDel)
                         End If
                     End If
-                    Me.adpEmpApe.Update(Me.dsHealth.EmployeeApe)
             End Select
 
             imgList.Clear()
-            Me.dsHealth.AcceptChanges()
             RefreshList()
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -326,6 +477,19 @@ Public Class EmployeeRecord
                     txtEmerContactName.Text = rdrEmployee.Item("EmergencyContactName").ToString.Trim
                     txtEmerContactNumber.Text = rdrEmployee.Item("EmergencyContactNumber").ToString.Trim
                     txtEmerContactAddress.Text = rdrEmployee.Item("EmergencyContactAddress").ToString.Trim
+                    txtMedHistory.Text = rdrEmployee.Item("PastMedicalHistory").ToString.Trim
+                    txtSurgHistory.Text = rdrEmployee.Item("SurgicalHistory").ToString.Trim
+                    txtMenarche.Text = rdrEmployee.Item("ObMenarche").ToString.Trim
+                    txtInterval.Text = rdrEmployee.Item("ObInterval").ToString.Trim
+                    txtDuration.Text = rdrEmployee.Item("ObDuration").ToString.Trim
+                    txtAmount.Text = rdrEmployee.Item("ObAmount").ToString.Trim
+                    txtSymptoms.Text = rdrEmployee.Item("ObSymptoms").ToString.Trim
+                    txtG.Text = rdrEmployee.Item("G").ToString.Trim
+                    txtP.Text = rdrEmployee.Item("P").ToString.Trim
+                    txtGp.Text = rdrEmployee.Item("PNumber").ToString.Trim
+                    txtG1.Text = rdrEmployee.Item("G1").ToString.Trim
+                    txtG2.Text = rdrEmployee.Item("G1").ToString.Trim
+                    txtMaintenance.Text = rdrEmployee.Item("Maintenance").ToString.Trim
                 End While
                 rdrEmployee.Close()
             End Using
@@ -338,10 +502,20 @@ Public Class EmployeeRecord
         Try
             totalCount = 0
 
-            Me.adpEmpApe.FillEmployeeApeByEmployeeId(Me.dsHealth.EmployeeApe, pageIndex, pageSize, totalCount, cmbName.SelectedValue)
+            Dim prm(3) As SqlParameter
+            prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+            prm(0).Value = pageIndex
+            prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+            prm(1).Value = pageSize
+            prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+            prm(2).Direction = ParameterDirection.Output
+            prm(2).Value = totalCount
+            prm(3) = New SqlParameter("@EmployeeId", SqlDbType.Int)
+            prm(3).Value = cmbName.SelectedValue
 
-            Me.bsEmployeeApe.DataSource = Me.dsHealth
-            Me.bsEmployeeApe.DataMember = dtEmpApe.TableName
+            dtEmployeeApe = dbHealth.FillDataTable("RdEmployeeApeByEmployeeId", CommandType.StoredProcedure, prm)
+
+            Me.bsEmployeeApe.DataSource = dtEmployeeApe
             Me.bsEmployeeApe.ResetBindings(True)
             Me.dgvApe.AutoGenerateColumns = False
             Me.dgvApe.DataSource = Me.bsEmployeeApe
@@ -439,7 +613,7 @@ Public Class EmployeeRecord
     End Sub
 
     Private Sub ResetForm(isEmpty As Boolean)
-        If isEmpty = True Then
+        If isEmpty Then
             Me.ActiveControl = cmbName
 
             txtDepartment.Text = String.Empty
@@ -449,16 +623,22 @@ Public Class EmployeeRecord
             txtAge.Text = String.Empty
             txtAddress.Text = String.Empty
             txtCivilStatus.Text = String.Empty
-            txtContactNumber.ReadOnly = True
-            txtBloodType.ReadOnly = True
-            txtAllergies.ReadOnly = True
-            txtEmerContactName.ReadOnly = True
-            txtEmerContactNumber.ReadOnly = True
-            txtEmerContactAddress.ReadOnly = True
-
             txtContactNumber.Text = String.Empty
             txtBloodType.Text = String.Empty
             txtAllergies.Text = String.Empty
+            txtMedHistory.Text = String.Empty
+            txtSurgHistory.Text = String.Empty
+            txtMenarche.Text = String.Empty
+            txtInterval.Text = String.Empty
+            txtDuration.Text = String.Empty
+            txtAmount.Text = String.Empty
+            txtSymptoms.Text = String.Empty
+            txtG.Text = String.Empty
+            txtP.Text = String.Empty
+            txtGp.Text = String.Empty
+            txtG1.Text = String.Empty
+            txtG2.Text = String.Empty
+            txtMaintenance.Text = String.Empty
             txtEmerContactName.Text = String.Empty
             txtEmerContactNumber.Text = String.Empty
             txtEmerContactAddress.Text = String.Empty
@@ -466,16 +646,28 @@ Public Class EmployeeRecord
             tabCtrl.Enabled = False
             cmbName.SelectedValue = 0
 
-            dtEmpMedRec.Clear()
-
+            dtEmployeeRecord.Clear()
+            dtEmployeeApe.Clear()
             dgvApe.DataSource = Nothing
-            dtEmpApe.Clear()
-            dgvApe.DataSource = dtEmpApe.TableName
+            dgvApe.DataSource = dtEmployeeApe
 
         Else
             txtContactNumber.ReadOnly = False
             txtBloodType.ReadOnly = False
             txtAllergies.ReadOnly = False
+            txtMedHistory.ReadOnly = False
+            txtSurgHistory.ReadOnly = False
+            txtMenarche.ReadOnly = False
+            txtInterval.ReadOnly = False
+            txtDuration.ReadOnly = False
+            txtAmount.ReadOnly = False
+            txtSymptoms.ReadOnly = False
+            txtG.ReadOnly = False
+            txtP.ReadOnly = False
+            txtGp.ReadOnly = False
+            txtG1.ReadOnly = False
+            txtG2.ReadOnly = False
+            txtMaintenance.ReadOnly = False
             txtEmerContactName.ReadOnly = False
             txtEmerContactNumber.ReadOnly = False
             txtEmerContactAddress.ReadOnly = False
@@ -488,8 +680,14 @@ Public Class EmployeeRecord
 
     Public Function GetCurrentAge(dob As Date) As Integer
         Dim age As Integer
-        age = Today.Year - dob.Year
-        If (dob > Today.AddYears(-age)) Then age -= 1
+
+        Try
+            age = Today.Year - dob.Year
+            If (dob > Today.AddYears(-age)) Then age -= 1
+        Catch ex As Exception
+            MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
         Return age
     End Function
 
