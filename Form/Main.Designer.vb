@@ -33,7 +33,7 @@ Partial Class Main
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConsultationLogsheetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MedicineLogsheetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ScreeningToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MasterlistToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MedicineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MedicineCategoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -56,6 +56,7 @@ Partial Class Main
         Me.VersionToolStripStatusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusToolStripStatusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tmrMain = New System.Windows.Forms.Timer(Me.components)
+        Me.LeaveReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuMain.SuspendLayout()
         Me.stsMain.SuspendLayout()
         Me.SuspendLayout()
@@ -108,7 +109,7 @@ Partial Class Main
         '
         'ReportToolStripMenuItem
         '
-        Me.ReportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConsultationLogsheetToolStripMenuItem, Me.MedicineLogsheetToolStripMenuItem})
+        Me.ReportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConsultationLogsheetToolStripMenuItem, Me.ScreeningToolStripMenuItem, Me.LeaveReportToolStripMenuItem})
         Me.ReportToolStripMenuItem.Name = "ReportToolStripMenuItem"
         Me.ReportToolStripMenuItem.Size = New System.Drawing.Size(54, 20)
         Me.ReportToolStripMenuItem.Text = "Report"
@@ -119,12 +120,11 @@ Partial Class Main
         Me.ConsultationLogsheetToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
         Me.ConsultationLogsheetToolStripMenuItem.Text = "Consultation Logsheet"
         '
-        'MedicineLogsheetToolStripMenuItem
+        'ScreeningToolStripMenuItem
         '
-        Me.MedicineLogsheetToolStripMenuItem.Name = "MedicineLogsheetToolStripMenuItem"
-        Me.MedicineLogsheetToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-        Me.MedicineLogsheetToolStripMenuItem.Text = "Medicine Logsheet"
-        Me.MedicineLogsheetToolStripMenuItem.Visible = False
+        Me.ScreeningToolStripMenuItem.Name = "ScreeningToolStripMenuItem"
+        Me.ScreeningToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.ScreeningToolStripMenuItem.Text = "Screening Logsheet"
         '
         'MasterlistToolStripMenuItem
         '
@@ -285,6 +285,12 @@ Partial Class Main
         '
         Me.tmrMain.Interval = 1000
         '
+        'LeaveReportToolStripMenuItem
+        '
+        Me.LeaveReportToolStripMenuItem.Name = "LeaveReportToolStripMenuItem"
+        Me.LeaveReportToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.LeaveReportToolStripMenuItem.Text = "Leave Logsheet"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
@@ -333,7 +339,6 @@ Partial Class Main
     Friend WithEvents MasterlistToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ConsultationToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MedicineToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MedicineLogsheetToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents NurseToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CloseAllToolStripMenuItem As ToolStripMenuItem
@@ -344,4 +349,6 @@ Partial Class Main
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents RoomToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BedToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ScreeningToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LeaveReportToolStripMenuItem As ToolStripMenuItem
 End Class

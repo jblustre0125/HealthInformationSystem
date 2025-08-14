@@ -10,7 +10,7 @@ Imports System.Windows.Forms
 Public Class AgencyDetail
     Private connection As New clsConnection
     Private directories As New clsDirectory
-    Private dbHealth As New SqlDbMethod(connection.MyConnection)
+    Private dbHealth As New SqlDbMethod(connection.LeaveConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 

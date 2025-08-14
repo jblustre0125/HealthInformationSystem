@@ -1,11 +1,12 @@
 ﻿Imports BlackCoffeeLibrary
+Imports ClosedXML.Excel
 Imports System.Data.SqlClient
 Imports System.IO
 
 Public Class Consultation
     Private connection As New clsConnection
     Private directories As New clsDirectory
-    Private dbHealth As New SqlDbMethod(connection.MyConnection)
+    Private dbHealth As New SqlDbMethod(connection.LeaveConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 
     Private dicSearchCriteria As New Dictionary(Of String, Integer)
@@ -67,6 +68,9 @@ Public Class Consultation
         pageSize = 50
         LoadTransaction()
 
+        BindingNavigatorSeparator5.Visible = False
+        BindingNavigatorExport.Visible = False
+
         Me.dgvConsultation.Columns(5).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         Me.dgvConsultation.Columns(6).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
         Me.dgvRestAlarm.Columns(4).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
@@ -121,8 +125,7 @@ Public Class Consultation
                 cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
 
             Case 3 'sick leave
-                dicSearchCriteria.Add(" Absent Date", 1)
-                dicSearchCriteria.Add(" Leave Type", 2)
+                dicSearchCriteria.Add(" Leave Date", 1)
                 cmbSearchCriteria.DisplayMember = "Key"
                 cmbSearchCriteria.ValueMember = "Value"
                 cmbSearchCriteria.DataSource = New BindingSource(dicSearchCriteria, Nothing)
@@ -441,6 +444,21 @@ Public Class Consultation
 
                 Case 3 'sick leave
                     If isFilterByLeaveDate = True Then
+                        Dim prm(4) As SqlParameter
+                        prm(0) = New SqlParameter("@PageIndex", SqlDbType.Int)
+                        prm(0).Value = pageIndex
+                        prm(1) = New SqlParameter("@PageSize", SqlDbType.Int)
+                        prm(1).Value = pageSize
+                        prm(2) = New SqlParameter("@TotalCount", SqlDbType.Int)
+                        prm(2).Direction = ParameterDirection.Output
+                        prm(2).Value = totalCount
+                        prm(3) = New SqlParameter("@StartDate", SqlDbType.Date)
+                        prm(3).Value = dtpStartDateCommon.Value
+                        prm(4) = New SqlParameter("@EndDate", SqlDbType.Date)
+                        prm(4).Value = dtpEndDateCommon.Value
+
+                        dtSickLeave = dbHealth.FillDataTable("RdLeaveFilingClinicByLeaveDate", CommandType.StoredProcedure, prm)
+                        totalCount = prm(2).Value
 
                     Else
                         Dim prm(2) As SqlParameter
@@ -1126,7 +1144,12 @@ Public Class Consultation
                 Case 3 'sick leave
                     Select Case cmbSearchCriteria.SelectedValue
                         Case 1
-                            isFilterByAbsentDate = True
+                            If dtpStartDateCommon.Value.Date > dtpEndDateCommon.Value.Date Then
+                                MessageBox.Show("Start date is later than end date.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                Return
+                            End If
+
+                            isFilterByLeaveDate = True
                     End Select
             End Select
 
@@ -1201,7 +1224,7 @@ Public Class Consultation
                             dtpEndDateCommon.Value = CDate(dbHealth.GetServerDate).Date
                     End Select
 
-                    isFilterByAbsentDate = False
+                    isFilterByLeaveDate = False
             End Select
 
             pageIndex = 0
@@ -1214,6 +1237,14 @@ Public Class Consultation
     Private Sub tcDashboard_SelectedIndexChanged(sender As Object, e As EventArgs) Handles tcDashboard.SelectedIndexChanged
         LoadSearchCriteria()
         LoadTransaction()
+
+        If tcDashboard.SelectedIndex = 3 Then
+            BindingNavigatorSeparator5.Visible = True
+            BindingNavigatorExport.Visible = True
+        Else
+            BindingNavigatorSeparator5.Visible = False
+            BindingNavigatorExport.Visible = False
+        End If
     End Sub
 
     Private Sub LoadAlarmStatus()
@@ -1238,6 +1269,59 @@ Public Class Consultation
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Async Sub BindingNavigatorExport_Click(sender As Object, e As EventArgs) Handles BindingNavigatorExport.Click
+        Dim progressForm As New ProgressForm()
+        progressForm.Show(Me)
+
+        Try
+            Dim dt As DataTable = Await Task.Run(Function()
+                                                     Return GetExportData()
+                                                 End Function)
+
+            If dt.Rows.Count = 0 Then
+                MessageBox.Show("No records found.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            Using sfd As New SaveFileDialog()
+                sfd.Title = "Save Excel File"
+                sfd.Filter = "Excel Files|*.xlsx"
+                sfd.FileName = $"{DateTime.Now:yyyyMMdd} Sick Leave.xlsx"
+
+                If sfd.ShowDialog() = DialogResult.OK Then
+                    Await Task.Run(Sub()
+                                       ExportDataTableToExcel(dt, sfd.FileName)
+                                   End Sub)
+                    MessageBox.Show("Export completed successfully.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Error occurred: " & ex.Message, "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            progressForm.Close()
+        End Try
+    End Sub
+
+    Private Function GetExportData() As DataTable
+        Dim query As String = ""
+
+        If isFilterByLeaveDate Then
+            query = "SELECT * FROM dbo.VwSickLeave WHERE ((CAST(StartDate AS DATE) BETWEEN '" & dtpStartDateCommon.Value & "' AND '" & dtpEndDateCommon.Value & "') OR (CAST(EndDate AS DATE) BETWEEN '" & dtpStartDateCommon.Value & "' AND '" & dtpEndDateCommon.Value & "')) ORDER BY EndDate DESC, StartDate DESC"
+        Else
+            query = "SELECT * FROM dbo.VwSickLeave ORDER BY EndDate DESC, StartDate DESC"
+        End If
+
+        Return dbHealth.FillDataTable(query, CommandType.Text)
+    End Function
+
+    Private Sub ExportDataTableToExcel(dt As DataTable, filePath As String)
+        Using wb As New ClosedXML.Excel.XLWorkbook()
+            wb.Worksheets.Add(dt, "Sick Leave")
+            wb.SaveAs(filePath)
+        End Using
     End Sub
 
 End Class

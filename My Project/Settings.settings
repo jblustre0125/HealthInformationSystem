@@ -12,13 +12,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="AttachDirMedicalRecord" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">\\192.168.20.11\Clinic\SystemFiles\Medical Record</Value>
+      <Value Profile="(Default)">\\192.168.20.230\HIS_Attachment\Medical Record</Value>
     </Setting>
     <Setting Name="IniDirApe" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="AttachDirApe" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">\\192.168.20.11\Clinic\SystemFiles\APE</Value>
+      <Value Profile="(Default)">\\192.168.20.230\HIS_Attachment\APE</Value>
     </Setting>
     <Setting Name="HealthConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;

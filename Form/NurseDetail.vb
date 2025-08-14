@@ -4,7 +4,7 @@ Imports System.Data.SqlClient
 Public Class NurseDetail
     Private connection As New clsConnection
     Private dbMain As New BlackCoffeeLibrary.Main
-    Private dbMethod As New SqlDbMethod(connection.MyConnection)
+    Private dbMethod As New SqlDbMethod(connection.LeaveConnection)
 
     Private dtNurse As New DataTable
 

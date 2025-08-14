@@ -28,6 +28,13 @@ Partial Class Consultation
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle16 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -44,13 +51,6 @@ Partial Class Consultation
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.pnlSearchDate = New System.Windows.Forms.Panel()
         Me.dtpEndDateCommon = New System.Windows.Forms.DateTimePicker()
         Me.lblToCommon = New System.Windows.Forms.Label()
@@ -76,13 +76,15 @@ Partial Class Consultation
         Me.BindingNavigatorMovePreviousItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.BindingNavigatorPageNumber = New System.Windows.Forms.ToolStripTextBox()
-        Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.BindingNavigatorMoveNextItem = New System.Windows.Forms.ToolStripButton()
+        Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.BindingNavigatorMoveLastItem = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.BindingNavigatorGo = New System.Windows.Forms.ToolStripButton()
         Me.BindingNavigatorSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.BindingNavigatorRefresh = New System.Windows.Forms.ToolStripButton()
+        Me.BindingNavigatorSeparator5 = New System.Windows.Forms.ToolStripSeparator()
+        Me.BindingNavigatorExport = New System.Windows.Forms.ToolStripButton()
         Me.dgvConsultation = New System.Windows.Forms.DataGridView()
         Me.dgvMedicine = New System.Windows.Forms.DataGridView()
         Me.dgvApe = New System.Windows.Forms.DataGridView()
@@ -90,6 +92,20 @@ Partial Class Consultation
         Me.tbConsultation = New System.Windows.Forms.TabPage()
         Me.tbRest = New System.Windows.Forms.TabPage()
         Me.dgvRestAlarm = New System.Windows.Forms.DataGridView()
+        Me.ColRestAlarmId = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestRecordId = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestEmployeeId = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestEmployeeName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestRoomId = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestRoomName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestBedId = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestBedNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestDatetimeStarted = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestDatetimeEnded = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestMinutes = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestAlarm = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColRestIsActive = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.tbScreening = New System.Windows.Forms.TabPage()
         Me.dgvScreening = New System.Windows.Forms.DataGridView()
         Me.ColScreenId = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -119,27 +135,18 @@ Partial Class Consultation
         Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColRoutingStatusId = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColRoutingStatusName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DsReportBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.DsReport = New HealthInformationSystem.dsReport()
         Me.ColRecordId = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColCreatedDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColEmployeeName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColGender = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColDepartment = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColSection = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColTimeIn = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColTimeOut = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColChiefComplaint = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ColNurseIntervention = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestAlarmId = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestRecordId = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestDate = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestEmployeeId = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestEmployeeName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestRoomId = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestRoomName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestBedId = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestBedNo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestDatetimeStarted = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestDatetimeEnded = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestMinutes = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestAlarm = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColRestIsActive = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.pnlSearchDate.SuspendLayout()
         Me.pnlTop.SuspendLayout()
         Me.pnlSearchTxt.SuspendLayout()
@@ -158,6 +165,8 @@ Partial Class Consultation
         CType(Me.dgvScreening, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tbSickLeave.SuspendLayout()
         CType(Me.dgvSickLeave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DsReportBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DsReport, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'pnlSearchDate
@@ -411,7 +420,7 @@ Partial Class Consultation
         Me.bindingNavigator.DeleteItem = Nothing
         Me.bindingNavigator.Dock = System.Windows.Forms.DockStyle.None
         Me.bindingNavigator.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.bindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorPageNumber, Me.BindingNavigatorTotalPageNumber, Me.BindingNavigatorSeparator2, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator3, Me.BindingNavigatorGo, Me.BindingNavigatorSeparator4, Me.BindingNavigatorRefresh})
+        Me.bindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorPageNumber, Me.BindingNavigatorTotalPageNumber, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorSeparator2, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator3, Me.BindingNavigatorGo, Me.BindingNavigatorSeparator4, Me.BindingNavigatorRefresh, Me.BindingNavigatorSeparator5, Me.BindingNavigatorExport})
         Me.bindingNavigator.Location = New System.Drawing.Point(6, 5)
         Me.bindingNavigator.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
         Me.bindingNavigator.MoveLastItem = Me.BindingNavigatorMoveLastItem
@@ -420,7 +429,7 @@ Partial Class Consultation
         Me.bindingNavigator.Name = "bindingNavigator"
         Me.bindingNavigator.PositionItem = Me.BindingNavigatorPageNumber
         Me.bindingNavigator.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
-        Me.bindingNavigator.Size = New System.Drawing.Size(252, 25)
+        Me.bindingNavigator.Size = New System.Drawing.Size(300, 25)
         Me.bindingNavigator.TabIndex = 1
         '
         'BindingNavigatorTotalPageNumber
@@ -463,11 +472,6 @@ Partial Class Consultation
         Me.BindingNavigatorPageNumber.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.BindingNavigatorPageNumber.ToolTipText = "Current Page"
         '
-        'BindingNavigatorSeparator2
-        '
-        Me.BindingNavigatorSeparator2.Name = "BindingNavigatorSeparator2"
-        Me.BindingNavigatorSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
         'BindingNavigatorMoveNextItem
         '
         Me.BindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -476,6 +480,11 @@ Partial Class Consultation
         Me.BindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = True
         Me.BindingNavigatorMoveNextItem.Size = New System.Drawing.Size(23, 22)
         Me.BindingNavigatorMoveNextItem.Text = "Move next"
+        '
+        'BindingNavigatorSeparator2
+        '
+        Me.BindingNavigatorSeparator2.Name = "BindingNavigatorSeparator2"
+        Me.BindingNavigatorSeparator2.Size = New System.Drawing.Size(6, 25)
         '
         'BindingNavigatorMoveLastItem
         '
@@ -509,9 +518,23 @@ Partial Class Consultation
         '
         Me.BindingNavigatorRefresh.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BindingNavigatorRefresh.Name = "BindingNavigatorRefresh"
-        Me.BindingNavigatorRefresh.Size = New System.Drawing.Size(53, 22)
-        Me.BindingNavigatorRefresh.Text = " Refresh"
+        Me.BindingNavigatorRefresh.Size = New System.Drawing.Size(50, 22)
+        Me.BindingNavigatorRefresh.Text = "Refresh"
         Me.BindingNavigatorRefresh.ToolTipText = "Refresh"
+        '
+        'BindingNavigatorSeparator5
+        '
+        Me.BindingNavigatorSeparator5.Name = "BindingNavigatorSeparator5"
+        Me.BindingNavigatorSeparator5.Size = New System.Drawing.Size(6, 25)
+        '
+        'BindingNavigatorExport
+        '
+        Me.BindingNavigatorExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.BindingNavigatorExport.Image = CType(resources.GetObject("BindingNavigatorExport.Image"), System.Drawing.Image)
+        Me.BindingNavigatorExport.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BindingNavigatorExport.Name = "BindingNavigatorExport"
+        Me.BindingNavigatorExport.Size = New System.Drawing.Size(45, 22)
+        Me.BindingNavigatorExport.Text = "Export"
         '
         'dgvConsultation
         '
@@ -527,7 +550,7 @@ Partial Class Consultation
         Me.dgvConsultation.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvConsultation.ColumnHeadersHeight = 25
         Me.dgvConsultation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.dgvConsultation.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColRecordId, Me.ColCreatedDate, Me.ColEmployeeName, Me.ColTimeIn, Me.ColTimeOut, Me.ColChiefComplaint, Me.ColNurseIntervention})
+        Me.dgvConsultation.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColRecordId, Me.ColCreatedDate, Me.ColEmployeeName, Me.ColGender, Me.ColDepartment, Me.ColSection, Me.ColTimeIn, Me.ColTimeOut, Me.ColChiefComplaint, Me.ColNurseIntervention})
         Me.dgvConsultation.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgvConsultation.Location = New System.Drawing.Point(3, 3)
         Me.dgvConsultation.MultiSelect = False
@@ -653,6 +676,136 @@ Partial Class Consultation
         Me.dgvRestAlarm.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgvRestAlarm.Size = New System.Drawing.Size(902, 347)
         Me.dgvRestAlarm.TabIndex = 557
+        '
+        'ColRestAlarmId
+        '
+        Me.ColRestAlarmId.DataPropertyName = "RestAlarmId"
+        Me.ColRestAlarmId.HeaderText = "AlarmId"
+        Me.ColRestAlarmId.Name = "ColRestAlarmId"
+        Me.ColRestAlarmId.ReadOnly = True
+        Me.ColRestAlarmId.Visible = False
+        '
+        'ColRestRecordId
+        '
+        Me.ColRestRecordId.DataPropertyName = "RecordId"
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColRestRecordId.DefaultCellStyle = DataGridViewCellStyle9
+        Me.ColRestRecordId.HeaderText = "Rec No."
+        Me.ColRestRecordId.Name = "ColRestRecordId"
+        Me.ColRestRecordId.ReadOnly = True
+        Me.ColRestRecordId.Width = 60
+        '
+        'ColRestDate
+        '
+        Me.ColRestDate.DataPropertyName = "CreatedDate"
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle10.Format = "MM/dd/yyyy"
+        Me.ColRestDate.DefaultCellStyle = DataGridViewCellStyle10
+        Me.ColRestDate.HeaderText = "Date"
+        Me.ColRestDate.Name = "ColRestDate"
+        Me.ColRestDate.ReadOnly = True
+        Me.ColRestDate.Width = 80
+        '
+        'ColRestEmployeeId
+        '
+        Me.ColRestEmployeeId.DataPropertyName = "EmployeeId"
+        Me.ColRestEmployeeId.HeaderText = "EmployeeId"
+        Me.ColRestEmployeeId.Name = "ColRestEmployeeId"
+        Me.ColRestEmployeeId.ReadOnly = True
+        Me.ColRestEmployeeId.Visible = False
+        '
+        'ColRestEmployeeName
+        '
+        Me.ColRestEmployeeName.DataPropertyName = "EmployeeName"
+        Me.ColRestEmployeeName.HeaderText = "Employee Name"
+        Me.ColRestEmployeeName.Name = "ColRestEmployeeName"
+        Me.ColRestEmployeeName.ReadOnly = True
+        Me.ColRestEmployeeName.Width = 200
+        '
+        'ColRestRoomId
+        '
+        Me.ColRestRoomId.DataPropertyName = "RoomId"
+        Me.ColRestRoomId.HeaderText = "RoomId"
+        Me.ColRestRoomId.Name = "ColRestRoomId"
+        Me.ColRestRoomId.ReadOnly = True
+        Me.ColRestRoomId.Visible = False
+        '
+        'ColRestRoomName
+        '
+        Me.ColRestRoomName.DataPropertyName = "RoomName"
+        Me.ColRestRoomName.HeaderText = "Room"
+        Me.ColRestRoomName.Name = "ColRestRoomName"
+        Me.ColRestRoomName.ReadOnly = True
+        Me.ColRestRoomName.Width = 110
+        '
+        'ColRestBedId
+        '
+        Me.ColRestBedId.DataPropertyName = "BedId"
+        Me.ColRestBedId.HeaderText = "BedId"
+        Me.ColRestBedId.Name = "ColRestBedId"
+        Me.ColRestBedId.ReadOnly = True
+        Me.ColRestBedId.Visible = False
+        '
+        'ColRestBedNo
+        '
+        Me.ColRestBedNo.DataPropertyName = "BedNo"
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColRestBedNo.DefaultCellStyle = DataGridViewCellStyle11
+        Me.ColRestBedNo.HeaderText = "Bed No"
+        Me.ColRestBedNo.Name = "ColRestBedNo"
+        Me.ColRestBedNo.ReadOnly = True
+        Me.ColRestBedNo.Width = 70
+        '
+        'ColRestDatetimeStarted
+        '
+        Me.ColRestDatetimeStarted.DataPropertyName = "DatetimeStarted"
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle12.Format = "hh:mm tt"
+        Me.ColRestDatetimeStarted.DefaultCellStyle = DataGridViewCellStyle12
+        Me.ColRestDatetimeStarted.HeaderText = "Time In"
+        Me.ColRestDatetimeStarted.Name = "ColRestDatetimeStarted"
+        Me.ColRestDatetimeStarted.ReadOnly = True
+        Me.ColRestDatetimeStarted.Width = 80
+        '
+        'ColRestDatetimeEnded
+        '
+        Me.ColRestDatetimeEnded.DataPropertyName = "DatetimeEnded"
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle13.Format = "hh:mm tt"
+        Me.ColRestDatetimeEnded.DefaultCellStyle = DataGridViewCellStyle13
+        Me.ColRestDatetimeEnded.HeaderText = "Time Out"
+        Me.ColRestDatetimeEnded.Name = "ColRestDatetimeEnded"
+        Me.ColRestDatetimeEnded.ReadOnly = True
+        Me.ColRestDatetimeEnded.Width = 80
+        '
+        'ColRestMinutes
+        '
+        Me.ColRestMinutes.DataPropertyName = "TotalRestTime"
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.ColRestMinutes.DefaultCellStyle = DataGridViewCellStyle14
+        Me.ColRestMinutes.HeaderText = "Minutes"
+        Me.ColRestMinutes.Name = "ColRestMinutes"
+        Me.ColRestMinutes.ReadOnly = True
+        Me.ColRestMinutes.Width = 60
+        '
+        'ColRestAlarm
+        '
+        Me.ColRestAlarm.DataPropertyName = "AlarmTime"
+        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle15.Format = "hh:mm tt"
+        Me.ColRestAlarm.DefaultCellStyle = DataGridViewCellStyle15
+        Me.ColRestAlarm.HeaderText = "Alarm"
+        Me.ColRestAlarm.Name = "ColRestAlarm"
+        Me.ColRestAlarm.ReadOnly = True
+        Me.ColRestAlarm.Width = 60
+        '
+        'ColRestIsActive
+        '
+        Me.ColRestIsActive.DataPropertyName = "IsActive"
+        Me.ColRestIsActive.HeaderText = "*"
+        Me.ColRestIsActive.Name = "ColRestIsActive"
+        Me.ColRestIsActive.ReadOnly = True
+        Me.ColRestIsActive.Width = 30
         '
         'tbScreening
         '
@@ -831,6 +984,7 @@ Partial Class Consultation
         Me.dgvSickLeave.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColLeaveFileId, Me.ColDateCreated, Me.ColDepartmentName, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.ColEmploymentType, Me.ColName, Me.ColStartDate, Me.ColEndDate, Me.DataGridViewTextBoxColumn4, Me.DataGridViewTextBoxColumn5, Me.ColRoutingStatusId, Me.ColRoutingStatusName})
         Me.dgvSickLeave.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgvSickLeave.Location = New System.Drawing.Point(0, 0)
+        Me.dgvSickLeave.MultiSelect = False
         Me.dgvSickLeave.Name = "dgvSickLeave"
         Me.dgvSickLeave.ReadOnly = True
         Me.dgvSickLeave.RowHeadersVisible = False
@@ -953,18 +1107,30 @@ Partial Class Consultation
         Me.ColRoutingStatusName.ReadOnly = True
         Me.ColRoutingStatusName.Width = 280
         '
+        'DsReportBindingSource
+        '
+        Me.DsReportBindingSource.DataSource = Me.DsReport
+        Me.DsReportBindingSource.Position = 0
+        '
+        'DsReport
+        '
+        Me.DsReport.DataSetName = "dsReport"
+        Me.DsReport.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+        '
         'ColRecordId
         '
+        Me.ColRecordId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.ColRecordId.DataPropertyName = "RecordId"
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         Me.ColRecordId.DefaultCellStyle = DataGridViewCellStyle2
         Me.ColRecordId.HeaderText = "Rec No."
         Me.ColRecordId.Name = "ColRecordId"
         Me.ColRecordId.ReadOnly = True
-        Me.ColRecordId.Width = 60
+        Me.ColRecordId.Width = 73
         '
         'ColCreatedDate
         '
+        Me.ColCreatedDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.ColCreatedDate.DataPropertyName = "CreatedDate"
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle3.Format = "MM/dd/yyyy"
@@ -972,7 +1138,7 @@ Partial Class Consultation
         Me.ColCreatedDate.HeaderText = "Date"
         Me.ColCreatedDate.Name = "ColCreatedDate"
         Me.ColCreatedDate.ReadOnly = True
-        Me.ColCreatedDate.Width = 80
+        Me.ColCreatedDate.Width = 56
         '
         'ColEmployeeName
         '
@@ -982,171 +1148,79 @@ Partial Class Consultation
         Me.ColEmployeeName.ReadOnly = True
         Me.ColEmployeeName.Width = 200
         '
+        'ColGender
+        '
+        Me.ColGender.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.ColGender.DataPropertyName = "Gender"
+        Me.ColGender.HeaderText = "Gender"
+        Me.ColGender.Name = "ColGender"
+        Me.ColGender.ReadOnly = True
+        Me.ColGender.Width = 70
+        '
+        'ColDepartment
+        '
+        Me.ColDepartment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.ColDepartment.DataPropertyName = "Department"
+        Me.ColDepartment.HeaderText = "Department"
+        Me.ColDepartment.Name = "ColDepartment"
+        Me.ColDepartment.ReadOnly = True
+        Me.ColDepartment.Visible = False
+        Me.ColDepartment.Width = 95
+        '
+        'ColSection
+        '
+        Me.ColSection.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
+        Me.ColSection.DataPropertyName = "Team"
+        Me.ColSection.HeaderText = "Section"
+        Me.ColSection.Name = "ColSection"
+        Me.ColSection.ReadOnly = True
+        Me.ColSection.Width = 71
+        '
         'ColTimeIn
         '
+        Me.ColTimeIn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.ColTimeIn.DataPropertyName = "DatetimeStarted"
         DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle4.Format = "hh:mm tt"
         Me.ColTimeIn.DefaultCellStyle = DataGridViewCellStyle4
+        Me.ColTimeIn.FillWeight = 50.0!
         Me.ColTimeIn.HeaderText = "In"
         Me.ColTimeIn.Name = "ColTimeIn"
         Me.ColTimeIn.ReadOnly = True
-        Me.ColTimeIn.Width = 80
+        Me.ColTimeIn.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.ColTimeIn.Width = 42
         '
         'ColTimeOut
         '
+        Me.ColTimeOut.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells
         Me.ColTimeOut.DataPropertyName = "DatetimeEnded"
         DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle5.Format = "hh:mm tt"
         Me.ColTimeOut.DefaultCellStyle = DataGridViewCellStyle5
+        Me.ColTimeOut.FillWeight = 50.0!
         Me.ColTimeOut.HeaderText = "Out"
         Me.ColTimeOut.Name = "ColTimeOut"
         Me.ColTimeOut.ReadOnly = True
-        Me.ColTimeOut.Width = 80
+        Me.ColTimeOut.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.ColTimeOut.Width = 52
         '
         'ColChiefComplaint
         '
+        Me.ColChiefComplaint.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.ColChiefComplaint.DataPropertyName = "ChiefComplaint"
+        Me.ColChiefComplaint.FillWeight = 200.0!
         Me.ColChiefComplaint.HeaderText = "Chief Complaint"
         Me.ColChiefComplaint.Name = "ColChiefComplaint"
         Me.ColChiefComplaint.ReadOnly = True
         '
         'ColNurseIntervention
         '
+        Me.ColNurseIntervention.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
         Me.ColNurseIntervention.DataPropertyName = "Plano"
+        Me.ColNurseIntervention.FillWeight = 200.0!
         Me.ColNurseIntervention.HeaderText = "Nurse Intervention"
         Me.ColNurseIntervention.Name = "ColNurseIntervention"
         Me.ColNurseIntervention.ReadOnly = True
-        '
-        'ColRestAlarmId
-        '
-        Me.ColRestAlarmId.DataPropertyName = "RestAlarmId"
-        Me.ColRestAlarmId.HeaderText = "AlarmId"
-        Me.ColRestAlarmId.Name = "ColRestAlarmId"
-        Me.ColRestAlarmId.ReadOnly = True
-        Me.ColRestAlarmId.Visible = False
-        '
-        'ColRestRecordId
-        '
-        Me.ColRestRecordId.DataPropertyName = "RecordId"
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColRestRecordId.DefaultCellStyle = DataGridViewCellStyle9
-        Me.ColRestRecordId.HeaderText = "Rec No."
-        Me.ColRestRecordId.Name = "ColRestRecordId"
-        Me.ColRestRecordId.ReadOnly = True
-        Me.ColRestRecordId.Width = 60
-        '
-        'ColRestDate
-        '
-        Me.ColRestDate.DataPropertyName = "CreatedDate"
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle10.Format = "MM/dd/yyyy"
-        Me.ColRestDate.DefaultCellStyle = DataGridViewCellStyle10
-        Me.ColRestDate.HeaderText = "Date"
-        Me.ColRestDate.Name = "ColRestDate"
-        Me.ColRestDate.ReadOnly = True
-        Me.ColRestDate.Width = 80
-        '
-        'ColRestEmployeeId
-        '
-        Me.ColRestEmployeeId.DataPropertyName = "EmployeeId"
-        Me.ColRestEmployeeId.HeaderText = "EmployeeId"
-        Me.ColRestEmployeeId.Name = "ColRestEmployeeId"
-        Me.ColRestEmployeeId.ReadOnly = True
-        Me.ColRestEmployeeId.Visible = False
-        '
-        'ColRestEmployeeName
-        '
-        Me.ColRestEmployeeName.DataPropertyName = "EmployeeName"
-        Me.ColRestEmployeeName.HeaderText = "Employee Name"
-        Me.ColRestEmployeeName.Name = "ColRestEmployeeName"
-        Me.ColRestEmployeeName.ReadOnly = True
-        Me.ColRestEmployeeName.Width = 200
-        '
-        'ColRestRoomId
-        '
-        Me.ColRestRoomId.DataPropertyName = "RoomId"
-        Me.ColRestRoomId.HeaderText = "RoomId"
-        Me.ColRestRoomId.Name = "ColRestRoomId"
-        Me.ColRestRoomId.ReadOnly = True
-        Me.ColRestRoomId.Visible = False
-        '
-        'ColRestRoomName
-        '
-        Me.ColRestRoomName.DataPropertyName = "RoomName"
-        Me.ColRestRoomName.HeaderText = "Room"
-        Me.ColRestRoomName.Name = "ColRestRoomName"
-        Me.ColRestRoomName.ReadOnly = True
-        Me.ColRestRoomName.Width = 110
-        '
-        'ColRestBedId
-        '
-        Me.ColRestBedId.DataPropertyName = "BedId"
-        Me.ColRestBedId.HeaderText = "BedId"
-        Me.ColRestBedId.Name = "ColRestBedId"
-        Me.ColRestBedId.ReadOnly = True
-        Me.ColRestBedId.Visible = False
-        '
-        'ColRestBedNo
-        '
-        Me.ColRestBedNo.DataPropertyName = "BedNo"
-        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColRestBedNo.DefaultCellStyle = DataGridViewCellStyle11
-        Me.ColRestBedNo.HeaderText = "Bed No"
-        Me.ColRestBedNo.Name = "ColRestBedNo"
-        Me.ColRestBedNo.ReadOnly = True
-        Me.ColRestBedNo.Width = 70
-        '
-        'ColRestDatetimeStarted
-        '
-        Me.ColRestDatetimeStarted.DataPropertyName = "DatetimeStarted"
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle12.Format = "hh:mm tt"
-        Me.ColRestDatetimeStarted.DefaultCellStyle = DataGridViewCellStyle12
-        Me.ColRestDatetimeStarted.HeaderText = "Time In"
-        Me.ColRestDatetimeStarted.Name = "ColRestDatetimeStarted"
-        Me.ColRestDatetimeStarted.ReadOnly = True
-        Me.ColRestDatetimeStarted.Width = 80
-        '
-        'ColRestDatetimeEnded
-        '
-        Me.ColRestDatetimeEnded.DataPropertyName = "DatetimeEnded"
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle13.Format = "hh:mm tt"
-        Me.ColRestDatetimeEnded.DefaultCellStyle = DataGridViewCellStyle13
-        Me.ColRestDatetimeEnded.HeaderText = "Time Out"
-        Me.ColRestDatetimeEnded.Name = "ColRestDatetimeEnded"
-        Me.ColRestDatetimeEnded.ReadOnly = True
-        Me.ColRestDatetimeEnded.Width = 80
-        '
-        'ColRestMinutes
-        '
-        Me.ColRestMinutes.DataPropertyName = "TotalRestTime"
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.ColRestMinutes.DefaultCellStyle = DataGridViewCellStyle14
-        Me.ColRestMinutes.HeaderText = "Minutes"
-        Me.ColRestMinutes.Name = "ColRestMinutes"
-        Me.ColRestMinutes.ReadOnly = True
-        Me.ColRestMinutes.Width = 60
-        '
-        'ColRestAlarm
-        '
-        Me.ColRestAlarm.DataPropertyName = "AlarmTime"
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle15.Format = "hh:mm tt"
-        Me.ColRestAlarm.DefaultCellStyle = DataGridViewCellStyle15
-        Me.ColRestAlarm.HeaderText = "Alarm"
-        Me.ColRestAlarm.Name = "ColRestAlarm"
-        Me.ColRestAlarm.ReadOnly = True
-        Me.ColRestAlarm.Width = 60
-        '
-        'ColRestIsActive
-        '
-        Me.ColRestIsActive.DataPropertyName = "IsActive"
-        Me.ColRestIsActive.HeaderText = "*"
-        Me.ColRestIsActive.Name = "ColRestIsActive"
-        Me.ColRestIsActive.ReadOnly = True
-        Me.ColRestIsActive.Width = 30
         '
         'Consultation
         '
@@ -1189,6 +1263,8 @@ Partial Class Consultation
         CType(Me.dgvScreening, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tbSickLeave.ResumeLayout(False)
         CType(Me.dgvSickLeave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DsReportBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DsReport, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1260,13 +1336,6 @@ Partial Class Consultation
     Friend WithEvents DataGridViewTextBoxColumn5 As DataGridViewTextBoxColumn
     Friend WithEvents ColRoutingStatusId As DataGridViewTextBoxColumn
     Friend WithEvents ColRoutingStatusName As DataGridViewTextBoxColumn
-    Friend WithEvents ColRecordId As DataGridViewTextBoxColumn
-    Friend WithEvents ColCreatedDate As DataGridViewTextBoxColumn
-    Friend WithEvents ColEmployeeName As DataGridViewTextBoxColumn
-    Friend WithEvents ColTimeIn As DataGridViewTextBoxColumn
-    Friend WithEvents ColTimeOut As DataGridViewTextBoxColumn
-    Friend WithEvents ColChiefComplaint As DataGridViewTextBoxColumn
-    Friend WithEvents ColNurseIntervention As DataGridViewTextBoxColumn
     Friend WithEvents ColRestAlarmId As DataGridViewTextBoxColumn
     Friend WithEvents ColRestRecordId As DataGridViewTextBoxColumn
     Friend WithEvents ColRestDate As DataGridViewTextBoxColumn
@@ -1281,4 +1350,18 @@ Partial Class Consultation
     Friend WithEvents ColRestMinutes As DataGridViewTextBoxColumn
     Friend WithEvents ColRestAlarm As DataGridViewTextBoxColumn
     Friend WithEvents ColRestIsActive As DataGridViewCheckBoxColumn
+    Friend WithEvents BindingNavigatorSeparator5 As ToolStripSeparator
+    Friend WithEvents BindingNavigatorExport As ToolStripButton
+    Friend WithEvents DsReportBindingSource As BindingSource
+    Friend WithEvents DsReport As dsReport
+    Friend WithEvents ColRecordId As DataGridViewTextBoxColumn
+    Friend WithEvents ColCreatedDate As DataGridViewTextBoxColumn
+    Friend WithEvents ColEmployeeName As DataGridViewTextBoxColumn
+    Friend WithEvents ColGender As DataGridViewTextBoxColumn
+    Friend WithEvents ColDepartment As DataGridViewTextBoxColumn
+    Friend WithEvents ColSection As DataGridViewTextBoxColumn
+    Friend WithEvents ColTimeIn As DataGridViewTextBoxColumn
+    Friend WithEvents ColTimeOut As DataGridViewTextBoxColumn
+    Friend WithEvents ColChiefComplaint As DataGridViewTextBoxColumn
+    Friend WithEvents ColNurseIntervention As DataGridViewTextBoxColumn
 End Class

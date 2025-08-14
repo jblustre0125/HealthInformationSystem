@@ -6,7 +6,7 @@ Imports System.IO
 
 Public Class Main
     Private connection As New clsConnection
-    Private dbHealth As New SqlDbMethod(connection.MyConnection)
+    Private dbHealth As New SqlDbMethod(connection.LeaveConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 
@@ -352,4 +352,11 @@ Public Class Main
         dbMain.FormLoader(Me, New Nurse(employeeId))
     End Sub
 
+    Private Sub ScreeningToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScreeningToolStripMenuItem.Click
+        dbMain.FormLoader(Me, New ScreeningLogsheet, True)
+    End Sub
+
+    Private Sub LeaveReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LeaveReportToolStripMenuItem.Click
+        dbMain.FormLoader(Me, New LeaveLogsheet, True)
+    End Sub
 End Class

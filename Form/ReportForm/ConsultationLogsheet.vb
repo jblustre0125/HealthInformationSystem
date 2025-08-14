@@ -5,7 +5,7 @@ Imports Microsoft.Reporting.WinForms
 Public Class ConsultationLogsheet
     Private connection As New clsConnection
     Private dbMain As New BlackCoffeeLibrary.Main
-    Private dbMethod As New SqlDbMethod(connection.MyConnection)
+    Private dbMethod As New SqlDbMethod(connection.LeaveConnection)
 
     Private dicCompany As New Dictionary(Of String, Integer)
     Private dicEmployee As New Dictionary(Of String, String)

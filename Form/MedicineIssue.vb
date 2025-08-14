@@ -6,7 +6,7 @@ Imports System.IO
 Public Class MedicineIssue
     Private connection As New clsConnection
     Private dbMain As New BlackCoffeeLibrary.Main
-    Private dbMethod As New SqlDbMethod(connection.MyConnection)
+    Private dbMethod As New SqlDbMethod(connection.LeaveConnection)
 
     Private adpTrxDetail As New SqlDataAdapter
     Private bsMedicine As New BindingSource
@@ -283,7 +283,7 @@ Public Class MedicineIssue
 
     Private Function CreateTrxMedicineDetail() As DataTable
         Dim dtMntTrxPartDetail As New DataTable
-        Dim con As New SqlConnection(connection.MyConnection)
+        Dim con As New SqlConnection(connection.LeaveConnection)
 
         Try
             Dim query As String = String.Empty

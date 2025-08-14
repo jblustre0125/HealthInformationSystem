@@ -4,7 +4,7 @@ Imports System.Data.SqlClient
 Public Class Nurse
     Private connection As New clsConnection
     Private dbMain As New BlackCoffeeLibrary.Main
-    Private dbMethod As New SqlDbMethod(connection.MyConnection)
+    Private dbMethod As New SqlDbMethod(connection.LeaveConnection)
 
     Private dicSearchCriteria As New Dictionary(Of String, Integer)
     Private dicStatus As New Dictionary(Of String, Integer)

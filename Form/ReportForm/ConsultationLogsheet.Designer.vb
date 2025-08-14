@@ -57,16 +57,16 @@ Partial Class ConsultationLogsheet
         Me.pnlTop.Dock = System.Windows.Forms.DockStyle.Top
         Me.pnlTop.Location = New System.Drawing.Point(0, 0)
         Me.pnlTop.Name = "pnlTop"
-        Me.pnlTop.Size = New System.Drawing.Size(1193, 55)
+        Me.pnlTop.Size = New System.Drawing.Size(1193, 92)
         Me.pnlTop.TabIndex = 551
         '
         'lblNote
         '
         Me.lblNote.AutoSize = True
-        Me.lblNote.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNote.Location = New System.Drawing.Point(692, 35)
+        Me.lblNote.Font = New System.Drawing.Font("Segoe UI", 9.5!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblNote.Location = New System.Drawing.Point(698, 16)
         Me.lblNote.Name = "lblNote"
-        Me.lblNote.Size = New System.Drawing.Size(420, 15)
+        Me.lblNote.Size = New System.Drawing.Size(446, 17)
         Me.lblNote.TabIndex = 596
         Me.lblNote.Text = "NOTE: Datetime was based on the actual time in/out, not on the date encoded."
         '
@@ -171,7 +171,7 @@ Partial Class ConsultationLogsheet
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnClose.Font = New System.Drawing.Font("Verdana", 8.0!)
         Me.btnClose.Hint = "Remove filter"
-        Me.btnClose.Location = New System.Drawing.Point(877, 2)
+        Me.btnClose.Location = New System.Drawing.Point(192, 56)
         Me.btnClose.Margin = New System.Windows.Forms.Padding(2)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Scheme = PinkieControls.ButtonXP.Schemes.Blue
@@ -187,7 +187,7 @@ Partial Class ConsultationLogsheet
         Me.btnReset.DialogResult = System.Windows.Forms.DialogResult.None
         Me.btnReset.Font = New System.Drawing.Font("Verdana", 8.0!)
         Me.btnReset.Hint = "Remove filter"
-        Me.btnReset.Location = New System.Drawing.Point(783, 2)
+        Me.btnReset.Location = New System.Drawing.Point(98, 56)
         Me.btnReset.Margin = New System.Windows.Forms.Padding(2)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Scheme = PinkieControls.ButtonXP.Schemes.Blue
@@ -202,7 +202,7 @@ Partial Class ConsultationLogsheet
         Me.btnGenerate.DialogResult = System.Windows.Forms.DialogResult.None
         Me.btnGenerate.Font = New System.Drawing.Font("Verdana", 8.0!)
         Me.btnGenerate.Hint = "Search"
-        Me.btnGenerate.Location = New System.Drawing.Point(689, 2)
+        Me.btnGenerate.Location = New System.Drawing.Point(4, 56)
         Me.btnGenerate.Margin = New System.Windows.Forms.Padding(2)
         Me.btnGenerate.Name = "btnGenerate"
         Me.btnGenerate.Scheme = PinkieControls.ButtonXP.Schemes.Blue
@@ -213,9 +213,9 @@ Partial Class ConsultationLogsheet
         'rptViewer
         '
         Me.rptViewer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rptViewer.Location = New System.Drawing.Point(0, 55)
+        Me.rptViewer.Location = New System.Drawing.Point(0, 92)
         Me.rptViewer.Name = "rptViewer"
-        Me.rptViewer.Size = New System.Drawing.Size(1193, 395)
+        Me.rptViewer.Size = New System.Drawing.Size(1193, 358)
         Me.rptViewer.TabIndex = 557
         Me.rptViewer.TabStop = False
         '

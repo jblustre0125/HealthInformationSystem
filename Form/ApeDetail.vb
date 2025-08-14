@@ -6,7 +6,7 @@ Imports System.IO
 Public Class ApeDetail
     Private connection As New clsConnection
     Private directory As New clsDirectory
-    Private dbHealth As New SqlDbMethod(connection.MyConnection)
+    Private dbHealth As New SqlDbMethod(connection.LeaveConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 

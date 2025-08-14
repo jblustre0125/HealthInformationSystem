@@ -1,6 +1,6 @@
 ﻿Public Class clsConnection
 
-    Public Function MyConnection() As String
+    Public Function LeaveConnection() As String
         If HealthInformationSystem.My.MySettings.Default.IsDebug = True Then
             Return "Data Source=NBCP-LT-144\SQLEXPRESS;Initial Catalog=LeaveFiling;Persist Security Info=True;User ID=sa;Password=Nbc12#"
         Else

@@ -5,7 +5,7 @@ Imports System.Deployment.Application
 
 Public Class Login
     Private connection As New clsConnection
-    Private dbHealth As New SqlDbMethod(connection.MyConnection)
+    Private dbHealth As New SqlDbMethod(connection.LeaveConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 
@@ -114,11 +114,6 @@ Public Class Login
         txtPassword.PasswordChar = "●"
 
         Me.ActiveControl = txtEmployeeId
-
-        If My.Settings.IsDebug Then
-            txtEmployeeId.Text = "2110-001"
-            txtPassword.Text = "resaba"
-        End If
     End Sub
 
     Private Function GetDefaultDepartmentName()

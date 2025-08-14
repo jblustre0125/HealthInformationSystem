@@ -8,7 +8,7 @@ Imports System.Text
 
 Public Class ConsultationScreening
     Private connection As New clsConnection
-    Private dbHealth As New SqlDbMethod(connection.MyConnection)
+    Private dbHealth As New SqlDbMethod(connection.LeaveConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
     Private dbMain As New BlackCoffeeLibrary.Main
 

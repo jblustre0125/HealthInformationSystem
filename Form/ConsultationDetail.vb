@@ -9,7 +9,7 @@ Imports System.Text
 Public Class ConsultationDetail
     Private connection As New clsConnection
     Private dbMain As New BlackCoffeeLibrary.Main
-    Private dbHealth As New SqlDbMethod(connection.MyConnection)
+    Private dbHealth As New SqlDbMethod(connection.LeaveConnection)
     Private dbJeonsoft As New SqlDbMethod(connection.JeonsoftConnection)
 
     Private directory As New clsDirectory
@@ -126,7 +126,7 @@ Public Class ConsultationDetail
 
             'medicine trx detail
             If dtMedicineTrxHeader.Rows.Count > 0 Then
-                Dim con As New SqlConnection(connection.MyConnection)
+                Dim con As New SqlConnection(connection.LeaveConnection)
                 Dim cmdSel As SqlCommand = con.CreateCommand
                 cmdSel.CommandText = "RdMedicineTrxDetailByTrxId"
                 cmdSel.CommandType = CommandType.StoredProcedure
@@ -2189,7 +2189,7 @@ Public Class ConsultationDetail
     End Sub
 
     Private Function CreateMedicineTrxDetail() As DataTable
-        Dim con As New SqlConnection(connection.MyConnection)
+        Dim con As New SqlConnection(connection.LeaveConnection)
         Dim dtMedicineTrxDetail As New DataTable
 
         Try
@@ -3070,19 +3070,55 @@ Public Class ConsultationDetail
         End If
     End Sub
 
+    Private Function ResolveEmployeeCode(input As String) As String
+        ' Try direct EmployeeCode match
+        Dim prmEmpCode(0) As SqlParameter
+        prmEmpCode(0) = New SqlParameter("@EmployeeCode", SqlDbType.NVarChar)
+        prmEmpCode(0).Value = input
+
+        Dim countEmpCode As Integer = dbHealth.ExecuteScalar("SELECT COUNT(EmployeeId) FROM Employee WHERE EmployeeCode = @EmployeeCode AND IsActive = 1", CommandType.Text, prmEmpCode)
+        If countEmpCode > 0 Then
+            Return input
+        End If
+
+        ' Try RFID match (strip leading zeros)
+        Dim rfidInput As String = input.TrimStart("0"c)
+        Dim prmRFID(0) As SqlParameter
+        prmRFID(0) = New SqlParameter("@rfid_no", SqlDbType.NVarChar)
+        prmRFID(0).Value = rfidInput
+
+        Dim employeeCodeFromRFID As String = dbHealth.ExecuteScalar("SELECT EmployeeCode FROM Employee WHERE rfid_no = @rfid_no AND IsActive = 1", CommandType.Text, prmRFID)
+        If Not String.IsNullOrEmpty(employeeCodeFromRFID) Then
+            Return employeeCodeFromRFID
+        End If
+
+        Return Nothing
+    End Function
+
     Private Sub txtEmployeeCode_KeyDown(sender As Object, e As KeyEventArgs) Handles txtEmployeeCode.KeyDown
         Try
-            If e.KeyCode.Equals(Keys.Enter) Then
+            If e.KeyCode = Keys.Enter Then
                 e.Handled = True
 
-                If String.IsNullOrEmpty(txtEmployeeCode.Text.Trim) Then
+                ' Clean input: remove spaces and hidden characters
+                Dim inputCode As String = txtEmployeeCode.Text.Trim()
+                inputCode = inputCode.Replace(vbCr, "").Replace(vbLf, "").Replace(Chr(13), "").Replace(Chr(10), "")
+
+                If String.IsNullOrEmpty(inputCode) Then
                     Me.ActiveControl = txtEmployeeCode
-                    MessageBox.Show("Please enter employee ID.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show("Please enter employee ID or scan RFID.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Return
                 End If
 
-                arrSplitted = Split(txtEmployeeCode.Text.Trim, " ", 2)
-                LoadEmployeeInformation(arrSplitted(0).ToString)
+                Dim resolvedCode As String = ResolveEmployeeCode(inputCode)
+                If Not String.IsNullOrEmpty(resolvedCode) Then
+                    txtEmployeeCode.Text = resolvedCode
+                    LoadEmployeeInformation(resolvedCode)
+                    Return
+                End If
+
+                MessageBox.Show("Employee not found for entered code or RFID.", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                txtEmployeeCode.Focus()
             End If
         Catch ex As Exception
             MessageBox.Show(dbMain.SetExceptionMessage(ex), "", MessageBoxButtons.OK, MessageBoxIcon.Error)
